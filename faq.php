@@ -12,6 +12,8 @@
         background-color: #fff;
         color: #333;
         padding: 20px;
+        height: 450px;
+        overflow-y: auto; /* Add scrolling for excess content */
     }
 
     .faq-wrapper .faq-header {
@@ -89,7 +91,8 @@
             max-width: 100%;
         }
     }
-    </style>
+</style>
+
 </head>
 
 <body>
