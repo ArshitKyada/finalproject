@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <html>
 
 <head>
-    <title>Create An Account</title>
+    <title>Auctioneers</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
     body {
@@ -91,6 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         border: 1px solid #ccc;
         border-radius: 4px;
         font-size: 14px;
+        appearance: none;
     }
 
     .form-group i {

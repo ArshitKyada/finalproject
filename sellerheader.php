@@ -1,3 +1,10 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
+
+
 <html lang="en">
 
 <head>
@@ -19,9 +26,13 @@
         <nav>
             <a class="active" href="index.php">Home</a>
             <a href="auctions.php">Auctions</a>
-            <a href="#">Vendors</a>
+            <a href="sellerindex.php">Dashboard</a>
             <a href="index.php#contact">Contact</a>
-            <a class="btn" href="registration.php">Sign up</a>
+            <?php if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'seller'): ?>
+                <a class="btn" href="logout.php">Logout</a>
+            <?php else: ?>
+                <a class="btn" href="registration.php">Sign up</a>
+            <?php endif; ?>
         </nav>
     </header>
     <script src="js/script.js"></script>

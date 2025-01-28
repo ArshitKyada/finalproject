@@ -1,3 +1,19 @@
+<?php
+session_start();
+
+function include_header() {
+    if (isset($_SESSION['account_type'])) {
+        if ($_SESSION['account_type'] === 'buyer') {
+            include 'buyerheader.php';
+        } elseif ($_SESSION['account_type'] === 'seller') {
+            include 'sellerheader.php';
+        }
+    } else {
+        include 'header.php';
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,11 +27,9 @@
 </head>
 
 <body>
-    <?php 
-    include_once 'header.php';
-    ?>
+    <?php include_header(); ?>
 
-    <div class="container">
+    <div class="container" id="home">
         <div class="content">
             <h1 class="headline">Winning bids, one click at a time</h1>
             <p class="subheadline">Where auctions meet technology for a seamless bidding experience.</p>
@@ -29,7 +43,7 @@
         </div>
     </div>
 
-    <div class="trusted-section">
+    <div class="trusted-section" id="trusted">
         <h2>TRUSTED BY 20,000+ ORGANIZATIONS WORLDWIDE</h2>
         <div class="trusted-logos">
             <img alt="Lilly logo" height="50" src="images/1.png" width="100" />
@@ -40,61 +54,61 @@
         </div>
     </div>
 
-    <div class="category-container">
+    <div class="category-container" id="categories">
         <h2>OUR CATEGORIES</h2>
         <h1>Find Products By Category</h1><br>
         <div class="categories">
             <div class="category">
                 <h3>Smart Phones</h3>
-                <a href="">
+                <a href="#">
                     <img alt="Smart Phones" height="200" src="images/9.png" width="200" />
                 </a>
             </div>
             <div class="category">
                 <h3>Clothing</h3>
-                <a href="">
+                <a href="#">
                     <img alt="Clothing" height="200" src="images/10.png" width="200" />
                 </a>
             </div>
             <div class="category">
                 <h3>Smart Watches</h3>
-                <a href="">
+                <a href="#">
                     <img alt="Smart Watches" height="200" src="images/11.png" width="200" />
                 </a>
             </div>
             <div class="category">
                 <h3>Home Decor</h3>
-                <a href="">
+                <a href="#">
                     <img alt="Home Decor" height="200" src="images/12.png" width="200" />
                 </a>
             </div>
             <div class="category">
                 <h3>Computers & Accessories</h3>
-                <a href="">
+                <a href="#">
                     <img alt="Computers & Accessories" height="200" src="images/13.png" width="200" />
                 </a>
             </div>
             <div class="category">
                 <h3>Jewellery & Gemstones</h3>
-                <a href="">
+                <a href="#">
                     <img alt="Jewellery & Gemstones" height="200" src="images/14.png" width="200" />
                 </a>
             </div>
             <div class="category">
                 <h3>Books & Literature</h3><br>
-                <a href="">
+                <a href="#">
                     <img alt="Books & Literature" height="200" src="images/15.png" width="200" />
                 </a>
             </div>
             <div class="category">
                 <h3>Sports Equipment</h3>
-                <a href="">
+                <a href="#">
                     <img alt="Sports Equipment" height="200" src="images/16.png" width="200" />
                 </a>
             </div>
             <div class="category">
                 <h3>Art & Collectibles</h3><br>
-                <a href="">
+                <a href="#">
                     <img alt="Art & Collectibles" height="200" src="images/8.jpg" width="200" />
                 </a>
             </div>
@@ -102,11 +116,9 @@
     </div>
 
     <?php 
-
     include_once 'faq.php';
     include_once 'contact.php';
     include_once 'footer.php';
-    
     ?>
 
     <script src="js/script.js"></script>

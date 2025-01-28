@@ -1,5 +1,17 @@
 <?php
-    include_once 'header.php';
+session_start();
+
+function include_header() {
+    if (isset($_SESSION['account_type'])) {
+        if ($_SESSION['account_type'] === 'buyer') {
+            include 'buyerheader.php';
+        } elseif ($_SESSION['account_type'] === 'seller') {
+            include 'sellerheader.php';
+        }
+    } else {
+        include 'header.php';
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -7,7 +19,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auction Verification</title>
+    <title>Auctioneers</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
     <style>
@@ -127,6 +139,8 @@
 </head>
 
 <body>
+    <?php include_header(); ?>
+
 
     <div class="header1">
         <h1>We verify all auctioned items at our warehouse</h1>

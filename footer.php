@@ -4,16 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Auction Footer</title>
+    <title>Auctioneers</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
     .auction-footer {
         background-color: #f8f9fa;
+        background: white url(https://res.cloudinary.com/dwrwnflkr/image/upload/v1681807803/footer-bg_k69qz5.png) no-repeat right;
+        background-size: contain;
         color: #333;
         font-family: 'Arial', sans-serif;
         padding: 40px 20px;
         border-top: 1px solid #ddd;
     }
+
 
     .footer-container {
         display: flex;
@@ -28,16 +31,12 @@
         box-sizing: border-box;
     }
 
-    /* About Section - 40% */
     .about-section {
         flex: 0 0 40%;
-        /* Fixed width for about section */
         max-width: 40%;
     }
 
-    /* Other Sections - 20% each */
     .quick-links,
-    .services,
     .contact-information {
         flex: 0 0 20%;
         max-width: 20%;
@@ -96,10 +95,11 @@
     }
 
     .footer-bottom {
+        background-color: white;
         text-align: center;
         padding-top: 20px;
-        border-top: 1px solid #ddd;
-        margin-top: 20px;
+        padding-bottom: 20px;
+        border-top: 1px solid black;
         font-size: 14px;
         color: #666;
     }
@@ -108,7 +108,7 @@
     @media (max-width: 768px) {
         .footer-container {
             flex-direction: column;
-            align-items: center;
+            align-items: inline;
         }
 
         .footer-section {
@@ -160,10 +160,11 @@
             </div>
         </div>
 
-        <div class="footer-bottom">
+        
+    </footer>
+    <div class="footer-bottom">
             <p>&copy; 2025 AuctioneerHub. All Rights Reserved.</p>
         </div>
-    </footer>
 </body>
 
 </html>
