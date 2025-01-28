@@ -9,7 +9,6 @@ function include_header() {
             include 'sellerheader.php';
         }
     } else {
-        include 'header.php';
     }
 }
 ?>
