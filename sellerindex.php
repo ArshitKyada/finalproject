@@ -14,90 +14,94 @@ function include_header() {
 }
 ?>
 
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Past Auctions</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color:rgb(255, 255, 255);
-    }
+        body {
+            overflow-y: scroll;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: rgb(255, 255, 255);
+        }
 
-    .seller-container {
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-    }
+        .seller-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-    .seller-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px;
-        border-bottom: 1px solid #dee2e6;
-    }
+        .seller-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #dee2e6;
+        }
 
-    .seller-header h1 {
-        margin: 0;
-        font-size: 24px;
-        color: #343a40;
-    }
-
-    .seller-header .btn {
-        background-color: #007bff;
-        color: #fff;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        text-decoration: none;
-        font-size: 16px;
-    }
-
-    .seller-table-container {
-        margin-top: 20px;
-        overflow-x: auto;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        background-color: #fff;
-    }
-
-    th,
-    td {
-        padding: 10px;
-        text-align: left;
-        border-bottom: 1px solid #dee2e6;
-    }
-
-    th {
-        background-color:rgb(0, 0, 0);
-        font-weight: bold;
-        color:rgb(255, 255, 255);
-    }
-
-    @media (max-width: 768px) {
         .seller-header h1 {
-            font-size: 20px;
+            margin: 0;
+            font-size: 24px;
+            color: #343a40;
         }
 
         .seller-header .btn {
-            padding: 8px 16px;
-            font-size: 14px;
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
         }
 
-        th,
-        td {
-            padding: 10px;
+        .seller-table-container {
+            margin-top: 20px;
+            width: 100%;
+            white-space: nowrap;
         }
-    }
+
+        table {
+            width: 100%;
+            min-width: 1200px; /* Ensures scrollbar is always visible */
+            border-collapse: collapse;
+            background-color: #fff;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        th {
+            background-color: rgb(0, 0, 0);
+            font-weight: bold;
+            color: rgb(255, 255, 255);
+        }
+
+        @media (max-width: 768px) {
+            .seller-header h1 {
+                font-size: 20px;
+            }
+
+            .seller-header .btn {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+        }
     </style>
 </head>
 
@@ -105,8 +109,8 @@ function include_header() {
     <?php include_header(); ?>
     <div class="seller-container">
         <div class="seller-header">
-            <h1>Your past auctions</h1>
-            <a href="#" class="btn">New Auction</a>
+            <h1>Your Auctions</h1>
+            <a href="addproduct.php" class="btn">New Auction</a>
         </div>
         <div class="seller-table-container">
             <table>

@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auctioneers</title>
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        .nav a:hover{
+            color:#007bff;
+        }
+    </style>
 </head>
 
 <body>
@@ -16,7 +21,7 @@
         <div class="menu-toggle" onclick="toggleMenu()">
             <i class="fas fa-bars"></i>
         </div>
-        <nav>
+        <nav class="nav">
             <a class="active" href="index.php">Home</a>
             <a href="auctions.php">Auctions</a>
             <a href="#">Vendors</a>
