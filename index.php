@@ -24,6 +24,21 @@ function include_header() {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        #scrollUp {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: none;
+            background-color: #000;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+    </style>
 </head>
 
 <body>
@@ -124,6 +139,21 @@ function include_header() {
     <button id="scrollUp"><i class="fas fa-arrow-up"></i></button>
 
     <script src="js/script.js"></script>
+    <script>
+        const scrollUpButton = document.getElementById('scrollUp');
+
+        window.onscroll = function() {
+            if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+                scrollUpButton.style.display = 'block';
+            } else {
+                scrollUpButton.style.display = 'none';
+            }
+        };
+
+        scrollUpButton.onclick = function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+    </script>
 </body>
 
 </html>
