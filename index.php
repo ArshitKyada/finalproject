@@ -120,7 +120,8 @@ function include_header() {
     include_once 'contact.php';
     include_once 'footer.php';
     ?>
-    
+
+    <button id="scrollUp"><i class="fas fa-arrow-up"></i></button>
 
     <script src="js/script.js"></script>
 </body>

@@ -15,4 +15,16 @@
         });
     });
 
-    
+    const scrollUpButton = document.getElementById('scrollUp');
+
+        window.onscroll = function() {
+            if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+                scrollUpButton.style.display = 'block';
+            } else {
+                scrollUpButton.style.display = 'none';
+            }
+        };
+
+        scrollUpButton.onclick = function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
