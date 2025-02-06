@@ -120,6 +120,7 @@ function include_header() {
     include_once 'contact.php';
     include_once 'footer.php';
     ?>
+    
 
     <script src="js/script.js"></script>
 </body>
