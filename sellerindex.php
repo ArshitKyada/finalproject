@@ -24,84 +24,153 @@ function include_header() {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            overflow-y: scroll;
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: rgb(255, 255, 255);
-        }
+    /* General Reset */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f8f9fc;
+        color: #343a40;
+        overflow-x: hidden;
+    }
+
+    /* Container - Full Width */
+    .seller-container {
+        width: 100%;
+        padding: 20px;
+    }
+
+    /* Header */
+    .seller-header {
+        display: flex;
+        justify-content: space-between; /* Align h1 to left & button to right */
+        align-items: center;
+        padding: 20px;
+        background: #f1f5fc;
+        border-bottom: 2px solid #ddd;
+        flex-wrap: wrap;
+    }
+
+    /* Title */
+    .seller-header h1 {
+        font-size: 22px;
+        font-weight: 600;
+        color: #343a40;
+        margin: 0;
+    }
+
+    /* Button */
+    .seller-header .btn {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 18px;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: 500;
+        transition: 0.3s ease-in-out;
+        white-space: nowrap;
+    }
+
+    /* Button Hover Effect */
+    .seller-header .btn:hover {
+        background-color: #0056b3;
+    }
+
+    /* Table Container */
+    .seller-table-container {
+        width: 100%;
+        overflow-x: auto;
+        background: #ffffff;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Full Width Table */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #ffffff;
+        min-width: 800px;
+    }
+
+    th, td {
+        padding: 14px;
+        text-align: left;
+        border-bottom: 1px solid #dee2e6;
+        font-size: 15px;
+        white-space: nowrap;
+    }
+
+    th {
+        background-color: #f1f5fc;
+        font-weight: bold;
+        color: #343a40;
+    }
+
+    tbody tr:hover {
+        background-color: #f8f9fc;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
         .seller-container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+            padding: 10px;
         }
 
         .seller-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            border-bottom: 1px solid #dee2e6;
+            flex-direction: column;
+            text-align: center;
         }
 
         .seller-header h1 {
-            margin: 0;
-            font-size: 24px;
-            color: #343a40;
+            font-size: 20px;
+            margin-bottom: 10px;
         }
 
         .seller-header .btn {
-            background-color: #007bff;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 16px;
+            font-size: 14px;
+            padding: 8px 16px;
+            width: 100%;
+            text-align: center;
+            margin-top: 5px;
         }
 
         .seller-table-container {
-            margin-top: 20px;
-            width: 100%;
-            white-space: nowrap;
+            overflow-x: auto;
         }
 
         table {
-            width: 100%;
-            min-width: 1200px; /* Ensures scrollbar is always visible */
-            border-collapse: collapse;
-            background-color: #fff;
+            min-width: 600px;
         }
 
         th, td {
+            font-size: 14px;
             padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #dee2e6;
+        }
+    }
+
+    @media (max-width: 480px) {
+        th, td {
+            font-size: 13px;
+            padding: 8px;
         }
 
-        th {
-            background-color: rgb(0, 0, 0);
-            font-weight: bold;
-            color: rgb(255, 255, 255);
+        .seller-header h1 {
+            font-size: 18px;
         }
 
-        @media (max-width: 768px) {
-            .seller-header h1 {
-                font-size: 20px;
-            }
-
-            .seller-header .btn {
-                padding: 8px 16px;
-                font-size: 14px;
-            }
-
-            th, td {
-                padding: 10px;
-            }
+        .seller-header .btn {
+            font-size: 13px;
+            padding: 6px 12px;
         }
+    }
     </style>
 </head>
 
@@ -109,7 +178,7 @@ function include_header() {
     <?php include_header(); ?>
     <div class="seller-container">
         <div class="seller-header">
-            <h1>Your Auctions</h1>
+            <h1>Your Past Auctions</h1>
             <a href="addproduct.php" class="btn">New Auction</a>
         </div>
         <div class="seller-table-container">
@@ -117,18 +186,18 @@ function include_header() {
                 <thead>
                     <tr>
                         <th>No.</th>
-                        <th>Auctioned product</th>
+                        <th>Auctioned Product</th>
                         <th>Category</th>
-                        <th>Auction status</th>
-                        <th>Reserve price ($)</th>
-                        <th>Auction start time</th>
-                        <th>Totals Bids</th>
-                        <th>Auction end time</th>
-                        <th>Highest bid price</th>
+                        <th>Auction Status</th>
+                        <th>Reserve Price ($)</th>
+                        <th>Auction Start Time</th>
+                        <th>Total Bids</th>
+                        <th>Auction End Time</th>
+                        <th>Highest Bid Price</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Add rows here -->
+                    <!-- Add rows dynamically using PHP -->
                 </tbody>
             </table>
         </div>

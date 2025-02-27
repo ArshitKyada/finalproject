@@ -25,19 +25,20 @@ function include_header() {
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <style>
-        #scrollUp {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            display: none;
-            background-color: #000;
-            color: #fff;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            z-index: 1000;
+        .categories .category a {
+            display: inline-block;
+            overflow: hidden;
+            border-radius: 10px; /* Optional: Adds rounded corners */
         }
+
+        .categories .category a img {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .categories .category a:hover img {
+            transform: scale(1.1); /* Zooms in the image by 10% */
+        }
+        
     </style>
 </head>
 
@@ -136,24 +137,7 @@ function include_header() {
     include_once 'footer.php';
     ?>
 
-    <button id="scrollUp"><i class="fas fa-arrow-up"></i></button>
-
     <script src="js/script.js"></script>
-    <script>
-        const scrollUpButton = document.getElementById('scrollUp');
-
-        window.onscroll = function() {
-            if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
-                scrollUpButton.style.display = 'block';
-            } else {
-                scrollUpButton.style.display = 'none';
-            }
-        };
-
-        scrollUpButton.onclick = function() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        };
-    </script>
 </body>
 
 </html>

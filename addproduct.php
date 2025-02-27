@@ -6,20 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Product to Auction</title>
     <style>
+        /* General Styles */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
         .container {
+            width: 90%;
             max-width: 600px;
-            margin: 50px auto;
             background-color: white;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease-in-out;
         }
 
         h1 {
@@ -29,17 +35,18 @@
             margin-bottom: 20px;
         }
 
+        /* Form Styles */
         form {
             display: grid;
-            grid-template-columns: 1fr 1fr;
             gap: 15px;
         }
 
         label {
             font-size: 14px;
+            font-weight: bold;
+            color: #555;
             margin-bottom: 5px;
             display: block;
-            color: #555;
         }
 
         input,
@@ -51,10 +58,15 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             box-sizing: border-box;
+            transition: all 0.3s ease-in-out;
         }
 
-        input[type="date"] {
-            font-family: inherit;
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+            outline: none;
         }
 
         textarea {
@@ -62,34 +74,56 @@
         }
 
         .full-width {
-            grid-column: 1 / span 2;
+            grid-column: span 2;
         }
 
+        /* Button Styling */
         button {
-            grid-column: 1 / span 2;
-            padding: 10px 0;
+            width: 100%;
+            padding: 12px;
             font-size: 16px;
             background-color: #007bff;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            transition: background 0.3s ease-in-out;
         }
 
         button:hover {
             background-color: #0056b3;
         }
 
+        /* Required Field Indicator */
         .required::after {
             content: " *";
             color: red;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+        }
+
+        /* Fade-in Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h1>Add a product to Auction</h1>
+        <h1>Add a Product to Auction</h1>
         <form action="#" method="POST">
             <div>
                 <label for="product-name" class="required">Product Name</label>
@@ -107,11 +141,11 @@
                 </select>
             </div>
             <div>
-                <label for="start-time" class="required">Desired start time (MM/DD/YY)</label>
+                <label for="start-time" class="required">Start Time</label>
                 <input type="date" id="start-time" name="start-time" required>
             </div>
             <div>
-                <label for="end-time" class="required">Desired end time (MM/DD/YY)</label>
+                <label for="end-time" class="required">End Time</label>
                 <input type="date" id="end-time" name="end-time" required>
             </div>
             <div>

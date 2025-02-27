@@ -4,7 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 ?>
 
-
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -12,6 +12,31 @@ if (session_status() === PHP_SESSION_NONE) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auctioneers</title>
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        nav a {
+            text-decoration: none;
+            padding-bottom: 5px;
+            position: relative;
+        }
+
+
+
+        /* Left to Right Underline Effect */
+        nav .line::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background: #007bff;
+            transition: width 0.3s ease-in-out;
+        }
+
+        nav .line:hover::after {
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body>
@@ -24,10 +49,10 @@ if (session_status() === PHP_SESSION_NONE) {
             <i class="fas fa-bars"></i>
         </div>
         <nav>
-            <a class="active" href="index.php">Home</a>
-            <a href="auctions.php">Auctions</a>
-            <a href="sellerindex.php">Dashboard</a>
-            <a href="index.php#contact">Contact</a>
+            <a class="line" href="index.php">Home</a>
+            <a class="line" href="auctions.php">Auctions</a>
+            <a class="line" href="sellerindex.php">Dashboard</a>
+            <a class="line" href="index.php#contact">Contact</a>
             <?php if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'seller'): ?>
                 <a class="btn" href="logout.php">Logout</a>
             <?php else: ?>

@@ -205,32 +205,6 @@ function include_header() {
 
     </div>
 
-    <script>
-    function updateCountdown() {
-        const countdownElements = document.querySelectorAll('.countdown');
-
-        countdownElements.forEach(el => {
-            const endTime = new Date(el.dataset.endTime).getTime();
-            const now = new Date().getTime();
-            const timeLeft = endTime - now;
-
-            if (timeLeft > 0) {
-                const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-                el.textContent =
-                    `Auction ending in: ${days} day(s) ${hours} hour(s) ${minutes} minute(s) ${seconds} second(s)`;
-            } else {
-                el.textContent = 'Auction ended';
-            }
-        });
-    }
-
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
-    </script>
 
 </body>
 
