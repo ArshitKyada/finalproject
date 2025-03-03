@@ -1,3 +1,7 @@
+<?php 
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,6 +31,18 @@
         .nav .line:hover::after {
             width: 100%;
         }
+
+        .btn {
+            padding: 8px 15px;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
     </style>
 </head>
 
@@ -45,7 +61,19 @@
             <a class="line" href="auctions.php">Browse Product</a>
             <a class="line" href="index.php">Blog</a>
             <a class="line" href="index.php#contact">Contact</a>
-            <a class="btn" href="registration.php">Sign up</a>
+
+            <?php 
+            if (!empty($_SESSION['account_type'])) {
+                if ($_SESSION['account_type'] === 'seller') {
+                    echo '<a class="line" href="sellerindex.php">Dashboard</a>';
+                } elseif ($_SESSION['account_type'] === 'buyer') {
+                    echo '<a class="line" href="bidhistory.php">Bid History</a>';
+                }
+                echo '<a class="btn" href="logout.php">Logout</a>'; // Logout button
+            } else {
+                echo '<a class="btn" href="registration.php">Sign up</a>'; // Sign up button
+            }
+            ?>
         </nav>
     </header>
     <script src="js/script.js"></script>

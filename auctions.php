@@ -1,211 +1,152 @@
-<?php
-session_start();
-
-function include_header() {
-    if (isset($_SESSION['account_type'])) {
-        if ($_SESSION['account_type'] === 'buyer') {
-            include 'buyerheader.php';
-        } elseif ($_SESSION['account_type'] === 'seller') {
-            include 'sellerheader.php';
-        }
-    } else {
-        include 'header.php';
-    }
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auctioneers</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <title>Live Auction</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
-    body {
-        font-family: 'Roboto', sans-serif;
-        background-color: white;
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 0;
+        }
 
-    .header1 {
-        background-color: #4a6b82;
-        color: white;
-        text-align: center;
-        padding: 50px 20px;
-    }
+        /* Container */
+        .auction-container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 50px auto;
+            text-align: center;
+        }
 
-    .header1 h1 {
-        font-size: 36px;
-        margin: 0;
-    }
+        /* Auction Grid */
+        .auction-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
 
-    .header1 p {
-        font-size: 18px;
-        margin: 10px 0 0;
-    }
+        /* Auction Items */
+        .auction-item {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
 
-    .filter {
-        display: flex;
-        justify-content: center;
-        margin: 20px 0;
-    }
+        .auction-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
 
-    .filter label {
-        font-size: 18px;
-        margin-right: 10px;
-    }
+        .auction-item h2 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
 
-    .filter select {
-        padding: 5px;
-        font-size: 16px;
-    }
+        .bid {
+            color: #555;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
 
-    .container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 20px;
-    }
+        .bid span {
+            font-weight: bold;
+            color: #000;
+        }
 
-    .card {
-        background-color: #fff;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        width: 300px;
-        padding: 15px;
-        box-sizing: border-box;
-    }
+        /* Timer */
+        .timer {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 15px;
+        }
 
-    .card img {
-        width: 100%;
-        border-radius: 8px;
-    }
+        .timer .time {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+        }
 
-    .card h3 {
-        font-size: 18px;
-        font-weight: 500;
-        margin: 15px 0 10px;
-    }
+        .timer .label {
+            font-size: 0.9rem;
+            color: #666;
+        }
 
-    .card p {
-        margin: 5px 0;
-        color: #555;
-    }
+        /* Button */
+        .bid-btn {
+            background-color: #0A3D62;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out;
+        }
 
-    .card .price {
-        font-weight: 500;
-    }
-
-    .card .actions {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 15px;
-    }
-
-    .card .actions .btn {
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        padding: 8px 12px;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 14px;
-    }
-
-    .card .actions .btn i {
-        margin-right: 5px;
-    }
-
-    .card .actions .btn:hover {
-        background-color: #0056b3;
-    }
-
-    .card .actions .icon {
-        color: #007bff;
-        cursor: pointer;
-        font-size: 18px;
-    }
-
-    .card .actions .icon:hover {
-        color: #0056b3;
-    }
+        .bid-btn:hover {
+            background-color:rgb(19, 102, 161);
+        }
     </style>
 </head>
-
 <body>
-    <?php include_header(); ?>
+    <?php require_once 'header.php' ?>
+    <div class="auction-container">
 
+        <div class="auction-grid">
+            <!-- Auction Item 1 -->
+            <div class="auction-item">
+                <div class="timer">
+                    <div><p class="time">355</p><p class="label">Days</p></div>
+                    <div><p class="time">10</p><p class="label">Hours</p></div>
+                    <div><p class="time">38</p><p class="label">Minutes</p></div>
+                    <div><p class="time">56</p><p class="label">Seconds</p></div>
+                </div>
+                <img src="https://storage.googleapis.com/a1aa/image/P8smgEEg_lE-goZyqy-Np2J96Oee-p5F3eJQMB2W0vg.jpg" alt="Vintage alarm clock">
+                <h2>Alarm Clock 1990’s</h2>
+                <p class="bid">Current bid: <span>$330.0</span></p>
+                <button class="bid-btn">Place A Bid</button>
+            </div>
 
-    <div class="header1">
-        <h1>We verify all auctioned items at our warehouse</h1>
-        <p>Protection safely assured. All items are inspected for authenticity and quality assurance.</p>
-    </div>
+            <!-- Auction Item 2 -->
+            <div class="auction-item">
+                <div class="timer">
+                    <div><p class="time">355</p><p class="label">Days</p></div>
+                    <div><p class="time">10</p><p class="label">Hours</p></div>
+                    <div><p class="time">38</p><p class="label">Minutes</p></div>
+                    <div><p class="time">56</p><p class="label">Seconds</p></div>
+                </div>
+                <img src="https://storage.googleapis.com/a1aa/image/raHtk8Yp5Wmd5eFVCMvleSkQAf21lC4Kfkewir5uNC0.jpg" alt="Premium 1998 typewriter">
+                <h2>Premium 1998 Typewriter</h2>
+                <p class="bid">Starting bid: <span>$560.0</span></p>
+                <button class="bid-btn">Place A Bid</button>
+            </div>
 
-    <div class="filter">
-        <label for="auction-filter">Filter by:</label>
-        <select id="auction-filter">
-            <option value="all">All auctions</option>
-        </select>
-    </div>
-
-    <div class="container">
-        <div class="card">
-            <img alt="Apple iPhone 13 Pro Max"
-                src="https://storage.googleapis.com/a1aa/image/ZPDKziiF0LozHR0nuOtfDm0rFRxxiJDe0n1oQMIi8eFe0xegC.jpg" />
-            <h3>Apple iPhone 13 Pro Max</h3>
-            <p class="price">Starting Price: $1000</p>
-            <p class="price">Top Bid: $2000</p>
-            <p>1 bids placed</p>
-            <p>Condition: No visible defects</p>
-            <p class="countdown" data-end-time="2025-01-29T15:30:00Z">Auction ending in: --</p>
-            <div class="actions">
-                <i class="fas fa-share-alt icon"></i>
-                <i class="fas fa-heart icon"></i>
-                <button class="btn"><i class="fas fa-gavel"></i> + Bid</button>
+            <!-- Auction Item 3 -->
+            <div class="auction-item">
+                <div class="timer">
+                    <div><p class="time">355</p><p class="label">Days</p></div>
+                    <div><p class="time">10</p><p class="label">Hours</p></div>
+                    <div><p class="time">38</p><p class="label">Minutes</p></div>
+                    <div><p class="time">56</p><p class="label">Seconds</p></div>
+                </div>
+                <img src="https://storage.googleapis.com/a1aa/image/DpjgYnbv3J2aBsBpE3kVafODSAhxjRZiVmQu1MEh_3k.jpg" alt="Macbook Pro 2018">
+                <h2>Macbook Pro 2018</h2>
+                <p class="bid">Starting bid: <span>$1,199.0</span></p>
+                <button class="bid-btn">Place A Bid</button>
             </div>
         </div>
-
-        <div class="card">
-            <img alt="Apple iPhone 13 Pro Max"
-                src="https://storage.googleapis.com/a1aa/image/cUw8bkDTugpkMdneeJE6O0GePuEWf7N3bBXFPDlJwzeypj9gC.jpg" />
-            <h3>Apple air pro</h3>
-            <p class="price">Starting Price: $1200</p>
-            <p class="price">Top Bid: $2500</p>
-            <p>1 bids placed</p>
-            <p>Condition: No visible defects</p>
-            <p class="countdown" data-end-time="2025-01-29T15:30:00Z">Auction ending in: --</p>
-            <div class="actions">
-                <i class="fas fa-share-alt icon"></i>
-                <i class="fas fa-heart icon"></i>
-                <button class="btn"><i class="fas fa-gavel"></i> + Bid</button>
-            </div>
-        </div>
-
-        <div class="card">
-            <img alt="Apple iPhone 13 Pro Max"
-                src="https://storage.googleapis.com/a1aa/image/Im40cm6COxLZLZxj9Dew0gjqIec9Zey3JYwXf4Gz93kx0xegC.jpg" />
-            <h3>Coffee Table</h3>
-            <p class="price">Starting Price: $300</p>
-            <p class="price">Top Bid: $500</p>
-            <p>1 bids placed</p>
-            <p>Condition: No visible defects</p>
-            <p class="countdown" data-end-time="2025-01-29T15:30:00Z">Auction ending in: --</p>
-            <div class="actions">
-                <i class="fas fa-share-alt icon"></i>
-                <i class="fas fa-heart icon"></i>
-                <button class="btn"><i class="fas fa-gavel"></i> + Bid</button>
-            </div>
-        </div>
-
     </div>
-
 
 </body>
-
 </html>

@@ -1,19 +1,9 @@
+
 <?php
-session_start();
 
-function include_header() {
-    if (isset($_SESSION['account_type'])) {
-        if ($_SESSION['account_type'] === 'buyer') {
-            include 'buyerheader.php';
-        } elseif ($_SESSION['account_type'] === 'seller') {
-            include 'sellerheader.php';
-        }
-    } else {
-        include 'header.php';
-    }
-}
+include_once 'header.php';
+
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,6 +25,7 @@ function include_header() {
         background-color: #f8f9fc;
         color: #343a40;
         overflow-x: hidden;
+        overflow-y: scroll;
     }
 
     .seller-container {
@@ -166,7 +157,6 @@ function include_header() {
 </head>
 
 <body>
-    <?php include_header(); ?>
     <div class="seller-container">
         <div class="seller-header">
             <h1>Your Past Auctions</h1>

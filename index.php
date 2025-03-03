@@ -1,17 +1,6 @@
 <?php
-session_start();
 
-function include_header() {
-    if (isset($_SESSION['account_type'])) {
-        if ($_SESSION['account_type'] === 'buyer') {
-            include 'buyerheader.php';
-        } elseif ($_SESSION['account_type'] === 'seller') {
-            include 'sellerheader.php';
-        }
-    } else {
-        include 'header.php';
-    }
-}
+include_once 'header.php';
 ?>
 
 <!DOCTYPE html>
@@ -42,7 +31,6 @@ function include_header() {
 </head>
 
 <body>
-    <?php include_header(); ?>
 
     <div class="container" id="home">
         <div class="content">
