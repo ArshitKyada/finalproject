@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add a product to Auction</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         /* Box sizing to include padding and borders in total width/height */
         *, *:before, *:after {
@@ -12,7 +13,7 @@
         }
 
         body {
-            background-color: #f3f4f6;
+            background-color:rgb(228, 226, 226);
             margin: 0;
             font-family: Arial, sans-serif;
         }
@@ -29,6 +30,7 @@
         .content {
             padding-top: 70px; 
             width: 100%;
+            background-color: #f3f3f3;
         }
 
         .container {
@@ -60,6 +62,15 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 1rem;
+        }
+
+        /* Banner Image Style */
+        .banner {
+            width: 100%;
+            height: 250px;
+            background: url('images/banner.png') no-repeat center;
+            background-size: cover;
+            margin-top: 65px; /* Adjust this if the header height changes */
         }
 
         /* Responsive grid layout */
@@ -139,7 +150,9 @@
         <?php include 'header.php' ?>
     </header>
 
-    <!-- Content Section Below Navbar -->
+
+    <div class="banner"></div> 
+
     <div class="content">
         <div class="container">
             <h1 class="title">Add a product to Auction</h1>
@@ -176,8 +189,8 @@
                 </div>
                 <br>
                 <div>
-                    <label for="imageUrl" class="label">Image URL <span style="color: red;">*</span></label>
-                    <input type="text" id="imageUrl" class="input" required>
+                    <label for="imageUrl" class="label">Image <span style="color: red;">*</span></label>
+                    <input type="file" id="imageUrl" class="input" required>
                 </div>
                 <br>
                 <div>
