@@ -58,7 +58,7 @@ session_start();
         </div>
         <nav class="nav">
             <a class="line" href="index.php">Home</a>
-            <a class="line" href="index.php">About Us</a>
+            <a class="line" href="about.php">About Us</a>
             <a class="line" href="auctions.php">Browse Product</a>
             <a class="line" href="index.php">Blog</a>
             <a class="line" href="index.php#contact">Contact</a>

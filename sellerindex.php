@@ -1,9 +1,17 @@
-
 <?php
+include_once 'header.php'; 
+// Include database connection file
+include_once 'connect.php'; // Update with your actual DB connection file
 
-include_once 'header.php';
+// Fetch product data from the database
+$query = "SELECT * FROM products"; // Adjust this based on your actual table and query
+$result = mysqli_query($conn, $query);
 
+if (!$result) {
+    die("Query failed: " . mysqli_error($conn));
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -169,16 +177,34 @@ include_once 'header.php';
                         <th>No.</th>
                         <th>Auctioned Product</th>
                         <th>Category</th>
-                        <th>Auction Status</th>
-                        <th>Reserve Price ($)</th>
                         <th>Auction Start Time</th>
-                        <th>Total Bids</th>
                         <th>Auction End Time</th>
+                        <th>Reserve Price ($)</th>
+                        <th>Description</th>
+                        <th>Total Bids</th>
                         <th>Highest Bid Price</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Add rows dynamically using PHP -->
+                    <?php
+                    // Check if there are any products
+                    if (mysqli_num_rows($result) > 0) {
+                        $no = 1; // Initialize counter for row numbering
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            echo "<tr>";
+                            echo "<td>" . $no++ . "</td>";
+                            echo "<td>" . htmlspecialchars($row['product_name']) . "</td>"; // product_name column
+                            echo "<td>" . htmlspecialchars($row['category']) . "</td>"; // category column
+                            echo "<td>" . htmlspecialchars($row['start_time']) . "</td>"; // start_time column
+                            echo "<td>" . htmlspecialchars($row['end_time']) . "</td>"; // end_time column
+                            echo "<td>" . htmlspecialchars($row['starting_bid']) . "</td>"; // starting_bid column
+                            echo "<td>" . htmlspecialchars($row['description']) . "</td>"; // description column
+                            echo "</tr>";
+                        }
+                    } else {
+                        echo "<tr><td colspan='8'>No auctions found.</td></tr>";
+                    }
+                    ?>
                 </tbody>
             </table>
         </div>

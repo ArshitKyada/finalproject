@@ -120,7 +120,10 @@ $result = mysqli_query($conn, $sql);
                 echo '</div>';
                 echo '</div>';
             }
+        } else {
+            echo "No products found.";
         }
+
         // Close the connection
         mysqli_close($conn);
         ?>

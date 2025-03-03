@@ -96,7 +96,6 @@
     }
 
     .footer-bottom {
-        max-height: 25px;
         background-color: rgb(0, 0, 0);
         display: flex;
         justify-content: space-between;
@@ -167,9 +166,9 @@
             <div class="footer-section quick-links">
                 <h4>Quick Links</h4>
                 <ul>
-                    <li><i class="fas fa-home"></i><a href="#">Home</a></li>
-                    <li><i class="fas fa-info-circle"></i><a href="#">About Us</a></li>
-                    <li><i class="fas fa-gavel"></i><a href="#">Auctions</a></li>
+                    <li><i class="fas fa-home"></i><a href="index.php">Home</a></li>
+                    <li><i class="fas fa-info-circle"></i><a href="about.php">About Us</a></li>
+                    <li><i class="fas fa-gavel"></i><a href="auctions.php">Auctions</a></li>
                     <li><i class="fas fa-tags"></i><a href="#">Pricing</a></li>
                     <li><i class="fas fa-envelope"></i><a href="#contact">Contact</a></li>
                 </ul>
