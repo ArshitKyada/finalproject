@@ -1,152 +1,167 @@
-<!DOCTYPE html>
+<?php include_once 'header.php' ?>
+
+
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Auction</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>Bid Cards</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* Global Styles */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f3f4f6;
-            margin: 0;
-            padding: 0;
-        }
+    body {
+        background-color: #f3f4f6;
+        overflow-y: scroll;
 
-        /* Container */
-        .auction-container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 50px auto;
-            text-align: center;
-        }
+    }
 
-        /* Auction Grid */
-        .auction-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 16px;
+    }
 
-        /* Auction Items */
-        .auction-item {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            text-align: center;
-        }
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
 
-        .auction-item img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 10px;
-            margin-bottom: 10px;
+    @media (min-width: 640px) {
+        .grid {
+            grid-template-columns: repeat(2, 1fr);
         }
+    }
 
-        .auction-item h2 {
-            font-size: 1.5rem;
-            color: #333;
-            margin-bottom: 10px;
+    @media (min-width: 1024px) {
+        .grid {
+            grid-template-columns: repeat(3, 1fr);
         }
+    }
 
-        .bid {
-            color: #555;
-            font-size: 1rem;
-            margin-bottom: 15px;
-        }
+    .card {
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
 
-        .bid span {
-            font-weight: bold;
-            color: #000;
-        }
+    .card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
 
-        /* Timer */
-        .timer {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 15px;
-        }
+    .card .content {
+        padding: 16px;
+    }
 
-        .timer .time {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #333;
-        }
+    .card .content .user-info {
+        display: flex;
+        align-items: center;
+        margin-bottom: 16px;
+    }
 
-        .timer .label {
-            font-size: 0.9rem;
-            color: #666;
-        }
+    .card .content .user-info img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 8px;
+    }
 
-        /* Button */
-        .bid-btn {
-            background-color: #0A3D62;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            font-size: 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s ease-in-out;
-        }
+    .card .content .user-info .time {
+        color: #6b7280;
+        font-size: 14px;
+    }
 
-        .bid-btn:hover {
-            background-color:rgb(19, 102, 161);
-        }
+    .card .content h2 {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+
+    .card .content p {
+        color: #374151;
+        margin-bottom: 16px;
+    }
+
+    .card .content p span {
+        font-weight: bold;
+    }
+
+    .card .content .actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .card .content .actions button {
+        background-color: #10b981;
+        color: #ffffff;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .card .content .actions i {
+        color: #6b7280;
+    }
     </style>
 </head>
+
 <body>
-    <?php require_once 'header.php' ?>
-    <div class="auction-container">
 
-        <div class="auction-grid">
-            <!-- Auction Item 1 -->
-            <div class="auction-item">
-                <div class="timer">
-                    <div><p class="time">355</p><p class="label">Days</p></div>
-                    <div><p class="time">10</p><p class="label">Hours</p></div>
-                    <div><p class="time">38</p><p class="label">Minutes</p></div>
-                    <div><p class="time">56</p><p class="label">Seconds</p></div>
+    <div class="container">
+        <div class="grid">
+            <!-- Card 1 -->
+            <div class="card">
+                <img src="images/a1.jpg" alt="Vintage alarm clocks">
+                <div class="content">
+                    <div class="user-info">
+                        <div class="time">352 Days 13 Hours 16 Minutes 34 Seconds</div>
+                    </div>
+                    <h2>Alarm Clock 1990's</h2>
+                    <p>Current bid: <span>367.0$</span></p>
+                    <div class="actions">
+                        <button>Bid now</button>
+                        <i class="fas fa-share-alt"></i>
+                    </div>
                 </div>
-                <img src="https://storage.googleapis.com/a1aa/image/P8smgEEg_lE-goZyqy-Np2J96Oee-p5F3eJQMB2W0vg.jpg" alt="Vintage alarm clock">
-                <h2>Alarm Clock 1990’s</h2>
-                <p class="bid">Current bid: <span>$330.0</span></p>
-                <button class="bid-btn">Place A Bid</button>
             </div>
-
-            <!-- Auction Item 2 -->
-            <div class="auction-item">
-                <div class="timer">
-                    <div><p class="time">355</p><p class="label">Days</p></div>
-                    <div><p class="time">10</p><p class="label">Hours</p></div>
-                    <div><p class="time">38</p><p class="label">Minutes</p></div>
-                    <div><p class="time">56</p><p class="label">Seconds</p></div>
+            <!-- Card 2 -->
+            <div class="card">
+                <img src="images/a2.jpg" alt="Black analogue watch">
+                <div class="content">
+                    <div class="user-info">
+                        <div class="time">352 Days 13 Hours 16 Minutes 34 Seconds</div>
+                    </div>
+                    <h2>Black Analogue Watch</h2>
+                    <p>Current bid: <span>1,000.0$</span></p>
+                    <div class="actions">
+                        <button>Bid now</button>
+                        <i class="fas fa-share-alt"></i>
+                    </div>
                 </div>
-                <img src="https://storage.googleapis.com/a1aa/image/raHtk8Yp5Wmd5eFVCMvleSkQAf21lC4Kfkewir5uNC0.jpg" alt="Premium 1998 typewriter">
-                <h2>Premium 1998 Typewriter</h2>
-                <p class="bid">Starting bid: <span>$560.0</span></p>
-                <button class="bid-btn">Place A Bid</button>
             </div>
-
-            <!-- Auction Item 3 -->
-            <div class="auction-item">
-                <div class="timer">
-                    <div><p class="time">355</p><p class="label">Days</p></div>
-                    <div><p class="time">10</p><p class="label">Hours</p></div>
-                    <div><p class="time">38</p><p class="label">Minutes</p></div>
-                    <div><p class="time">56</p><p class="label">Seconds</p></div>
+            <!-- Card 3 -->
+            <div class="card">
+                <img src="images/a3.jpg" alt="Ford Shelby white car">
+                <div class="content">
+                    <div class="user-info">
+                        <div class="time">352 Days 13 Hours 16 Minutes 34 Seconds</div>
+                    </div>
+                    <h2>Ford Shelby White Car</h2>
+                    <p>Starting bid: <span>10,000.0$</span></p>
+                    <div class="actions">
+                        <button>Bid now</button>
+                        <i class="fas fa-share-alt"></i>
+                    </div>
                 </div>
-                <img src="https://storage.googleapis.com/a1aa/image/DpjgYnbv3J2aBsBpE3kVafODSAhxjRZiVmQu1MEh_3k.jpg" alt="Macbook Pro 2018">
-                <h2>Macbook Pro 2018</h2>
-                <p class="bid">Starting bid: <span>$1,199.0</span></p>
-                <button class="bid-btn">Place A Bid</button>
             </div>
         </div>
     </div>
-
 </body>
+
 </html>

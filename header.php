@@ -11,6 +11,7 @@ session_start();
     <title>Auctioneers</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
+
         .nav .line {
             position: relative;
             text-decoration: none;
