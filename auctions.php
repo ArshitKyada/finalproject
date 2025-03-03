@@ -1,8 +1,14 @@
-<?php include_once 'header.php' ?>
+<?php
+require_once 'connect.php';  // Include your database connection
+include_once 'header.php';  // Include any necessary headers (like navigation)
 
+// Execute the query using procedural style
+$sql = "SELECT image_url, product_name, starting_bid FROM products";
+$result = mysqli_query($conn, $sql);
+?>
 
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +19,6 @@
     body {
         background-color: #f3f4f6;
         overflow-y: scroll;
-
     }
 
     .container {
@@ -43,6 +48,7 @@
     .card {
         background-color: #ffffff;
         border-radius: 8px;
+        width: 300px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         overflow: hidden;
     }
@@ -55,24 +61,6 @@
 
     .card .content {
         padding: 16px;
-    }
-
-    .card .content .user-info {
-        display: flex;
-        align-items: center;
-        margin-bottom: 16px;
-    }
-
-    .card .content .user-info img {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        margin-right: 8px;
-    }
-
-    .card .content .user-info .time {
-        color: #6b7280;
-        font-size: 14px;
     }
 
     .card .content h2 {
@@ -113,55 +101,32 @@
 
 <body>
 
-    <div class="container">
-        <div class="grid">
-            <!-- Card 1 -->
-            <div class="card">
-                <img src="images/a1.jpg" alt="Vintage alarm clocks">
-                <div class="content">
-                    <div class="user-info">
-                        <div class="time">352 Days 13 Hours 16 Minutes 34 Seconds</div>
-                    </div>
-                    <h2>Alarm Clock 1990's</h2>
-                    <p>Current bid: <span>367.0$</span></p>
-                    <div class="actions">
-                        <button>Bid now</button>
-                        <i class="fas fa-share-alt"></i>
-                    </div>
-                </div>
-            </div>
-            <!-- Card 2 -->
-            <div class="card">
-                <img src="images/a2.jpg" alt="Black analogue watch">
-                <div class="content">
-                    <div class="user-info">
-                        <div class="time">352 Days 13 Hours 16 Minutes 34 Seconds</div>
-                    </div>
-                    <h2>Black Analogue Watch</h2>
-                    <p>Current bid: <span>1,000.0$</span></p>
-                    <div class="actions">
-                        <button>Bid now</button>
-                        <i class="fas fa-share-alt"></i>
-                    </div>
-                </div>
-            </div>
-            <!-- Card 3 -->
-            <div class="card">
-                <img src="images/a3.jpg" alt="Ford Shelby white car">
-                <div class="content">
-                    <div class="user-info">
-                        <div class="time">352 Days 13 Hours 16 Minutes 34 Seconds</div>
-                    </div>
-                    <h2>Ford Shelby White Car</h2>
-                    <p>Starting bid: <span>10,000.0$</span></p>
-                    <div class="actions">
-                        <button>Bid now</button>
-                        <i class="fas fa-share-alt"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="container">
+    <div class="grid">
+        <?php
+        // Check if there are products in the database
+        if ($result && mysqli_num_rows($result) > 0) {
+            // Loop through each product and display it
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo '<div class="card">';
+                echo '<img src="' . $row["image_url"] . '" alt="' . $row["product_name"] . '">';
+                echo '<div class="content">';
+                echo '<h2>' . $row["product_name"] . '</h2>';
+                echo '<p>Starting bid: <span>$' . number_format($row["starting_bid"], 2) . '</span></p>';
+                echo '<div class="actions">';
+                echo '<button>Bid now</button>';
+                echo '<i class="fas fa-share-alt"></i>';
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
+            }
+        }
+        // Close the connection
+        mysqli_close($conn);
+        ?>
     </div>
+</div>
+
 </body>
 
 </html>
