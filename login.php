@@ -1,29 +1,24 @@
 <?php
 session_start();
-include_once('connect.php'); // Make sure you have your database connection file
+include_once('connect.php'); 
 
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Get the input values
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Simple query to check if the username exists
     $query = "SELECT * FROM users WHERE username='$username'";
     $result = mysqli_query($conn, $query);
 
     if (mysqli_num_rows($result) > 0) {
         $user = mysqli_fetch_assoc($result);
         
-        // Here you should check password hashing, but for this example it's plain text
         if ($user['password'] == $password) {
-            // Store session variables after login
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
-            $_SESSION['account_type'] = $user['account_type'];  // You can store the account type too if needed
+            $_SESSION['account_type'] = $user['account_type'];
             
-            // Redirect based on account type
             if ($user['account_type'] == 'buyer') {
                 header("Location: index.php");
             } else {
@@ -139,12 +134,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <p>Please enter your login details and password!</p>
         </center>
 
-        <!-- Display Error Message -->
         <?php if ($error): ?>
         <p class="error"><?php echo $error; ?></p>
         <?php endif; ?>
 
-        <!-- Login Form -->
         <form method="POST" action="">
             <label for="username">Username*</label>
             <input type="text" id="username" name="username" required>

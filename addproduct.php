@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Product to Auction</title>
     <style>
-        /* General Styles */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -35,7 +34,6 @@
             margin-bottom: 20px;
         }
 
-        /* Form Styles */
         form {
             display: grid;
             gap: 15px;
@@ -77,7 +75,10 @@
             grid-column: span 2;
         }
 
-        /* Button Styling */
+        .hidden {
+            display: none;
+        }
+
         button {
             width: 100%;
             padding: 12px;
@@ -94,28 +95,14 @@
             background-color: #0056b3;
         }
 
-        /* Required Field Indicator */
         .required::after {
             content: " *";
             color: red;
         }
 
-        /* Responsive Design */
         @media (max-width: 480px) {
             .container {
                 padding: 15px;
-            }
-        }
-
-        /* Fade-in Animation */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
             }
         }
     </style>
@@ -131,7 +118,7 @@
             </div>
             <div>
                 <label for="category" class="required">Category</label>
-                <select id="category" name="category" required>
+                <select id="category" name="category" required onchange="updateFormFields()">
                     <option value="">Select a category</option>
                     <option value="art">Art</option>
                     <option value="antiques">Antiques</option>
@@ -140,6 +127,40 @@
                     <option value="others">Others</option>
                 </select>
             </div>
+
+            <!-- Dynamic Fields for Electronics -->
+            <div id="electronics-fields" class="hidden">
+                <div>
+                    <label for="height">Height (cm)</label>
+                    <input type="number" id="height" name="height">
+                </div>
+                <div>
+                    <label for="weight">Weight (kg)</label>
+                    <input type="number" id="weight" name="weight">
+                </div>
+                <div>
+                    <label for="used-condition">Used Condition</label>
+                    <select id="used-condition" name="used-condition">
+                        <option value="new">New</option>
+                        <option value="used-good">Used - Good</option>
+                        <option value="used-fair">Used - Fair</option>
+                        <option value="damaged">Damaged</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Dynamic Fields for Antiques -->
+            <div id="antiques-fields" class="hidden">
+                <div>
+                    <label for="year-made">Year Made</label>
+                    <input type="number" id="year-made" name="year-made">
+                </div>
+                <div>
+                    <label for="origin">Origin</label>
+                    <input type="text" id="origin" name="origin">
+                </div>
+            </div>
+
             <div>
                 <label for="start-time" class="required">Start Time</label>
                 <input type="date" id="start-time" name="start-time" required>
@@ -163,6 +184,27 @@
             <button type="submit">Submit</button>
         </form>
     </div>
+
+    <script>
+        function updateFormFields() {
+            const category = document.getElementById("category").value;
+
+            // Get elements for dynamic fields
+            const electronicsFields = document.getElementById("electronics-fields");
+            const antiquesFields = document.getElementById("antiques-fields");
+
+            // Hide all dynamic fields initially
+            electronicsFields.classList.add("hidden");
+            antiquesFields.classList.add("hidden");
+
+            // Show fields based on selected category
+            if (category === "electronics") {
+                electronicsFields.classList.remove("hidden");
+            } else if (category === "antiques") {
+                antiquesFields.classList.remove("hidden");
+            }
+        }
+    </script>
 </body>
 
 </html>

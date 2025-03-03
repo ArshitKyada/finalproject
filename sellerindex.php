@@ -24,7 +24,6 @@ function include_header() {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-    /* General Reset */
     * {
         margin: 0;
         padding: 0;
@@ -38,16 +37,14 @@ function include_header() {
         overflow-x: hidden;
     }
 
-    /* Container - Full Width */
     .seller-container {
         width: 100%;
         padding: 20px;
     }
 
-    /* Header */
     .seller-header {
         display: flex;
-        justify-content: space-between; /* Align h1 to left & button to right */
+        justify-content: space-between; 
         align-items: center;
         padding: 20px;
         background: #f1f5fc;
@@ -55,7 +52,6 @@ function include_header() {
         flex-wrap: wrap;
     }
 
-    /* Title */
     .seller-header h1 {
         font-size: 22px;
         font-weight: 600;
@@ -63,7 +59,6 @@ function include_header() {
         margin: 0;
     }
 
-    /* Button */
     .seller-header .btn {
         background-color: #007bff;
         color: #fff;
@@ -77,12 +72,10 @@ function include_header() {
         white-space: nowrap;
     }
 
-    /* Button Hover Effect */
     .seller-header .btn:hover {
         background-color: #0056b3;
     }
 
-    /* Table Container */
     .seller-table-container {
         width: 100%;
         overflow-x: auto;
@@ -92,7 +85,6 @@ function include_header() {
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
 
-    /* Full Width Table */
     table {
         width: 100%;
         border-collapse: collapse;
@@ -118,7 +110,6 @@ function include_header() {
         background-color: #f8f9fc;
     }
 
-    /* Responsive Adjustments */
     @media (max-width: 768px) {
         .seller-container {
             padding: 10px;

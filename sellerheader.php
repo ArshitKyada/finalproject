@@ -19,9 +19,6 @@ if (session_status() === PHP_SESSION_NONE) {
             position: relative;
         }
 
-
-
-        /* Left to Right Underline Effect */
         nav .line::after {
             content: "";
             position: absolute;

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -5,6 +6,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auctioneers</title>
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Adding background color to the contact section */
+        .contact-section {
+            background-color: #f3f4f6;
+            padding: 40px 20px;
+        }
+        
+        .contact-header h1 {
+            text-align: center;
+            color: #0a2e79;
+        }
+        
+        .contact-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+        
+        .contact-info {
+            flex: 1;
+            padding-right: 20px;
+        }
+        
+        .info-item {
+            margin-bottom: 20px;
+        }
+        
+        .info-item i {
+            font-size: 24px;
+            color: #0a2e79;
+            margin-right: 10px;
+        }
+        
+        .info-item h3 {
+            color: #0a2e79;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .info-item p {
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .contact-form {
+            flex: 1;
+            padding-left: 20px;
+        }
+        
+        .contact-form h3 {
+            color: #0a2e79;
+            margin-bottom: 20px;
+        }
+        
+        .contact-form form input,
+        .contact-form form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .contact-form form button {
+            background-color: #0a2e79;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .contact-form form button:hover {
+            background-color: #083b6b;
+        }
+    </style>
 </head>
 
 <body>
@@ -49,9 +126,7 @@
     </div>
 
     <?php 
-    
-    include 'footer.php';
-    
+        include 'footer.php';
     ?>
 </body>
 

@@ -25,20 +25,19 @@ function include_header() {
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <style>
-        .categories .category a {
-            display: inline-block;
-            overflow: hidden;
-            border-radius: 10px; /* Optional: Adds rounded corners */
-        }
+    .categories .category a {
+        display: inline-block;
+        overflow: hidden;
+        border-radius: 10px;
+    }
 
-        .categories .category a img {
-            transition: transform 0.3s ease-in-out;
-        }
+    .categories .category a img {
+        transition: transform 0.3s ease-in-out;
+    }
 
-        .categories .category a:hover img {
-            transform: scale(1.1); /* Zooms in the image by 10% */
-        }
-        
+    .categories .category a:hover img {
+        transform: scale(1.1);
+    }
     </style>
 </head>
 
@@ -59,14 +58,38 @@ function include_header() {
         </div>
     </div>
 
-    <div class="trusted-section" id="trusted">
-        <h2>TRUSTED BY 20,000+ ORGANIZATIONS WORLDWIDE</h2>
-        <div class="trusted-logos">
-            <img alt="Lilly logo" height="50" src="images/1.png" width="100" />
-            <img alt="Grabyo logo" height="50" src="images/3.png" width="100" />
-            <img alt="Myob logo" height="50" src="images/4.png" width="100" />
-            <img alt="LifeGroups logo" height="50" src="images/5.png" width="100" />
-            <img alt="Belimo logo" height="50" src="images/6.png" width="100" />
+
+    <!-- New Trusted Section -->
+    <div class="trusted-section">
+        <div class="trusted-container">
+            <h2 class="trusted-title">Trusted By 500+ Businesses</h2>
+            <p class="trusted-description">
+                Explore the world's best & largest Bidding marketplace with our beautiful Bidding products.
+                We want to be a part of your smile, success, and future growth.
+            </p>
+            <div class="trusted-grid">
+                <div class="trusted-item">
+                    <img src="images/1.png" alt="Stanford">
+                </div>
+                <div class="trusted-item">
+                    <img src="images/2.png" alt="Laravel">
+                </div>
+                <div class="trusted-item">
+                    <img src="images/3.png" alt="Svelte">
+                </div>
+                <div class="trusted-item">
+                    <img src="images/4.png" alt="Discord">
+                </div>
+                <div class="trusted-item">
+                    <img src="images/5.png" alt="ASN Bank">
+                </div>
+                <div class="trusted-item">
+                    <img src="images/6.png" alt="WeeWorld">
+                </div>
+                <div class="trusted-item">
+                    <img src="images/7.png" alt="Inside the Hotel">
+                </div>
+            </div>
         </div>
     </div>
 
@@ -133,6 +156,7 @@ function include_header() {
 
     <?php 
     include_once 'faq.php';
+    include_once 'comments.php';
     include_once 'contact.php';
     include_once 'footer.php';
     ?>

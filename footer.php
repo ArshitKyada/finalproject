@@ -8,14 +8,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
     .auction-footer {
-        background-color: #f8f9fa;
-        background: white url(https://res.cloudinary.com/dwrwnflkr/image/upload/v1681807803/footer-bg_k69qz5.png) no-repeat right;
+        background-color: #0A3D62;
+        background: #0A3D62 url(images/footer-bg.png) no-repeat right;
         background-size: contain;
-        color: #333;
+        color: #fff;
         font-family: 'Arial', sans-serif;
         padding: 40px 20px;
-        border-top: 1px solid #ddd;
+        border-top: 3px solid black;
     }
+
 
 
     .footer-container {
@@ -44,7 +45,7 @@
 
     .footer-section h3,
     .footer-section h4 {
-        color: #0a2e79;
+        color: rgb(255, 255, 255);
         font-size: 18px;
         margin-bottom: 15px;
         font-weight: bold;
@@ -53,7 +54,7 @@
     .footer-section p {
         font-size: 14px;
         line-height: 1.6;
-        color: #555;
+        color: #fff;
     }
 
     .footer-section ul {
@@ -70,41 +71,65 @@
 
     .footer-section ul li a {
         text-decoration: none;
-        color: #0a2e79;
+        color: rgb(255, 255, 255);
         transition: color 0.3s ease;
     }
 
     .footer-section ul li a:hover {
-        color: #0056b3;
+        color: rgb(162, 207, 255);
     }
 
     .footer-section ul li i {
-        color: #0a2e79;
+        color: rgb(255, 255, 255);
     }
 
     .social-links a {
         text-decoration: none;
         margin-right: 10px;
-        color: #555;
+        color: #fff;
         font-size: 18px;
         transition: color 0.3s ease;
     }
 
     .social-links a:hover {
-        color: #0a2e79;
+        color: #a2cfff;
     }
 
     .footer-bottom {
-        background-color: white;
-        text-align: center;
-        padding-top: 20px;
-        padding-bottom: 20px;
-        border-top: 1px solid black;
+        max-height: 25px;
+        background-color: rgb(0, 0, 0);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        border-top: 1px solid white;
         font-size: 14px;
-        color: #666;
+        color: #fff;
     }
 
-    /* Responsive Design */
+    .payment-methods {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .payment-methods p {
+        margin: 0;
+        width: 100px;
+    }
+
+    .payment-logo {
+        height: 40px;
+        width: auto;
+        display: block;
+    }
+
+    .footer-bottom p {
+        margin: 0;
+        color: #fff;
+    }
+
+
     @media (max-width: 768px) {
         .footer-container {
             flex-direction: column;
@@ -123,7 +148,7 @@
 <body>
     <footer class="auction-footer">
         <div class="footer-container">
-            <!-- About Section -->
+
             <div class="footer-section about-section">
                 <h3>Auctioneers</h3>
                 <p>
@@ -139,7 +164,6 @@
                 </div>
             </div>
 
-            <!-- Quick Links -->
             <div class="footer-section quick-links">
                 <h4>Quick Links</h4>
                 <ul>
@@ -151,7 +175,6 @@
                 </ul>
             </div>
 
-            <!-- Contact Information -->
             <div class="footer-section contact-information">
                 <h4>Contact Us</h4>
                 <p><i class="fas fa-map-marker-alt"></i> 224, Rise on Plaza <br> Surat, Gujarat-395006,<br> India</p>
@@ -159,12 +182,18 @@
                 <p><i class="fas fa-envelope"></i> support@auctioneers.com</p>
             </div>
         </div>
-
-        
     </footer>
     <div class="footer-bottom">
-            <p>&copy; 2025 AuctioneerHub. All Rights Reserved.</p>
+        <p>&copy; 2025 Auctioneers. All Rights Reserved.</p>
+        <div class="payment-methods">
+            <p>We Accept:</p>
+            <a href="#" target="_blank"><img src="images/visa.png" alt="Visa" class="payment-logo"></a>
+            <a href="#" target="_blank"><img src="images/mastercard.png" alt="MasterCard" class="payment-logo"></a>
+            <a href="#" target="_blank"><img src="images/paypal.png" alt="PayPal" class="payment-logo"></a>
+            <a href="#" target="_blank"><img src="images/gpay.png" alt="Discover" class="payment-logo"></a>
         </div>
+    </div>
+
 </body>
 
 </html>

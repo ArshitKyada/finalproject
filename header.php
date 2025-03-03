@@ -7,8 +7,6 @@
     <title>Auctioneers</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-        
-
         .nav .line {
             position: relative;
             text-decoration: none;
@@ -43,7 +41,9 @@
         </div>
         <nav class="nav">
             <a class="line" href="index.php">Home</a>
-            <a class="line" href="auctions.php">Auctions</a>
+            <a class="line" href="index.php">About Us</a>
+            <a class="line" href="auctions.php">Browse Product</a>
+            <a class="line" href="index.php">Blog</a>
             <a class="line" href="index.php#contact">Contact</a>
             <a class="btn" href="registration.php">Sign up</a>
         </nav>

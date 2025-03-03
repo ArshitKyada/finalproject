@@ -9,11 +9,11 @@
     <style>
     .faq-wrapper {
         font-family: Arial, sans-serif;
-        background-color: #fff;
+        background-color: #f3f4f6;
         color: #333;
         padding: 20px;
         height: 450px;
-        overflow-y: auto; /* Add scrolling for excess content */
+        overflow-y: auto; 
     }
 
     .faq-wrapper .faq-header {
@@ -50,7 +50,7 @@
         padding: 15px;
         border: 1px solid #ddd;
         border-radius: 8px;
-        background-color: #f9f9f9;
+        background-color:rgb(255, 255, 255);
         transition: all 0.3s ease;
         cursor: pointer;
     }
@@ -98,7 +98,7 @@
 <body>
     <div class="faq-wrapper" id="faq">
         <div class="faq-header">
-            <p>F.A.Q</p>
+            <center><p>F.A.Q</p></center>
             <h1>Frequently Asked Questions</h1>
         </div>
         <div class="faq-section">
@@ -144,14 +144,12 @@
     <script>
     document.querySelectorAll('.faq-item').forEach(item => {
         item.addEventListener('click', () => {
-            // Close all other FAQ items
             document.querySelectorAll('.faq-item').forEach(otherItem => {
                 if (otherItem !== item) {
                     otherItem.classList.remove('active');
                 }
             });
 
-            // Toggle the clicked FAQ item
             item.classList.toggle('active');
         });
     });
