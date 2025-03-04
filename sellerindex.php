@@ -3,6 +3,18 @@ include_once 'header.php';
 // Include database connection file
 include_once 'connect.php'; // Update with your actual DB connection file
 
+// Check if a product is being deleted
+if (isset($_GET['delete_id'])) {
+    $delete_id = $_GET['delete_id'];
+    // Delete query
+    $delete_query = "DELETE FROM products WHERE id = $delete_id";
+    if (mysqli_query($conn, $delete_query)) {
+        echo "<script>alert('Product deleted successfully.'); window.location.href='sellerindex.php';</script>"; // Redirect after deletion
+    } else {
+        echo "<script>alert('Failed to delete the product.');</script>";
+    }
+}
+
 // Fetch product data from the database
 $query = "SELECT * FROM products"; // Adjust this based on your actual table and query
 $result = mysqli_query($conn, $query);
@@ -109,6 +121,20 @@ if (!$result) {
         background-color: #f8f9fc;
     }
 
+    .delete-btn {
+        background-color: #dc3545;
+        color: white;
+        padding: 6px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        text-decoration: none;
+    }
+
+    .delete-btn:hover {
+        background-color: #c82333;
+    }
+
     @media (max-width: 768px) {
         .seller-container {
             padding: 10px;
@@ -181,8 +207,7 @@ if (!$result) {
                         <th>Auction End Time</th>
                         <th>Reserve Price ($)</th>
                         <th>Description</th>
-                        <th>Total Bids</th>
-                        <th>Highest Bid Price</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -199,6 +224,8 @@ if (!$result) {
                             echo "<td>" . htmlspecialchars($row['end_time']) . "</td>"; // end_time column
                             echo "<td>" . htmlspecialchars($row['starting_bid']) . "</td>"; // starting_bid column
                             echo "<td>" . htmlspecialchars($row['description']) . "</td>"; // description column
+                            // Add delete button with product id in query string
+                            echo "<td><a href='?delete_id=" . $row['id'] . "' class='delete-btn'>Delete</a></td>";
                             echo "</tr>";
                         }
                     } else {
