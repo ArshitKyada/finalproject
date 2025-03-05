@@ -1,13 +1,14 @@
-<?php include_once 'header.php' ?>
+<?php include_once 'header.php'; ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Seller Dashboard</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -22,7 +23,7 @@
         }
 
         .seller-header {
-            background-color: #fff;
+            background-color: rgb(0, 0, 0);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding: 16px;
             display: flex;
@@ -32,7 +33,7 @@
 
         .seller-header h1 {
             font-size: 20px;
-            color: #4a5568;
+            color:rgb(255, 255, 255);
         }
 
         .seller-header-right {
@@ -44,39 +45,14 @@
             background: none;
             border: none;
             cursor: pointer;
-            color: #4a5568;
+            color:rgb(255, 255, 255);
             margin-right: 16px;
-        }
-
-        .profile-pic {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
         }
 
         .main-content {
             display: flex;
             flex: 1;
             flex-wrap: wrap;
-        }
-
-        .sidebar {
-            background-color:rgb(226, 234, 249);
-            padding: 16px;
-            width: 250px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .sidebar nav a {
-            display: block;
-            color: #4a5568;
-            padding: 8px 0;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .sidebar nav a:hover {
-            color: #2d3748;
         }
 
         .dashboard-content {
@@ -111,12 +87,31 @@
             margin-right: 16px;
         }
 
-        .icon.blue { background-color: #ebf8ff; color: #3182ce; }
-        .icon.green { background-color: #f0fff4; color: #38a169; }
-        .icon.red { background-color: #fff5f5; color: #e53e3e; }
+        .icon.blue {
+            background-color: #ebf8ff;
+            color: #3182ce;
+        }
 
-        .card-title { font-size: 16px; color: #4a5568; }
-        .card-value { font-size: 24px; font-weight: bold; color: #2d3748; }
+        .icon.green {
+            background-color: #f0fff4;
+            color: #38a169;
+        }
+
+        .icon.red {
+            background-color: #fff5f5;
+            color: #e53e3e;
+        }
+
+        .card-title {
+            font-size: 16px;
+            color: #4a5568;
+        }
+
+        .card-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2d3748;
+        }
 
         .recent-auctions {
             background-color: white;
@@ -140,7 +135,8 @@
             border-collapse: collapse;
         }
 
-        th, td {
+        th,
+        td {
             padding: 12px;
             border-bottom: 1px solid #e2e8f0;
             text-align: left;
@@ -151,38 +147,18 @@
             color: #4a5568;
         }
 
-        .active { color: #38a169; }
-        .closed { color: #e53e3e; }
+        .active {
+            color: #38a169;
+        }
+
+        .closed {
+            color: #e53e3e;
+        }
 
         /* Responsive Design */
         @media (max-width: 768px) {
             .main-content {
                 flex-direction: column;
-            }
-
-            .sidebar {
-                width: 100%;
-                padding: 12px;
-                display: flex;
-                justify-content: space-around;
-                box-shadow: none;
-                position: fixed;
-                bottom: 0;
-                background-color: white;
-                border-top: 1px solid #e2e8f0;
-            }
-
-            .sidebar nav {
-                display: flex;
-                gap: 12px;
-            }
-
-            .sidebar nav a {
-                font-size: 14px;
-                padding: 8px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
             }
 
             .dashboard-content {
@@ -213,6 +189,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="seller-container">
         <!-- Header -->
@@ -220,36 +197,58 @@
             <h1>Seller Dashboard</h1>
             <div class="header-right">
                 <button class="notification-button"><i class="fas fa-bell"></i></button>
-                <img alt="Profile picture" class="profile-pic" src="https://storage.googleapis.com/a1aa/image/qubbIppEMsjMfOLCe1356ItRc5BDKyjlAyMkq4Ho5A4.jpg"/>
             </div>
         </header>
 
         <!-- Main Content -->
         <div class="main-content">
             <!-- Sidebar -->
-            <aside class="sidebar">
-                <nav>
-                    <a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-                    <a href="#"><i class="fas fa-gavel"></i> My Auctions</a>
-                    <a href="addproduct.php"><i class="fas fa-plus-circle"></i> Create</a>
-                    <a href="#"><i class="fas fa-user"></i> Profile</a>
-                    <a href="#"><i class="fas fa-cog"></i> Settings</a>
-                    <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                </nav>
-            </aside>
-
+             <?php include_once 'sidebar.php'; ?>
             <!-- Dashboard Content -->
             <main class="dashboard-content">
                 <div class="overview-cards">
-                    <div class="card"><div class="icon blue"><i class="fas fa-gavel"></i></div><div><p class="card-title">Active Auctions</p><p class="card-value">12</p></div></div>
-                    <div class="card"><div class="icon green"><i class="fas fa-dollar-sign"></i></div><div><p class="card-title">Total Sales</p><p class="card-value">$5,230</p></div></div>
-                    <div class="card"><div class="icon red"><i class="fas fa-users"></i></div><div><p class="card-title">Bidders</p><p class="card-value">45</p></div></div>
+                    <div class="card">
+                        <div class="icon blue"><i class="fas fa-gavel"></i></div>
+                        <div>
+                            <p class="card-title">Active Auctions</p>
+                            <p class="card-value">12</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="icon green"><i class="fas fa-dollar-sign"></i></div>
+                        <div>
+                            <p class="card-title">Total Sales</p>
+                            <p class="card-value">$5,230</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="icon red"><i class="fas fa-users"></i></div>
+                        <div>
+                            <p class="card-title">Bidders</p>
+                            <p class="card-value">45</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="recent-auctions">
                     <h2>Recent Auctions</h2>
                     <div class="table-responsive">
-                        <table><thead><tr><th>Auction</th><th>Bids</th><th>Highest Bid</th><th>Status</th></tr></thead>
-                        <tbody><tr><td>Vintage Watch</td><td>15</td><td>$150</td><td class="active">Active</td></tr></tbody>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Auction</th>
+                                    <th>Bids</th>
+                                    <th>Highest Bid</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Vintage Watch</td>
+                                    <td>15</td>
+                                    <td>$150</td>
+                                    <td class="active">Active</td>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -257,4 +256,5 @@
         </div>
     </div>
 </body>
+
 </html>
