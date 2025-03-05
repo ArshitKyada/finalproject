@@ -1,241 +1,260 @@
-<?php
-include_once 'header.php'; 
-// Include database connection file
-include_once 'connect.php'; // Update with your actual DB connection file
-
-// Check if a product is being deleted
-if (isset($_GET['delete_id'])) {
-    $delete_id = $_GET['delete_id'];
-    // Delete query
-    $delete_query = "DELETE FROM products WHERE id = $delete_id";
-    if (mysqli_query($conn, $delete_query)) {
-        echo "<script>alert('Product deleted successfully.'); window.location.href='sellerindex.php';</script>"; // Redirect after deletion
-    } else {
-        echo "<script>alert('Failed to delete the product.');</script>";
-    }
-}
-
-// Fetch product data from the database
-$query = "SELECT * FROM products"; // Adjust this based on your actual table and query
-$result = mysqli_query($conn, $query);
-
-if (!$result) {
-    die("Query failed: " . mysqli_error($conn));
-}
-?>
+<?php include_once 'header.php' ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Past Auctions</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Seller Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"/>
     <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            background-color: #f7fafc;
+        }
 
-    body {
-        font-family: 'Roboto', sans-serif;
-        background-color: #f8f9fc;
-        color: #343a40;
-        overflow-x: hidden;
-        overflow-y: scroll;
-    }
-
-    .seller-container {
-        width: 100%;
-        padding: 20px;
-    }
-
-    .seller-header {
-        display: flex;
-        justify-content: space-between; 
-        align-items: center;
-        padding: 20px;
-        background: #f1f5fc;
-        border-bottom: 2px solid #ddd;
-        flex-wrap: wrap;
-    }
-
-    .seller-header h1 {
-        font-size: 22px;
-        font-weight: 600;
-        color: #343a40;
-        margin: 0;
-    }
-
-    .seller-header .btn {
-        background-color: #007bff;
-        color: #fff;
-        padding: 10px 18px;
-        border: none;
-        border-radius: 5px;
-        text-decoration: none;
-        font-size: 16px;
-        font-weight: 500;
-        transition: 0.3s ease-in-out;
-        white-space: nowrap;
-    }
-
-    .seller-header .btn:hover {
-        background-color: #0056b3;
-    }
-
-    .seller-table-container {
-        width: 100%;
-        overflow-x: auto;
-        background: #ffffff;
-        padding: 15px;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        background-color: #ffffff;
-        min-width: 800px;
-    }
-
-    th, td {
-        padding: 14px;
-        text-align: left;
-        border-bottom: 1px solid #dee2e6;
-        font-size: 15px;
-        white-space: nowrap;
-    }
-
-    th {
-        background-color: #f1f5fc;
-        font-weight: bold;
-        color: #343a40;
-    }
-
-    tbody tr:hover {
-        background-color: #f8f9fc;
-    }
-
-    .delete-btn {
-        background-color: #dc3545;
-        color: white;
-        padding: 6px 12px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 14px;
-        text-decoration: none;
-    }
-
-    .delete-btn:hover {
-        background-color: #c82333;
-    }
-
-    @media (max-width: 768px) {
         .seller-container {
-            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         .seller-header {
-            flex-direction: column;
-            text-align: center;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .seller-header h1 {
             font-size: 20px;
-            margin-bottom: 10px;
+            color: #4a5568;
         }
 
-        .seller-header .btn {
-            font-size: 14px;
-            padding: 8px 16px;
-            width: 100%;
-            text-align: center;
-            margin-top: 5px;
+        .seller-header-right {
+            display: flex;
+            align-items: center;
         }
 
-        .seller-table-container {
+        .notification-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #4a5568;
+            margin-right: 16px;
+        }
+
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .main-content {
+            display: flex;
+            flex: 1;
+            flex-wrap: wrap;
+        }
+
+        .sidebar {
+            background-color:rgb(226, 234, 249);
+            padding: 16px;
+            width: 250px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar nav a {
+            display: block;
+            color: #4a5568;
+            padding: 8px 0;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .sidebar nav a:hover {
+            color: #2d3748;
+        }
+
+        .dashboard-content {
+            flex: 1;
+            padding: 16px;
+        }
+
+        .overview-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .card {
+            background-color: white;
+            padding: 16px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            flex: 1 1 250px;
+        }
+
+        .icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+        }
+
+        .icon.blue { background-color: #ebf8ff; color: #3182ce; }
+        .icon.green { background-color: #f0fff4; color: #38a169; }
+        .icon.red { background-color: #fff5f5; color: #e53e3e; }
+
+        .card-title { font-size: 16px; color: #4a5568; }
+        .card-value { font-size: 24px; font-weight: bold; color: #2d3748; }
+
+        .recent-auctions {
+            background-color: white;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .recent-auctions h2 {
+            font-size: 20px;
+            margin-bottom: 16px;
+            color: #4a5568;
+        }
+
+        .table-responsive {
             overflow-x: auto;
         }
 
         table {
-            min-width: 600px;
+            width: 100%;
+            border-collapse: collapse;
         }
 
         th, td {
-            font-size: 14px;
-            padding: 10px;
-        }
-    }
-
-    @media (max-width: 480px) {
-        th, td {
-            font-size: 13px;
-            padding: 8px;
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: left;
         }
 
-        .seller-header h1 {
-            font-size: 18px;
+        th {
+            background-color: #f7fafc;
+            color: #4a5568;
         }
 
-        .seller-header .btn {
-            font-size: 13px;
-            padding: 6px 12px;
+        .active { color: #38a169; }
+        .closed { color: #e53e3e; }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                padding: 12px;
+                display: flex;
+                justify-content: space-around;
+                box-shadow: none;
+                position: fixed;
+                bottom: 0;
+                background-color: white;
+                border-top: 1px solid #e2e8f0;
+            }
+
+            .sidebar nav {
+                display: flex;
+                gap: 12px;
+            }
+
+            .sidebar nav a {
+                font-size: 14px;
+                padding: 8px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .dashboard-content {
+                padding-bottom: 60px;
+            }
+
+            .overview-cards {
+                flex-direction: column;
+            }
+
+            .card {
+                flex: 1;
+                text-align: center;
+                flex-direction: column;
+            }
+
+            .icon {
+                margin-bottom: 8px;
+            }
+
+            .seller-header h1 {
+                font-size: 18px;
+            }
+
+            .notification-button {
+                margin-right: 8px;
+            }
         }
-    }
     </style>
 </head>
-
 <body>
     <div class="seller-container">
-        <div class="seller-header">
-            <h1>Your Past Auctions</h1>
-            <a href="addproduct.php" class="btn">New Auction</a>
-        </div>
-        <div class="seller-table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>No.</th>
-                        <th>Auctioned Product</th>
-                        <th>Category</th>
-                        <th>Auction Start Time</th>
-                        <th>Auction End Time</th>
-                        <th>Reserve Price ($)</th>
-                        <th>Description</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    // Check if there are any products
-                    if (mysqli_num_rows($result) > 0) {
-                        $no = 1; // Initialize counter for row numbering
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            echo "<tr>";
-                            echo "<td>" . $no++ . "</td>";
-                            echo "<td>" . htmlspecialchars($row['product_name']) . "</td>"; // product_name column
-                            echo "<td>" . htmlspecialchars($row['category']) . "</td>"; // category column
-                            echo "<td>" . htmlspecialchars($row['start_time']) . "</td>"; // start_time column
-                            echo "<td>" . htmlspecialchars($row['end_time']) . "</td>"; // end_time column
-                            echo "<td>" . htmlspecialchars($row['starting_bid']) . "</td>"; // starting_bid column
-                            echo "<td>" . htmlspecialchars($row['description']) . "</td>"; // description column
-                            // Add delete button with product id in query string
-                            echo "<td><a href='?delete_id=" . $row['id'] . "' class='delete-btn'>Delete</a></td>";
-                            echo "</tr>";
-                        }
-                    } else {
-                        echo "<tr><td colspan='8'>No auctions found.</td></tr>";
-                    }
-                    ?>
-                </tbody>
-            </table>
+        <!-- Header -->
+        <header class="seller-header">
+            <h1>Seller Dashboard</h1>
+            <div class="header-right">
+                <button class="notification-button"><i class="fas fa-bell"></i></button>
+                <img alt="Profile picture" class="profile-pic" src="https://storage.googleapis.com/a1aa/image/qubbIppEMsjMfOLCe1356ItRc5BDKyjlAyMkq4Ho5A4.jpg"/>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <nav>
+                    <a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    <a href="#"><i class="fas fa-gavel"></i> My Auctions</a>
+                    <a href="addproduct.php"><i class="fas fa-plus-circle"></i> Create</a>
+                    <a href="#"><i class="fas fa-user"></i> Profile</a>
+                    <a href="#"><i class="fas fa-cog"></i> Settings</a>
+                    <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </nav>
+            </aside>
+
+            <!-- Dashboard Content -->
+            <main class="dashboard-content">
+                <div class="overview-cards">
+                    <div class="card"><div class="icon blue"><i class="fas fa-gavel"></i></div><div><p class="card-title">Active Auctions</p><p class="card-value">12</p></div></div>
+                    <div class="card"><div class="icon green"><i class="fas fa-dollar-sign"></i></div><div><p class="card-title">Total Sales</p><p class="card-value">$5,230</p></div></div>
+                    <div class="card"><div class="icon red"><i class="fas fa-users"></i></div><div><p class="card-title">Bidders</p><p class="card-value">45</p></div></div>
+                </div>
+                <div class="recent-auctions">
+                    <h2>Recent Auctions</h2>
+                    <div class="table-responsive">
+                        <table><thead><tr><th>Auction</th><th>Bids</th><th>Highest Bid</th><th>Status</th></tr></thead>
+                        <tbody><tr><td>Vintage Watch</td><td>15</td><td>$150</td><td class="active">Active</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
         </div>
     </div>
 </body>
-
 </html>

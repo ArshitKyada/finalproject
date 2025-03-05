@@ -60,7 +60,7 @@ session_start();
             <a class="line" href="index.php">Home</a>
             <a class="line" href="about.php">About Us</a>
             <a class="line" href="auctions.php">Browse Product</a>
-            <a class="line" href="index.php">Blog</a>
+            <a class="line" href="blog.php">Blog</a>
             <a class="line" href="index.php#contact">Contact</a>
 
             <?php 

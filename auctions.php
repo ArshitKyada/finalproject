@@ -1,14 +1,14 @@
-<?php
-require_once 'connect.php';  // Include your database connection
-include_once 'header.php';  // Include any necessary headers (like navigation)
+<?php 
+include_once 'header.php';
+include_once 'connect.php'; // Database connection file
 
-// Execute the query using procedural style
-$sql = "SELECT image_url, product_name, starting_bid FROM products";
+$sql = "SELECT * FROM products";
 $result = mysqli_query($conn, $sql);
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,19 +21,14 @@ $result = mysqli_query($conn, $sql);
         overflow-y: scroll;
     }
 
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 16px;
-    }
-
     .grid {
+        padding: 24px;
         display: grid;
         grid-template-columns: 1fr;
-        gap: 16px;
+        gap: 24px;
     }
 
-    @media (min-width: 640px) {
+    @media (min-width: 768px) {
         .grid {
             grid-template-columns: repeat(2, 1fr);
         }
@@ -45,91 +40,102 @@ $result = mysqli_query($conn, $sql);
         }
     }
 
+    .card-link {
+        text-decoration: none;
+        color: inherit;
+    }
+
     .card {
         background-color: #ffffff;
         border-radius: 8px;
-        width: 300px;
+        padding: 20px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         overflow: hidden;
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+    }
+
+    .card .relative {
+        overflow: hidden;
+        border-radius: 0 20px 0 20px;
     }
 
     .card img {
         width: 100%;
-        height: 200px;
+        height: 280px;
         object-fit: cover;
+        transition: transform 0.3s ease-in-out;
+        border-radius: 0 20px 0 20px;
+    }
+
+    .card img:hover {
+        transform: scale(1.2);
     }
 
     .card .content {
-        padding: 16px;
+        padding-top: 16px;
     }
 
-    .card .content h2 {
-        font-size: 20px;
+    .card .content h3 {
+        font-size: 18px;
         font-weight: bold;
-        margin-bottom: 8px;
+        margin: 0 0 8px;
     }
 
     .card .content p {
-        color: #374151;
-        margin-bottom: 16px;
+        margin: 0;
+        color: #6b7280;
     }
 
     .card .content p span {
         font-weight: bold;
     }
 
-    .card .content .actions {
+    .card .actions {
+        margin-top: 16px;
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
 
-    .card .content .actions button {
+    .card .actions button {
         background-color: #10b981;
         color: #ffffff;
         padding: 8px 16px;
         border: none;
-        border-radius: 4px;
+        border-radius: 8px;
         cursor: pointer;
     }
 
-    .card .content .actions i {
+    .card .actions i {
         color: #6b7280;
     }
     </style>
 </head>
 
 <body>
-
-<div class="container">
     <div class="grid">
-        <?php
-        // Check if there are products in the database
-        if ($result && mysqli_num_rows($result) > 0) {
-            // Loop through each product and display it
-            while ($row = mysqli_fetch_assoc($result)) {
-                echo '<div class="card">';
-                echo '<img src="' . $row["image_url"] . '" alt="' . $row["product_name"] . '">';
-                echo '<div class="content">';
-                echo '<h2>' . $row["product_name"] . '</h2>';
-                echo '<p>Starting bid: <span>$' . number_format($row["starting_bid"], 2) . '</span></p>';
-                echo '<div class="actions">';
-                echo '<button>Bid now</button>';
-                echo '<i class="fas fa-share-alt"></i>';
-                echo '</div>';
-                echo '</div>';
-                echo '</div>';
-            }
-        } else {
-            echo "No products found.";
-        }
-
-        // Close the connection
-        mysqli_close($conn);
-        ?>
+        <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+        <a href="product_details.php?id=<?php echo $row['id']; ?>" class="card-link">
+            <div class="card">
+                <div class="relative">
+                    <img src="<?php echo $row['image_url']; ?>" alt="<?php echo htmlspecialchars($row['product_name']); ?>">
+                </div>
+                <div class="content">
+                    <h3><?php echo htmlspecialchars($row['product_name']); ?></h3>
+                    <p>Starting bid: <span>$<?php echo number_format($row['starting_bid'], 2); ?></span></p>
+                    <div class="actions">
+                        <button>Bid now</button>
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <?php } ?>
     </div>
-</div>
-
 </body>
 
 </html>

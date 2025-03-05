@@ -9,7 +9,6 @@
 
     <style>
     body {
-        background-color: #f9fafb;
         font-family: Arial, sans-serif;
     }
 
@@ -18,8 +17,9 @@
         text-align: center;
     }
 
-    .container {
+    .comment-container {
         max-width: 1200px;
+        background-color:rgb(255, 255, 255);
         margin: 0 auto;
     }
 
@@ -97,7 +97,7 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        height: 12rem;
+        height: 15rem;
         position: relative;
         transition: all 0.3s ease-in-out;
     }
@@ -109,7 +109,7 @@
         left: 0;
         width: 0%;
         height: 4px;
-        background-color: #38a169;
+        background-color: #0A3D62;
         transition: width 0.3s ease-in-out;
     }
 

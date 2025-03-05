@@ -26,11 +26,11 @@
             background-color: #fff;
             padding: 30px;
             display: flex;
-            flex-direction: column;
             align-items: center;
+            justify-content: space-between;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            flex-direction: row;
+            flex-wrap: wrap;
         }
 
         .hero-image img {
@@ -40,35 +40,46 @@
         }
 
         .hero-text {
-            margin-left: 30px;
+            flex: 1;
+            padding: 20px;
             text-align: left;
         }
 
+        /* Raised Info Styling */
         .raised-info {
             display: flex;
             align-items: center;
+            gap: 15px;
             margin-bottom: 20px;
         }
 
-        .icon {
-            font-size: 24px;
+        .raised-info i {
+            font-size: 28px;
             color: #0A3D62;
         }
 
+        .raised-info div {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            align-items: center;
+        }
+
         .raised-amount {
-            font-size: 24px;
             font-weight: bold;
+            font-size: 20px;
+            color: #333;
         }
 
         .title {
             font-size: 32px;
             font-weight: bold;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .text {
             color: #4A5568;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .list {
@@ -94,26 +105,31 @@
         }
 
         .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
             gap: 20px;
         }
 
         .card {
             background-color: #fff;
-            padding: 30px;
+            padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
         }
 
         .card-header {
             display: flex;
             align-items: center;
-            margin-bottom: 20px;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
         .number {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: bold;
             color: #E2E8F0;
         }
@@ -121,17 +137,43 @@
         .icon {
             font-size: 24px;
             color: #0A3D62;
-            margin-left: 10px;
         }
 
         .card-title {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
             margin-bottom: 10px;
         }
 
         .card-text {
             color: #4A5568;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-section {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-text {
+                padding: 10px;
+            }
+
+            .raised-info {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cards {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .card {
+                width: 100%;
+                max-width: 350px;
+            }
         }
     </style>
 </head>
@@ -144,15 +186,15 @@
             </div>
             <div class="hero-text">
                 <div class="raised-info">
-                    <i class="fas fa-chart-line icon"></i>
+                    <i class="fas fa-chart-line"></i>
                     <div>
-                        <p>Total Raised</p>
-                        <p class="raised-amount">$45,390.00</p>
+                        <span>Total Raised:</span>
+                        <span class="raised-amount">$45,390.00</span>
                     </div>
                 </div>
                 <h2 class="title">We Work for Your Incredible Success</h2>
                 <p class="text">Auction sites present consumers with a thrilling, competitive way to buy the goods and services they need most.</p>
-                <p class="text">But getting your own auction site up and running has always required learning complex coding languages, or hiring an expensive design firm for thousands of dollars and months of work.</p>
+                <p class="text">But getting your own auction site up and running has always required learning complex coding languages, or hiring an expensive design firm.</p>
                 <ul class="list">
                     <li>Have enough food for life.</li>
                     <li>Poor children can return to school.</li>
@@ -165,7 +207,7 @@
         <!-- Why Choose Us Section -->
         <div class="why-choose-us">
             <h2 class="title">Why Choose Us</h2>
-            <p class="text">Explore on the world's best & largest Bidding marketplace with our beautiful Bidding products. We want to be a part of your smile, success and future growth.</p>
+            <p class="text">Explore the world's best & largest Bidding marketplace with our beautiful Bidding products. We want to be a part of your smile, success, and future growth.</p>
             <div class="cards">
                 <div class="card">
                     <div class="card-header">
@@ -173,7 +215,7 @@
                         <i class="fas fa-gem icon"></i>
                     </div>
                     <h3 class="card-title">High Quality Products</h3>
-                    <p class="card-text">Voluptates est blanditiis accusantium officiis expedita dolorem inventore.</p>
+                    <p class="card-text">Get premium quality items at unbeatable prices.</p>
                 </div>
                 <div class="card">
                     <div class="card-header">
@@ -181,39 +223,23 @@
                         <i class="fas fa-crown icon"></i>
                     </div>
                     <h3 class="card-title">Creator's Royalty</h3>
-                    <p class="card-text">Voluptates est blanditiis accusantium officiis expedita dolorem inventore.</p>
+                    <p class="card-text">Support original creators with our transparent royalty system.</p>
                 </div>
                 <div class="card">
                     <div class="card-header">
                         <div class="number">03</div>
                         <i class="fas fa-tags icon"></i>
                     </div>
-                    <h3 class="card-title">Top Class Product Price</h3>
-                    <p class="card-text">Voluptates est blanditiis accusantium officiis expedita dolorem inventore.</p>
+                    <h3 class="card-title">Best Prices</h3>
+                    <p class="card-text">Affordable and fair pricing for every product.</p>
                 </div>
                 <div class="card">
                     <div class="card-header">
                         <div class="number">04</div>
                         <i class="fas fa-dollar-sign icon"></i>
                     </div>
-                    <h3 class="card-title">Support Multiple Currency</h3>
-                    <p class="card-text">Voluptates est blanditiis accusantium officiis expedita dolorem inventore.</p>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <div class="number">05</div>
-                        <i class="fas fa-history icon"></i>
-                    </div>
-                    <h3 class="card-title">Show All Bidders History</h3>
-                    <p class="card-text">Voluptates est blanditiis accusantium officiis expedita dolorem inventore.</p>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <div class="number">06</div>
-                        <i class="fas fa-smile icon"></i>
-                    </div>
-                    <h3 class="card-title">100% Happy Customer</h3>
-                    <p class="card-text">Voluptates est blanditiis accusantium officiis expedita dolorem inventore.</p>
+                    <h3 class="card-title">Multi-Currency Support</h3>
+                    <p class="card-text">Bid and pay in your preferred currency.</p>
                 </div>
             </div>
         </div>

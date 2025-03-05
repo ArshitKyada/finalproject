@@ -144,6 +144,7 @@ include_once 'header.php';
     <?php 
     include_once 'faq.php';
     include_once 'comments.php';
+    include_once 'news.php';
     include_once 'contact.php';
     include_once 'footer.php';
     ?>

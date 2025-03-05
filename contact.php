@@ -9,7 +9,7 @@
     <style>
         /* Adding background color to the contact section */
         .contact-section {
-            background-color: #f3f4f6;
+            background-color:rgb(255, 255, 255);
             padding: 40px 20px;
         }
         
@@ -27,6 +27,7 @@
         .contact-info {
             flex: 1;
             padding-right: 20px;
+            box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.15);
         }
         
         .info-item {
@@ -53,6 +54,7 @@
         .contact-form {
             flex: 1;
             padding-left: 20px;
+            box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.15);
         }
         
         .contact-form h3 {
