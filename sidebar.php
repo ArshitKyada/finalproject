@@ -58,10 +58,15 @@
 
         .sidebar nav a {
             font-size: 14px;
-            padding: 8px;
+            padding: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
+        }
+
+        .sidebar nav a i {
+            margin-right: 0;
+            margin-bottom: 4px;
         }
     }
     </style>

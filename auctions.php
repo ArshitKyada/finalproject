@@ -1,5 +1,6 @@
 <?php 
 include_once 'header.php';
+include_once 'preloader.php';
 include_once 'connect.php'; // Database connection file
 
 $sql = "SELECT * FROM products";
@@ -19,6 +20,9 @@ $result = mysqli_query($conn, $sql);
     body {
         background-color: #f3f4f6;
         overflow-y: scroll;
+    }
+    body::-webkit-scrollbar {
+        display: none;
     }
 
     .grid {

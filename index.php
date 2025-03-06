@@ -1,4 +1,5 @@
 <?php
+include_once 'preloader.php';
 include_once 'header.php';
 ?>
 
@@ -13,6 +14,10 @@ include_once 'header.php';
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <style>
+    body::-webkit-scrollbar {
+        display: none;
+    }
+
     .categories .category a {
         display: inline-block;
         overflow: hidden;

@@ -1,4 +1,6 @@
-<?php include_once 'header.php'; ?>
+<?php include_once 'header.php';
+include_once 'preloader.php';
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -10,183 +12,190 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
     <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            background-color: #f7fafc;
-        }
+    body {
+        font-family: 'Roboto', sans-serif;
+        margin: 0;
+        background-color: #f7fafc;
+        overflow : hidden;
+    }
 
-        .seller-container {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
+    body::-webkit-scrollbar {
+        display: none;
+    }
 
-        .seller-header {
-            background-color: rgb(0, 0, 0);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    .seller-container,
+    .main-content {
+        width: 100%;
+    }
 
-        .seller-header h1 {
-            font-size: 20px;
-            color:rgb(255, 255, 255);
-        }
+    .seller-header {
+        background-color: rgb(0, 0, 0);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-        .seller-header-right {
-            display: flex;
-            align-items: center;
-        }
+    .seller-header h1 {
+        font-size: 20px;
+        color: rgb(255, 255, 255);
+    }
 
-        .notification-button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color:rgb(255, 255, 255);
-            margin-right: 16px;
-        }
+    .seller-header-right {
+        display: flex;
+        align-items: center;
+    }
 
+    .notification-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: rgb(255, 255, 255);
+        margin-right: 16px;
+    }
+
+    .main-content {
+        display: flex;
+        flex: 1;
+        flex-wrap: wrap;
+        overflow-y: hidden;
+    }
+
+    .dashboard-content {
+        flex: 1;
+        padding: 16px;
+        overflow-y: auto;
+        max-height: calc(100vh - 190px);
+    }
+
+    .overview-cards {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .card {
+        background-color: white;
+        padding: 16px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        flex: 1 1 250px;
+    }
+
+    .icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 16px;
+    }
+
+    .icon.blue {
+        background-color: #ebf8ff;
+        color: #3182ce;
+    }
+
+    .icon.green {
+        background-color: #f0fff4;
+        color: #38a169;
+    }
+
+    .icon.red {
+        background-color: #fff5f5;
+        color: #e53e3e;
+    }
+
+    .card-title {
+        font-size: 16px;
+        color: #4a5568;
+    }
+
+    .card-value {
+        font-size: 24px;
+        font-weight: bold;
+        color: #2d3748;
+    }
+
+    .recent-auctions {
+        background-color: white;
+        padding: 24px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .recent-auctions h2 {
+        font-size: 20px;
+        margin-bottom: 16px;
+        color: #4a5568;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        padding: 12px;
+        border-bottom: 1px solid #e2e8f0;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f7fafc;
+        color: #4a5568;
+    }
+
+    .active {
+        color: #38a169;
+    }
+
+    .closed {
+        color: #e53e3e;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
         .main-content {
-            display: flex;
-            flex: 1;
-            flex-wrap: wrap;
+            flex-direction: column;
         }
 
         .dashboard-content {
-            flex: 1;
-            padding: 16px;
+            padding-bottom: 60px;
         }
 
         .overview-cards {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
-            margin-bottom: 24px;
+            flex-direction: column;
         }
 
         .card {
-            background-color: white;
-            padding: 16px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            display: flex;
-            align-items: center;
-            flex: 1 1 250px;
+            flex: 1;
+            text-align: center;
+            flex-direction: column;
         }
 
         .icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 16px;
+            margin-bottom: 8px;
         }
 
-        .icon.blue {
-            background-color: #ebf8ff;
-            color: #3182ce;
+        .seller-header h1 {
+            font-size: 18px;
         }
 
-        .icon.green {
-            background-color: #f0fff4;
-            color: #38a169;
+        .notification-button {
+            margin-right: 8px;
         }
-
-        .icon.red {
-            background-color: #fff5f5;
-            color: #e53e3e;
-        }
-
-        .card-title {
-            font-size: 16px;
-            color: #4a5568;
-        }
-
-        .card-value {
-            font-size: 24px;
-            font-weight: bold;
-            color: #2d3748;
-        }
-
-        .recent-auctions {
-            background-color: white;
-            padding: 24px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .recent-auctions h2 {
-            font-size: 20px;
-            margin-bottom: 16px;
-            color: #4a5568;
-        }
-
-        .table-responsive {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th,
-        td {
-            padding: 12px;
-            border-bottom: 1px solid #e2e8f0;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f7fafc;
-            color: #4a5568;
-        }
-
-        .active {
-            color: #38a169;
-        }
-
-        .closed {
-            color: #e53e3e;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .main-content {
-                flex-direction: column;
-            }
-
-            .dashboard-content {
-                padding-bottom: 60px;
-            }
-
-            .overview-cards {
-                flex-direction: column;
-            }
-
-            .card {
-                flex: 1;
-                text-align: center;
-                flex-direction: column;
-            }
-
-            .icon {
-                margin-bottom: 8px;
-            }
-
-            .seller-header h1 {
-                font-size: 18px;
-            }
-
-            .notification-button {
-                margin-right: 8px;
-            }
-        }
+    }
     </style>
 </head>
 
@@ -203,7 +212,7 @@
         <!-- Main Content -->
         <div class="main-content">
             <!-- Sidebar -->
-             <?php include_once 'sidebar.php'; ?>
+            <?php include_once 'sidebar.php'; ?>
             <!-- Dashboard Content -->
             <main class="dashboard-content">
                 <div class="overview-cards">
@@ -245,6 +254,36 @@
                                 <tr>
                                     <td>Vintage Watch</td>
                                     <td>15</td>
+                                    <td>$150</td>
+                                    <td class="active">Active</td>
+                                </tr>
+                                <tr>
+                                    <td>Vintage Watch</td>
+                                    <td>15</td>
+                                    <td>$150</td>
+                                    <td class="active">Active</td>
+                                </tr>
+                                <tr>
+                                    <td>Vintage Watch</td>
+                                    <td>15</td>
+                                    <td>$150</td>
+                                    <td class="active">Active</td>
+                                </tr>
+                                <tr>
+                                    <td>Vintage Watch</td>
+                                    <td>15</td>
+                                    <td>$150</td>
+                                    <td class="active">Active</td>
+                                </tr>
+                                <tr>
+                                    <td>Vintage Watch</td>
+                                    <td>15</td>
+                                    <td>$150</td>
+                                    <td class="active">Active</td>
+                                </tr>
+                                <tr>
+                                    <td>Vintage Watch</td>
+                                    <td>150</td>
                                     <td>$150</td>
                                     <td class="active">Active</td>
                                 </tr>

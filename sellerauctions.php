@@ -34,13 +34,19 @@ if (!$result) {
         font-family: 'Roboto', sans-serif;
         margin: 0;
         background-color: #f7fafc;
+        overflow-y: hidden;
     }
 
-    .seller-container {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
+    body::-webkit-scrollbar {
+        display: none;
     }
+
+    .seller-container,
+    .main-content {
+        width: 100%;
+    }
+
+    
 
     .seller-header {
         background-color: rgb(0, 0, 0);
@@ -73,11 +79,15 @@ if (!$result) {
         display: flex;
         flex: 1;
         flex-wrap: wrap;
+        overflow: hidden;
+
     }
 
     .dashboard-content {
         flex: 1;
         padding: 16px;
+        overflow-y: auto;
+        max-height: calc(100vh - 190px);
     }
 
     /* Responsive Design */

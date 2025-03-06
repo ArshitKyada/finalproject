@@ -1,5 +1,10 @@
+
+<?php
+include_once 'preloader.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,83 +12,88 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f3f4f6;
-            margin: 0;
-            padding: 0;
-        }
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f3f4f6;
+        margin: 0;
+        padding: 0;
+    }
 
-        /* Banner Section */
-        .banner {
-            position: relative;
-            width: 100%;
-            height: 300px;
-            overflow: hidden;
-        }
+    body::-webkit-scrollbar {
+        display: none;
+    }
 
-        .banner img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+    /* Banner Section */
+    .banner {
+        position: relative;
+        width: 100%;
+        height: 300px;
+        overflow: hidden;
+    }
 
-        main {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
+    .banner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
+    main {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
 
-        .card {
-            background-color: white;
-            border-radius: 0.5rem;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
 
-        .card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
+    .card {
+        background-color: white;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
 
-        .card .content {
-            padding: 1rem;
-        }
+    .card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
 
-        .card .content .date {
-            background-color: #22c55e;
-            color: white;
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.25rem;
-            display: inline-block;
-            margin-bottom: 0.5rem;
-        }
+    .card .content {
+        padding: 1rem;
+    }
 
-        .pagination {
-            display: flex;
-            justify-content: center;
-            margin-top: 2rem;
-        }
+    .card .content .date {
+        background-color: #22c55e;
+        color: white;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        display: inline-block;
+        margin-bottom: 0.5rem;
+    }
 
-        .pagination a {
-            padding: 0.5rem 1rem;
-            border: 1px solid #d1d5db;
-            color: #6b7280;
-            text-decoration: none;
-            border-radius: 0.25rem;
-            margin: 0 0.25rem;
-        }
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 2rem;
+    }
+
+    .pagination a {
+        padding: 0.5rem 1rem;
+        border: 1px solid #d1d5db;
+        color: #6b7280;
+        text-decoration: none;
+        border-radius: 0.25rem;
+        margin: 0 0.25rem;
+    }
     </style>
 </head>
+
 <body>
     <?php include_once 'header.php' ?>
 
@@ -141,4 +151,5 @@
         </div>
     </main>
 </body>
+
 </html>

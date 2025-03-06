@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     html,
     body {
         width: 100%;
-        overflow-x: hidden;
+        overflow-y: hidden;
     }
 
     body {
@@ -61,10 +61,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         background-color: #f7fafc;
     }
 
+    body::-webkit-scrollbar {
+        display: none;
+    }
+
     .seller-container,
     .main-content {
         width: 100%;
-        overflow-x: hidden;
     }
 
     .seller-header {
@@ -98,12 +101,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         display: flex;
         flex: 1;
         flex-wrap: wrap;
+        overflow: hidden;
     }
 
     .dashboard-content {
         flex: 1;
         padding: 16px;
+        overflow-y: auto;
+        max-height: calc(100vh - 190px);
     }
+
 
     .form-container {
         background-color: #ffffff;
@@ -147,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     .button {
-        width: 621px; /* Ensure the button takes the 100% width for all screen */
+        width: 621px;
         background-color: #2563eb;
         color: white;
         padding: 12px;
@@ -194,7 +201,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         .button {
             font-size: 0.9rem;
-            width: 417px; /* Ensure the button takes the 100% width for all screen */
+            width: 417px;
+            /* Ensure the button takes the 100% width for all screen */
         }
 
         /* Stack the fields in a single column for mobile */
