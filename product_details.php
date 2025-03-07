@@ -1,246 +1,318 @@
+<?php
+include_once 'connect.php';
+
+// Get product ID from URL
+$product_id = isset($_GET['id']) ? intval($_GET['id']) : 1;
+
+// Fetch product details
+$sql = "SELECT * FROM products WHERE id = $product_id";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $endTime = strtotime($row['end_time']); // Convert to UNIX timestamp
+} else {
+    echo "No product found";
+    exit();
+}
+
+$conn->close();
+?>
+
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Page</title>
+    <title>Auction Page</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <style>
-        body {
-            background-color: #f7fafc;
-            font-family: Arial, sans-serif;
+    body {
+        background-color: #f7fafc;
+        font-family: Arial, sans-serif;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 16px;
+    }
+
+    .card {
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .card img {
+        width: 100%;
+        height: auto;
+    }
+
+    .card .left-section,
+    .card .right-section {
+        padding: 16px;
+    }
+
+    .card .left-section {
+        flex: 1;
+    }
+
+    .card .right-section {
+        flex: 1;
+    }
+
+    .card .right-section h1 {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .card .right-section p {
+        color: #4a5568;
+        margin-top: 8px;
+    }
+
+    .card .right-section .item-condition {
+        margin-top: 16px;
+        font-weight: bold;
+    }
+
+    .card .right-section .item-condition span {
+        color: #48bb78;
+    }
+
+    .card .right-section .time-left {
+        margin-top: 16px;
+    }
+
+    .card .right-section .time-left h2 {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .card .right-section .time-left .time-box {
+        display: flex;
+        margin-top: 8px;
+    }
+
+    .card .right-section .time-left .time-box div {
+        background-color: #edf2f7;
+        padding: 8px;
+        border-radius: 4px;
+        text-align: center;
+        margin-right: 8px;
+    }
+
+    .card .right-section .time-left .time-box div p {
+        margin: 0;
+    }
+
+    .card .right-section .time-left .time-box div p:first-child {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .card .right-section .time-left .time-box div p:last-child {
+        font-size: 12px;
+        color: #718096;
+    }
+
+    .card .right-section .starting-bid {
+        margin-top: 16px;
+    }
+
+    .card .right-section .starting-bid p {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .card .right-section .starting-bid p span {
+        font-size: 24px;
+        color: #2d3748;
+    }
+
+    .card .right-section .bid-section {
+        margin-top: 16px;
+        display: flex;
+        align-items: center;
+    }
+
+    .card .right-section .bid-section button {
+        background-color: #edf2f7;
+        color: #2d3748;
+        padding: 8px 16px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .card .right-section .bid-section input {
+        width: 80px;
+        text-align: center;
+        border: 1px solid #e2e8f0;
+        border-radius: 4px;
+        margin: 0 8px;
+    }
+
+    .card .right-section .bid-section .bid-button {
+        background-color: #48bb78;
+        color: white;
+    }
+
+    .card .right-section .wishlist {
+        margin-top: 16px;
+        display: flex;
+        align-items: center;
+        color: #718096;
+        cursor: pointer;
+    }
+
+    .card .right-section .wishlist i {
+        margin-right: 8px;
+    }
+
+    .tabs {
+        margin-top: 16px;
+        display: flex;
+    }
+
+    .tabs button {
+        padding: 8px 16px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        margin-right: 8px;
+    }
+
+    .tabs .active {
+        background-color: #48bb78;
+        color: white;
+    }
+
+    .tabs .inactive {
+        background-color: white;
+        color: #2d3748;
+        border: 1px solid #e2e8f0;
+    }
+
+    @media (min-width: 1024px) {
+        .card {
+            flex-direction: row;
         }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 16px;
-        }
-        .product {
-            display: flex;
-            flex-wrap: wrap;
-            background-color: #fff;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        .product img {
-            width: 100%;
-            height: auto;
-        }
-        .product .left, .product .right {
-            padding: 16px;
-        }
-        .product .left {
-            flex: 1;
-        }
-        .product .right {
-            flex: 1;
-        }
-        .product .right h1 {
-            font-size: 24px;
-            font-weight: bold;
-        }
-        .product .right p {
-            color: #4a5568;
-            margin-top: 8px;
-        }
-        .product .right .condition {
-            font-weight: bold;
-            color: #2d3748;
-            margin-top: 16px;
-        }
-        .product .right .time-left {
-            margin-top: 16px;
-        }
-        .product .right .time-left p {
-            font-weight: bold;
-            color: #2d3748;
-        }
-        .product .right .time-left .time {
-            display: flex;
-            flex-wrap: wrap;
-            margin-top: 8px;
-        }
-        .product .right .time-left .time div {
-            background-color: #edf2f7;
-            padding: 16px;
-            border-radius: 8px;
-            text-align: center;
-            margin-right: 8px;
-            margin-bottom: 8px;
-            flex: 1 1 100px;
-        }
-        .product .right .time-left .time div p {
-            margin: 0;
-        }
-        .product .right .time-left .time div p:first-child {
-            font-size: 24px;
-            font-weight: bold;
-        }
-        .product .right .time-left .time div p:last-child {
-            color: #4a5568;
-        }
-        .product .right .bid {
-            margin-top: 16px;
-        }
-        .product .right .bid p {
-            font-weight: bold;
-            color: #2d3748;
-        }
-        .product .right .bid p span {
-            font-size: 24px;
-            font-weight: bold;
-        }
-        .product .right .bid .reserve {
-            color: #4a5568;
-        }
-        .product .right .bid-controls {
-            display: flex;
-            align-items: center;
-            margin-top: 16px;
-        }
-        .product .right .bid-controls button {
-            background-color: #edf2f7;
-            color: #2d3748;
-            padding: 8px 16px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-        }
-        .product .right .bid-controls input {
-            width: 80px;
-            text-align: center;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            margin: 0 8px;
-        }
-        .product .right .bid-controls .bid-button {
-            background-color: #48bb78;
-            color: #fff;
-            padding: 8px 16px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-        }
-        .product .right .wishlist {
-            display: flex;
-            align-items: center;
-            margin-top: 16px;
-        }
-        .product .right .wishlist i {
-            color: #4a5568;
-            margin-right: 8px;
-        }
-        .thumbnails {
-            display: flex;
-            flex-wrap: wrap;
-            margin-top: 16px;
-        }
-        .thumbnails img {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            margin-right: 8px;
-            margin-bottom: 8px;
-            border-radius: 8px;
-        }
-        .tabs {
-            display: flex;
-            flex-wrap: wrap;
-            margin-top: 16px;
-        }
-        .tabs button {
-            background-color: #48bb78;
-            color: #fff;
-            padding: 8px 16px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            margin-right: 8px;
-            margin-bottom: 8px;
-        }
-        .tabs button.inactive {
-            background-color: #fff;
-            color: #2d3748;
-            border: 1px solid #e2e8f0;
-        }
-        @media (max-width: 768px) {
-            .product {
-                flex-direction: column;
-            }
-            .product .right .time-left .time div {
-                flex: 1 1 45%;
-            }
-        }
+    }
     </style>
 </head>
+
 <body>
     <div class="container">
-        <div class="product">
+        <div class="card">
             <!-- Left Section -->
-            <div class="left">
-                <div class="image-container">
-                    <img src="https://storage.googleapis.com/a1aa/image/mFJsLCnWGQAqWGRZ0fNsz0kP3XM1Wa0wGX-dBeiBhCw.jpg" alt="A black vintage typewriter with a sheet of paper inserted">
-                    <div class="zoom-icon">
-                        <i class="fas fa-search"></i>
+            <div class="left-section">
+                <div class="relative">
+                    <img src="<?php echo htmlspecialchars($row['image_url']); ?>"
+                        alt="<?php echo htmlspecialchars($row['product_name']); ?>">
+                    <div class="absolute top-2 right-2 bg-white p-2 rounded-full shadow-md">
                     </div>
                 </div>
-                <div class="thumbnails">
-                    <img src="https://storage.googleapis.com/a1aa/image/C0yGo2s5eEgylv6vhTbtcoH6sSieXlNPmfpY1Ttm-gY.jpg" alt="Thumbnail of a black vintage typewriter">
-                    <img src="https://storage.googleapis.com/a1aa/image/xxrAZW-rM9EHgt5Hk_0QXJWPXYqrS8Y7Gj4w0Ai-ecM.jpg" alt="Thumbnail of sunglasses">
-                    <img src="https://storage.googleapis.com/a1aa/image/dIA0fsbvoRjIhcIPJc8zjq7GvBc5UMS4sc-XSEC5SWc.jpg" alt="Thumbnail of a wristwatch">
-                    <img src="https://storage.googleapis.com/a1aa/image/jzQOtNTM2bOmoqD15DWKcbph2GaksDYVzD9sVip46yk.jpg" alt="Thumbnail of vintage electronics">
+                <div class="flex mt-4 space-x-2">
                 </div>
             </div>
             <!-- Right Section -->
-            <div class="right">
-                <h1>Premium 1998 Typewriter</h1>
-                <p>Korem ipsum dolor amet, consectetur adipiscing elit. Maece nas in pulvinar neque. Nulla finibus lobortis pulvinar. Donec a consectetur nulla.</p>
-                <p class="condition">ITEM CONDITION: NEW</p>
+            <div class="right-section">
+                <h1><?php echo htmlspecialchars($row['product_name']); ?></h1>
+                <p>Korem ipsum dolor amet, consectetur adipiscing elit. Maece nas in pulvinar neque. Nulla finibus
+                    lobortis pulvinar. Donec a consectetur nulla.</p>
+                <p class="item-condition">ITEM CONDITION: <span>
+                        <h1><?php echo htmlspecialchars($row['product_condition']); ?></h1>
+                    </span></p>
                 <div class="time-left">
-                    <p>Time Left:</p>
-                    <div class="time">
+                    <h2>Time Left:</h2>
+                    <div class="time-box">
                         <div>
-                            <p>350</p>
+                            <p id="days">0</p>
                             <p>Days</p>
                         </div>
                         <div>
-                            <p>13</p>
+                            <p id="hours">0</p>
                             <p>Hours</p>
                         </div>
                         <div>
-                            <p>37</p>
+                            <p id="minutes">0</p>
                             <p>Minutes</p>
                         </div>
                         <div>
-                            <p>6</p>
+                            <p id="seconds">0</p>
                             <p>Seconds</p>
                         </div>
                     </div>
-                    <p>Auction ends: February 19, 2026 12:00 am</p>
-                    <p>Timezone: UTC 0</p>
                 </div>
-                <div class="bid">
-                    <p>Starting bid: <span>560.0$</span></p>
-                    <p class="reserve">Reserve price has not been met</p>
+                <div class="starting-bid">
+                    <p>Starting bid: <span><?php echo htmlspecialchars($row['starting_bid']); ?>$</span></p>
+                    <p>Reserve price has not been met</p>
                 </div>
-                <div class="bid-controls">
+                <div class="bid-section">
                     <button>-</button>
-                    <input type="text" value="560.0$">
+                    <input type="text" value="<?php echo htmlspecialchars($row['starting_bid']); ?>$">
                     <button>+</button>
                     <button class="bid-button">Bid</button>
                 </div>
                 <div class="wishlist">
                     <i class="far fa-heart"></i>
-                    <p>Add to wishlist</p>
+                    <span>Add to wishlist</span>
                 </div>
             </div>
         </div>
         <div class="tabs">
-            <button>Description</button>
+            <button class="active">Description</button>
             <button class="inactive">Auction history</button>
             <button class="inactive">Reviews (0)</button>
             <button class="inactive">More Products</button>
         </div>
     </div>
+
+
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+    let productId = <?php echo json_encode($product_id); ?>; // Dynamically fetch product ID
+
+    fetch(`get_timer.php?id=${productId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.end_time) {
+                let endTimeUTC = new Date(data.end_time).getTime(); // Parse ISO date correctly
+
+                function updateCountdown() {
+                    let now = new Date().getTime();
+                    let timeLeft = endTimeUTC - now;
+
+                    if (timeLeft <= 0) {
+                        document.querySelector(".time-left").innerHTML = "<p>Auction ended</p>";
+                        return;
+                    }
+
+                    let days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                    let hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    let minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                    let seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                    document.getElementById("days").innerText = days;
+                    document.getElementById("hours").innerText = hours;
+                    document.getElementById("minutes").innerText = minutes;
+                    document.getElementById("seconds").innerText = seconds;
+                }
+
+                setInterval(updateCountdown, 1000);
+                updateCountdown();
+            } else {
+                document.querySelector(".time-left").innerHTML = "<p>Invalid product</p>";
+            }
+        })
+        .catch(error => console.error("Error fetching timer:", error));
+});
+</script>
 </body>
+
 </html>

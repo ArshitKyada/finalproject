@@ -50,6 +50,6 @@
             const preloader = document.getElementById('preloader');
             preloader.style.opacity = '0'; // Fade out
             setTimeout(() => { preloader.style.display = 'none'; }, 1000); // Remove after fade
-        }, 1000); // Keep visible for 3 seconds
+        }, 500); 
     });
 </script>

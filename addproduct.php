@@ -258,12 +258,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <div>
                             <label for="startTime" class="label">Start time (MM/DD/YY) <span
                                     style="color: red;">*</span></label>
-                            <input type="date" id="startTime" name="startTime" class="input" required>
+                            <input type="datetime-local" id="startTime" name="startTime" class="input" required>
                         </div><br>
                         <div>
                             <label for="endTime" class="label">End time (MM/DD/YY) <span
                                     style="color: red;">*</span></label>
-                            <input type="date" id="endTime" name="endTime" class="input" required>
+                            <input type="datetime-local" id="endTime" name="endTime" class="input" required>
                         </div><br>
                         <div>
                             <label for="startingBid" class="label">Starting Bid (USD) <span
