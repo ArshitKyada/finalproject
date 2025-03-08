@@ -84,11 +84,242 @@ $reserve_status = ($highest_bid >= $reserve_price) ? "Reserve price has been met
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auction Page</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/productstyle.css">
+    <script src="js/script.js"></script>
+    <style>
+    body {
+        background-color: #f7fafc;
+        font-family: Arial, sans-serif;
+        overflow-y: scroll;
+    }
+
+    body::-webkit-scrollbar {
+        display: none;
+    }
+
+    .product-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 16px;
+    }
+
+    .card {
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .card img {
+        width: 600px;
+        height: 600px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+
+    .card .left-section,
+    .card .right-section {
+        padding: 16px;
+    }
+
+    .card .left-section {
+        flex: 1;
+    }
+
+    .card .right-section {
+        flex: 1;
+    }
+
+    .card .right-section h1 {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .card .right-section p {
+        color: #4a5568;
+        margin-top: 8px;
+    }
+
+    .card .right-section .item-condition {
+        margin-top: 16px;
+        font-weight: bold;
+    }
+
+    .card .right-section .item-condition span {
+        color: #48bb78;
+    }
+
+    .card .right-section .time-left {
+        margin-top: 16px;
+    }
+
+    .card .right-section .time-left h2 {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .card .right-section .time-left .time-box {
+        display: flex;
+        margin-top: 8px;
+    }
+
+    .card .right-section .time-left .time-box div {
+        background-color: #edf2f7;
+        padding: 8px;
+        border-radius: 4px;
+        text-align: center;
+        margin-right: 8px;
+    }
+
+    .card .right-section .time-left .time-box div p {
+        margin: 0;
+    }
+
+    .card .right-section .time-left .time-box div p:first-child {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .card .right-section .time-left .time-box div p:last-child {
+        font-size: 12px;
+        color: #718096;
+    }
+
+    .card .right-section .starting-bid {
+        margin-top: 16px;
+    }
+
+    .card .right-section .starting-bid p {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .card .right-section .starting-bid p span {
+        font-size: 24px;
+        color: #2d3748;
+    }
+
+    .card .right-section .bid-section {
+        margin-top: 16px;
+        display: flex;
+        align-items: center;
+    }
+
+    .card .right-section .bid-section button {
+        background-color: #edf2f7;
+        color: #2d3748;
+        padding: 10px 20px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .card .right-section .bid-section input {
+        width: 80px;
+        padding: 10px 20px;
+        text-align: center;
+        border: 1px solid #e2e8f0;
+        border-radius: 4px;
+        margin: 0 8px;
+    }
+
+    .card .right-section .bid-section .bid-button {
+        background-color: #48bb78;
+        color: white;
+        width: 200px;
+
+    }
+
+
+    .wishlist {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        font-weight: 500;
+        color: #718096;
+        cursor: pointer;
+        transition: color 0.3s ease-in-out;
+    }
+
+    .wishlist:hover {
+        color: #e53e3e;
+        /* Red color on hover */
+    }
+
+    .wishlist i {
+        font-size: 20px;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .wishlist:hover i {
+        transform: scale(1.2);
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .wishlist {
+            font-size: 14px;
+        }
+
+        .wishlist i {
+            font-size: 18px;
+        }
+    }
+
+
+
+    .card .right-section .wishlist i {
+        margin-right: 8px;
+        font-size: 20px;
+        /* Make heart icon larger for better visibility */
+    }
+
+
+    .tabs {
+        margin-top: 16px;
+        display: flex;
+    }
+
+    .tabs button {
+        padding: 8px 16px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        margin-right: 8px;
+    }
+
+    .tabs .active {
+        background-color: #48bb78;
+        color: white;
+    }
+
+    .tabs .inactive {
+        background-color: white;
+        color: #2d3748;
+        border: 1px solid #e2e8f0;
+    }
+
+    @media (min-width: 1024px) {
+        .card {
+            flex-direction: row;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .card img {
+            width: 100%;
+            height: auto;
+        }
+    }
+    </style>
 </head>
 
 <body>
-    <div class="container">
+    <?php include_once 'header.php'; ?>
+    <div class="product-container">
         <div class="card">
             <!-- Left Section -->
             <div class="left-section">
@@ -101,9 +332,9 @@ $reserve_status = ($highest_bid >= $reserve_price) ? "Reserve price has been met
             <div class="right-section">
                 <h1><?php echo htmlspecialchars($row['product_name']); ?></h1>
                 <p>Korem ipsum dolor amet, consectetur adipiscing elit...</p>
-                <p class="item-condition">ITEM CONDITION: <span>
-                        <h1><?php echo htmlspecialchars($row['product_condition']); ?></h1>
-                    </span></p>
+                <p class="item-condition">ITEM CONDITION:
+                    <span><?php echo htmlspecialchars($row['product_condition']); ?></span>
+                </p>
                 <div class="time-left">
                     <h2>Time Left:</h2>
                     <div class="time-box">
@@ -138,14 +369,12 @@ $reserve_status = ($highest_bid >= $reserve_price) ? "Reserve price has been met
                         <input type="text" id="bidamount" name="bid_amount"
                             value="<?php echo htmlspecialchars($highest_bid + 10); ?>">
                         <button type="button" onclick="increaseBid()">+</button>
+                        <br><br>
                         <button type="submit" name="place_bid" class="bid-button">Bid</button>
                     </form>
                 </div>
 
-                <div class="wishlist">
-                    <i class="far fa-heart"></i>
-                    <span>Add to wishlist</span>
-                </div>
+                
             </div>
         </div>
         <div class="tabs">
@@ -208,7 +437,11 @@ $reserve_status = ($highest_bid >= $reserve_price) ? "Reserve price has been met
             })
             .catch(error => console.error("Error fetching timer:", error));
     });
+
+
+    /*========================================================================================== */
     </script>
+
 </body>
 
 </html>
