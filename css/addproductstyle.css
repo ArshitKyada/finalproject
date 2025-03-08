@@ -1,0 +1,232 @@
+
+html,
+body {
+    width: 100%;
+    overflow-y: hidden;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    background-color: #f7fafc;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+.seller-container,
+.main-content {
+    width: 100%;
+}
+
+.seller-header {
+    background-color: rgb(0, 0, 0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.seller-header h1 {
+    font-size: 20px;
+    color: rgb(255, 255, 255);
+}
+
+.seller-header-right {
+    display: flex;
+    align-items: center;
+}
+
+.notification-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgb(255, 255, 255);
+    margin-right: 16px;
+}
+
+.main-content {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    overflow: hidden;
+}
+
+.dashboard-content {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+    max-height: calc(100vh - 190px);
+}
+
+
+.form-container {
+    background-color: #ffffff;
+    padding: 20px;
+    padding-right: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-container h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.label {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.input {
+    width: 600px;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.select {
+    width: 621px;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.button {
+    width: 621px;
+    background-color: #2563eb;
+    color: white;
+    padding: 12px;
+    border-radius: 6px;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #1d4ed8;
+}
+
+
+@media (max-width: 768px) {
+    .main-content {
+        flex-direction: column;
+    }
+
+    /* Ensure form container fills the available width on mobile */
+    .form-container {
+        width: 90%;
+        /* Allow the form to take more space on smaller screens */
+        padding: 20px;
+        margin-bottom: 65px;
+    }
+
+    .form-container h1 {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+    }
+
+    .input {
+        width: 400px;
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+
+    .select {
+        width: 417px;
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+
+    .button {
+        font-size: 0.9rem;
+        width: 417px;
+        /* Ensure the button takes the 100% width for all screen */
+    }
+
+    /* Stack the fields in a single column for mobile */
+    .form-group {
+        flex-direction: column;
+    }
+
+    .form-group>div {
+        width: 100%;
+    }
+}
+
+.upload-area {
+    width: 50px; 
+    height: 50px; 
+    border: 2px dashed #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    border-radius: 10px;
+    background-color: rgba(249, 249, 249, 0.8); /* Semi-transparent background */
+    margin-right: 10px;
+}
+
+.upload-icon {
+    font-size: 40px;
+    color: #888;
+    position: absolute;
+}
+
+
+.upload-area.selected .upload-icon {
+    display: none; /* Hide the upload icon when selected */
+}
+
+.upload-container {
+    display: flex; /* Align upload areas in a row */
+    margin-top: 10px;
+}
+
+#imagePreview {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+#imagePreview img {
+    width: 100px;
+    height: 100px;
+    margin-right: 5px;
+    border-radius: 5px;
+}
+
+/* Hide the default file input */
+input[type="file"] {
+    display: none;
+}
+
+/* Style for the custom upload area */
+.upload-area {
+    border: 2px dashed #ccc;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.upload-icon {
+    font-size: 24px;
+    color: #888;
+}
+
+.uploaded {
+    color: green; /* Change color for uploaded icon */
+}

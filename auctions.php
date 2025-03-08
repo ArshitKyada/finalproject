@@ -3,7 +3,9 @@ include_once 'header.php';
 include_once 'preloader.php';
 include_once 'connect.php'; // Database connection file
 
-$sql = "SELECT p.*, COALESCE(MAX(b.bid_amount), p.starting_bid) AS highest_bid 
+$sql = "SELECT p.*, 
+               (SELECT pi.image_url FROM product_images pi WHERE pi.product_id = p.id ORDER BY pi.id LIMIT 1) AS coverImageMain,
+               COALESCE(MAX(b.bid_amount), p.starting_bid) AS highest_bid 
         FROM products p
         LEFT JOIN bid b ON p.id = b.product_id
         GROUP BY p.id";
@@ -29,8 +31,8 @@ $result = mysqli_query($conn, $sql);
         <a href="product_details.php?id=<?php echo $row['id']; ?>" class="card-link">
             <div class="card">
                 <div class="relative">
-                    <img src="<?php echo $row['image_url']; ?>"
-                        alt="<?php echo htmlspecialchars($row['product_name']); ?>">
+                    <img src="<?php echo $row['coverImageMain']; ?>" 
+                         alt="<?php echo htmlspecialchars($row['product_name']); ?>">
                 </div>
                 <div class="content">
                     <h3><?php echo htmlspecialchars($row['product_name']); ?></h3>

@@ -4,35 +4,63 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-
 require_once 'connect.php'; // Database connection
 include_once 'header.php'; // Header
 
 if (!isset($_SESSION['user_id'])) {
-    die("Error: User not logged in!"); // Prevent access if user is not logged in
+    die("Error: User not logged in!");
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $productName = $_POST['productName'];
-    $category = $_POST['category'];
-    $startTime = $_POST['startTime'];
-    $endTime = $_POST['endTime'];
-    $startingBid = $_POST['startingBid'];
-    $productDescription = $_POST['productDescription'];
-    $productCondition = $_POST['productCondition'];
-    
-    // Image upload handling
-    $imageUrl = 'uploads/' . $_FILES['imageUrl']['name'];
-    move_uploaded_file($_FILES['imageUrl']['tmp_name'], $imageUrl);
-
-    // Get seller ID from session
+    $productName = mysqli_real_escape_string($conn, $_POST['productName']);
+    $category = mysqli_real_escape_string($conn, $_POST['category']);
+    $startTime = mysqli_real_escape_string($conn, $_POST['startTime']);
+    $endTime = mysqli_real_escape_string($conn, $_POST['endTime']);
+    $startingBid = mysqli_real_escape_string($conn, $_POST['startingBid']);
+    $productDescription = mysqli_real_escape_string($conn, $_POST['productDescription']);
+    $productCondition = mysqli_real_escape_string($conn, $_POST['productCondition']);
     $seller_id = $_SESSION['user_id'];
 
-    // Insert data into the database
-    $sql = "INSERT INTO products (product_name, category, start_time, end_time, starting_bid, description, product_condition, image_url, seller_id) 
-            VALUES ('$productName', '$category', '$startTime', '$endTime', '$startingBid', '$productDescription', '$productCondition', '$imageUrl', '$seller_id')";
+    // Validate start and end time
+    if (strtotime($startTime) >= strtotime($endTime)) {
+        die("Error: Start time must be before end time.");
+    }
+
+    // Insert product into database
+    $sql = "INSERT INTO products (product_name, category, start_time, end_time, starting_bid, description, product_condition, seller_id) 
+            VALUES ('$productName', '$category', '$startTime', '$endTime', '$startingBid', '$productDescription', '$productCondition', '$seller_id')";
 
     if (mysqli_query($conn, $sql)) {
+        $productId = mysqli_insert_id($conn); // Get last inserted product ID
+
+        if (!empty($_FILES['coverImageMain']['name'])) { // Check if the main image is uploaded
+            if ($_FILES['coverImageMain']['error'] == UPLOAD_ERR_OK) {
+                $fileName = basename($_FILES['coverImageMain']['name']);
+                $imagePath = 'uploads/' . $fileName;
+                move_uploaded_file($_FILES['coverImageMain']['tmp_name'], $imagePath);
+        
+                // Insert main image path into database if needed
+                $sqlImageMain = "INSERT INTO product_images (product_id, image_url) VALUES ('$productId', '$imagePath')";
+                mysqli_query($conn, $sqlImageMain);
+            }
+        }
+
+        // Handle multiple image uploads
+        if (!empty($_FILES['coverImage']['name'][0])) { // Check if files are uploaded
+            foreach ($_FILES['coverImage']['tmp_name'] as $key => $tmpName) {
+                if ($_FILES['coverImage']['error'][$key] == UPLOAD_ERR_OK) {
+                    $fileName = basename($_FILES['coverImage']['name'][$key]);
+                    $imagePath = 'uploads/' . $fileName;
+                    move_uploaded_file($tmpName, $imagePath);
+
+                    // Insert image path into database
+                    $sqlImage = "INSERT INTO product_images (product_id, image_url) VALUES ('$productId', '$imagePath')";
+                    mysqli_query($conn, $sqlImage);
+                }
+            }
+        }
+    } else {
+        echo "Error: " . mysqli_error($conn);
     }
 
     mysqli_close($conn);
@@ -48,173 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Seller Dashboard</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
-    <style>
-    html,
-    body {
-        width: 100%;
-        overflow-y: hidden;
-    }
-
-    body {
-        font-family: 'Roboto', sans-serif;
-        margin: 0;
-        background-color: #f7fafc;
-    }
-
-    body::-webkit-scrollbar {
-        display: none;
-    }
-
-    .seller-container,
-    .main-content {
-        width: 100%;
-    }
-
-    .seller-header {
-        background-color: rgb(0, 0, 0);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        padding: 16px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .seller-header h1 {
-        font-size: 20px;
-        color: rgb(255, 255, 255);
-    }
-
-    .seller-header-right {
-        display: flex;
-        align-items: center;
-    }
-
-    .notification-button {
-        background: none;
-        border: none;
-        cursor: pointer;
-        color: rgb(255, 255, 255);
-        margin-right: 16px;
-    }
-
-    .main-content {
-        display: flex;
-        flex: 1;
-        flex-wrap: wrap;
-        overflow: hidden;
-    }
-
-    .dashboard-content {
-        flex: 1;
-        padding: 16px;
-        overflow-y: auto;
-        max-height: calc(100vh - 190px);
-    }
-
-
-    .form-container {
-        background-color: #ffffff;
-        padding: 20px;
-        padding-right: 40px;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        max-width: 600px;
-        margin: 0 auto;
-    }
-
-    .form-container h1 {
-        font-size: 1.5rem;
-        font-weight: bold;
-        margin-bottom: 20px;
-    }
-
-    .label {
-        font-size: 1rem;
-        font-weight: 500;
-        margin-bottom: 5px;
-    }
-
-    .input {
-        width: 600px;
-        padding: 10px;
-        margin-top: 5px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        font-size: 1rem;
-    }
-
-    .select {
-        width: 621px;
-        padding: 10px;
-        margin-top: 5px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        font-size: 1rem;
-    }
-
-    .button {
-        width: 621px;
-        background-color: #2563eb;
-        color: white;
-        padding: 12px;
-        border-radius: 6px;
-        border: none;
-        font-size: 1rem;
-        cursor: pointer;
-    }
-
-    .button:hover {
-        background-color: #1d4ed8;
-    }
-
-
-    @media (max-width: 768px) {
-        .main-content {
-            flex-direction: column;
-        }
-
-        /* Ensure form container fills the available width on mobile */
-        .form-container {
-            width: 90%;
-            /* Allow the form to take more space on smaller screens */
-            padding: 20px;
-            margin-bottom: 65px;
-        }
-
-        .form-container h1 {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-        }
-
-        .input {
-            width: 400px;
-            padding: 8px;
-            font-size: 0.9rem;
-        }
-
-        .select {
-            width: 417px;
-            padding: 8px;
-            font-size: 0.9rem;
-        }
-
-        .button {
-            font-size: 0.9rem;
-            width: 417px;
-            /* Ensure the button takes the 100% width for all screen */
-        }
-
-        /* Stack the fields in a single column for mobile */
-        .form-group {
-            flex-direction: column;
-        }
-
-        .form-group>div {
-            width: 100%;
-        }
-    }
-    </style>
+    <link rel="stylesheet" href="css/addproductstyle.css">
 </head>
 
 <body>
@@ -236,24 +98,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="form-container">
                     <h1>Add a product to Auction</h1>
                     <form method="POST" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <div>
-                                <label for="productName" class="label">Product Name <span
-                                        style="color: red;">*</span></label>
-                                <input type="text" id="productName" name="productName" class="input" required>
-                            </div><br>
-                            <div>
-                                <label for="category" class="label">Category <span style="color: red;">*</span></label>
-                                <select id="category" name="category" class="select" required>
-                                    <option value="" disabled selected>Select a category</option>
-                                    <option value="electronics">Electronics</option>
-                                    <option value="fashion">Fashion</option>
-                                    <option value="home">Home & Garden</option>
-                                    <option value="automotive">Automotive</option>
-                                    <option value="sports">Sports</option>
-                                    <option value="toys">Toys & Games</option>
-                                </select>
-                            </div>
+                        <div>
+                            <label for="productName" class="label">Product Name <span
+                                    style="color: red;">*</span></label>
+                            <input type="text" id="productName" name="productName" class="input" required>
+                        </div><br>
+                        <div>
+                            <label for="category" class="label">Category <span style="color: red;">*</span></label>
+                            <select id="category" name="category" class="select" required>
+                                <option value="" disabled selected>Select a category</option>
+                                <option value="electronics">Electronics</option>
+                                <option value="fashion">Fashion</option>
+                                <option value="home">Home & Garden</option>
+                                <option value="automotive">Automotive</option>
+                                <option value="sports">Sports</option>
+                                <option value="toys">Toys & Games</option>
+                            </select>
                         </div><br>
                         <div>
                             <label for="startTime" class="label">Start time (MM/DD/YY) <span
@@ -282,10 +142,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <option value="Used">Used</option>
                             <option value="Refurbished">Refurbished</option>
                         </select><br><br>
+
+                        <label class="label">Upload Images <span style="color: red;">*</span></label><br><br>
                         <div>
-                            <label for="imageUrl" class="label">Image <span style="color: red;">*</span></label>
-                            <input type="file" id="imageUrl" name="imageUrl" class="input" required>
+                            <label for="coverImageMain" class="label">Main Image <span style="color: red;">*</span></label><br>
+                            <div class="upload-area" id="uploadAreaMain" onclick="document.getElementById('coverImageMain').click()">
+                                <span class="upload-icon" id="iconMain">+</span>
+                                <input type="file" id="coverImageMain" name="coverImageMain" accept="image/*"
+                                    class="hidden" required onchange="updateIcon('iconMain')">
+                            </div>
                         </div><br>
+
+                        <div class="upload-container">
+                            <div>
+                                <div class="upload-area" onclick="document.getElementById('coverImage1').click()">
+                                    <span class="upload-icon" id="icon1">+</span>
+                                    <input type="file" id="coverImage1" name="coverImage[]" accept="image/*"
+                                        class="hidden" required onchange="updateIcon('icon1')">
+                                </div>
+                            </div><br>
+                            <div>
+                                <div class="upload-area" onclick="document.getElementById('coverImage2').click()">
+                                    <span class="upload-icon" id="icon2">+</span>
+                                    <input type="file" id="coverImage2" name="coverImage[]" accept="image/*"
+                                        class="hidden" required onchange="updateIcon('icon2')">
+                                </div>
+                            </div><br>
+                            <div>
+                                <div class="upload-area" onclick="document.getElementById('coverImage3').click()">
+                                    <span class="upload-icon" id="icon3">+</span>
+                                    <input type="file" id="coverImage3" name="coverImage[]" accept="image/*"
+                                        class="hidden" required onchange="updateIcon('icon3')">
+                                </div>
+                            </div><br>
+                        </div><br>
+
                         <div>
                             <button type="submit" class="button">Submit</button>
                         </div>
@@ -294,6 +185,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </main>
         </div>
     </div>
+
+    <script>
+    function updateIcon(iconId) {
+        const iconElement = document.getElementById(iconId);
+        iconElement.innerHTML = '<i class="fas fa-check"></i>'; // Change to checkmark icon
+        iconElement.classList.add('uploaded'); // Optional: Add a class for styling
+    }
+    </script>
 </body>
 
 </html>
