@@ -108,6 +108,15 @@ $reserve_price = $row['reserve_price'] ?? 0;
 // Update reserve price status
 $reserve_status = ($highest_bid >= $reserve_price) ? "Reserve price has been met" : "Reserve price has not been met";
 
+// Fetch all products from the same seller for the "More Products" tab
+$seller_id = $row['seller_id'];
+$more_products_sql = "
+    SELECT p.id, p.product_name, p.description, p.starting_bid, 
+           (SELECT pi.image_url FROM product_images pi WHERE pi.product_id = p.id LIMIT 1) AS image_url
+    FROM products p
+    WHERE p.seller_id = $seller_id AND p.id != $product_id
+";
+$more_products_result = $conn->query($more_products_sql);
 ?>
 
 <!DOCTYPE html>
@@ -143,11 +152,12 @@ $reserve_status = ($highest_bid >= $reserve_price) ? "Reserve price has been met
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
             overflow: hidden;
+            margin-bottom: 16px; /* Add margin for spacing between product cards */
         }
 
         .card img {
             width: 600px;
-            height: 500px;
+            height: 500px; /* Set a fixed height for product images */
             object-fit: cover;
             border-radius: 8px;
         }
@@ -304,6 +314,70 @@ $reserve_status = ($highest_bid >= $reserve_price) ? "Reserve price has been met
             border: 1px solid #e2e8f0;
         }
 
+        .tab-content {
+            display: none; /* Hide all tab content by default */
+        }
+
+        .tab-content.active {
+            display: block; /* Show active tab content */
+        }
+
+        .more-products-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px; /* Space between product cards */
+            margin-top: 20px; /* Add margin to separate from previous content */
+        }
+
+        .more-products-container .card {
+            flex: 1 1 calc(25% - 16px); /* Four cards per row with some margin */
+            max-width: calc(25% - 16px); /* Ensure cards do not exceed this width */
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Slightly stronger shadow */
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition for hover effect */
+        }
+
+        .more-products-container .card:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Stronger shadow on hover */
+        }
+
+        .more-products-container .card img {
+            width: 300px;
+            height: 200px; /* Set a fixed height for product images */
+            object-fit: cover;
+            border-bottom: 2px solid #48bb78; /* Add a border below the image */
+        }
+
+        .more-products-container .right-section {
+            padding: 16px;
+        }
+
+        .more-products-container .right-section h1 {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+            color: #2d3748; /* Darker color for better contrast */
+        }
+
+        .more-products-container .right-section p {
+            color: #4a5568;
+            margin: 4px 0;
+        }
+
+        .more-products-container .starting-bid {
+            font-weight: bold;
+            color: #48bb78; /* Change color to match the theme */
+            font-size: 16px; /* Slightly larger font size */
+        }
+
+        .more-products-container .card a {
+            text-decoration: none; /* Remove underline from links */
+            color: inherit; /* Inherit color from parent */
+        }
+
         @media (min-width: 1024px) {
             .card {
                 flex-direction: row;
@@ -394,10 +468,61 @@ $reserve_status = ($highest_bid >= $reserve_price) ? "Reserve price has been met
             </div>
         </div>
         <div class="tabs">
-            <button class="active">Description</button>
-            <button class="inactive">Auction history</button>
-            <button class="inactive">Reviews (0)</button>
-            <button class="inactive">More Products</button>
+            <button class="active" onclick="showTab('description')">Description</button>
+            <button class="inactive" onclick="showTab('auction-history')">Auction History</button>
+            <button class="inactive" onclick="showTab('reviews')">Reviews (0)</button>
+            <button class="inactive" onclick="showTab('more-products')">More Products</button>
+        </div>
+
+        <div id="description" class="tab-content active">
+            <h2>Description</h2>
+            <p><?php echo htmlspecialchars($row['description']); ?></p>
+        </div>
+
+        <div id="auction-history" class="tab-content">
+            <h2>Auction History</h2>
+            <?php
+            $history_sql = "SELECT * FROM bid WHERE product_id = $product_id ORDER BY bid_time DESC";
+            $history_result = $conn->query($history_sql);
+            if ($history_result->num_rows > 0) {
+                while ($history_row = $history_result->fetch_assoc()) {
+                    echo "<p>User ID: " . htmlspecialchars($history_row['user_id']) . " - Bid: $" . number_format($history_row['bid_amount'], 2) . " - Time: " . htmlspecialchars($history_row['bid_time']) . "</p>";
+                }
+            } else {
+                echo "<p>No bids placed yet.</p>";
+            }
+            ?>
+        </div>
+
+        <div id="reviews" class="tab-content">
+            <h2>Reviews</h2>
+            <p>No reviews yet.</p>
+        </div>
+
+        <div id="more-products" class="tab-content">
+            <h2>More Products</h2>
+            <div class="more-products-container">
+                <?php
+                if ($more_products_result->num_rows > 0) {
+                    while ($more_product_row = $more_products_result->fetch_assoc()) {
+                        $image_url = isset($more_product_row['image_url']) ? htmlspecialchars($more_product_row['image_url']) : 'default_image.jpg';
+
+                        echo '<div class="card">';
+                        echo '<a href="product_details.php?id=' . $more_product_row['id'] . '">';
+                        echo '<img src="' . $image_url . '" alt="' . htmlspecialchars($more_product_row['product_name']) . '">';
+                        echo '<div class="right-section">';
+                        echo '<h1>' . htmlspecialchars($more_product_row['product_name']) . '</h1>';
+                        echo '<p>' . htmlspecialchars($more_product_row['description']) . '</p>';
+                        echo '<p class="starting-bid">Starting bid: $' . number_format($more_product_row['starting_bid'], 2) . '</p>';
+                        echo '</div>';
+                        echo '</a>';
+                        echo '</div>';
+                    }
+                } else {
+                    echo "<p>No more products from this seller.</p>";
+                }
+                ?>
+            </div>
         </div>
     </div>
 
@@ -416,6 +541,31 @@ $reserve_status = ($highest_bid >= $reserve_price) ? "Reserve price has been met
 
         function changeMainImage(imageUrl) {
             document.getElementById("mainImage").src = imageUrl; // Change the main image source
+        }
+
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tabs button');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+                tab.classList.add('inactive');
+            });
+
+            // Show the selected tab content
+            document.getElementById(tabName).classList.add('active');
+
+            // Set the clicked tab as active
+            const activeTab = Array.from(tabs).find(tab => tab.textContent.toLowerCase().includes(tabName.replace('-', ' ')));
+            if (activeTab) {
+                activeTab.classList.add('active');
+                activeTab.classList.remove('inactive');
+            }
         }
 
         document.addEventListener("DOMContentLoaded", function() {
