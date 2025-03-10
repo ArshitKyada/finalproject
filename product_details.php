@@ -169,7 +169,6 @@ $more_products_result = $conn->query($more_products_sql);
         margin-top: 10px;
         flex-wrap: wrap;
         gap: 7px;
-        border: 2px solid black;
         border-radius: 8px;
         padding: 5px;
     }
@@ -194,11 +193,41 @@ $more_products_result = $conn->query($more_products_sql);
 
     .card .right-section {
         flex: 1;
+        padding: 20px;
     }
 
     .card .right-section h1 {
-        font-size: 24px;
-        font-weight: bold;
+        font-size: 26px;
+        /* Larger font size */
+        font-weight: 600;
+        /* Bold font weight */
+        color: #2d3748;
+        /* Darker color for better contrast */
+    }
+
+    .card .right-section .bid-section button {
+        background-color: #48bb78;
+        /* Primary button color */
+        color: white;
+        /* Text color */
+        transition: background-color 0.3s;
+        /* Smooth transition */
+    }
+
+    .card .right-section .bid-section button:hover {
+        background-color: #38a169;
+        /* Darker shade on hover */
+    }
+
+    .card .right-section .bid-section input {
+        border: 2px solid #e2e8f0;
+        /* Thicker border */
+        border-radius: 4px;
+        /* Rounded corners */
+        padding: 10px;
+        /* Padding for input */
+        font-size: 16px;
+        /* Larger font size */
     }
 
     .card .right-section p {
@@ -217,24 +246,27 @@ $more_products_result = $conn->query($more_products_sql);
 
     .card .right-section .time-left {
         margin-top: 16px;
-    }
-
-    .card .right-section .time-left h2 {
-        font-size: 18px;
-        font-weight: bold;
+        text-align: center;
+        /* Center the text */
     }
 
     .card .right-section .time-left .time-box {
         display: flex;
+        justify-content: center;
+        /* Center the time boxes */
         margin-top: 8px;
+        /* Add space between time boxes */
     }
 
     .card .right-section .time-left .time-box div {
         background-color: #edf2f7;
-        padding: 8px;
+        padding: 16px;
+        /* Increased padding for a wider look */
         border-radius: 4px;
         text-align: center;
         margin-right: 8px;
+        flex: 1;
+        /* Allow time boxes to grow equally */
     }
 
     .card .right-section .time-left .time-box div p {
@@ -258,9 +290,10 @@ $more_products_result = $conn->query($more_products_sql);
     .card .right-section .starting-bid p {
         font-size: 18px;
         font-weight: bold;
+        color:rgb(72, 75, 80);
     }
 
-    .card .right-section .starting-bid p span {
+    .card .right-section .starting-bid p span.price{
         font-size: 24px;
         color: #2d3748;
     }
@@ -456,7 +489,6 @@ $more_products_result = $conn->query($more_products_sql);
                     <span><?php echo htmlspecialchars($row['product_condition']); ?></span>
                 </p>
                 <div class="time-left">
-                    <h2>Time Left:</h2>
                     <div class="time-box">
                         <div>
                             <p id="days">0</p>
@@ -477,9 +509,9 @@ $more_products_result = $conn->query($more_products_sql);
                     </div>
                 </div>
                 <div class="starting-bid">
-                    <p><?php echo ($highest_bid > $row['starting_bid']) ? "Current bid: $" . number_format($highest_bid, 2) : "Starting bid: $" . number_format($row['starting_bid'], 2); ?>
+                    <p><span class="price"><?php echo ($highest_bid > $row['starting_bid']) ? "Current bid: $" . number_format($highest_bid, 2) : "Starting bid: $" . number_format($row['starting_bid'], 2); ?></span>
                     </p>
-                    <p><?php echo htmlspecialchars($reserve_status); ?></p>
+                    <p><span class="text"><?php echo htmlspecialchars($reserve_status); ?></span></p>
                 </div>
 
                 <div class="bid-section">
