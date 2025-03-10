@@ -117,6 +117,10 @@ $more_products_sql = "
     WHERE p.seller_id = $seller_id AND p.id != $product_id
 ";
 $more_products_result = $conn->query($more_products_sql);
+
+// Fetch reviews for the product
+$reviews_sql = "SELECT r.id, r.rating, r.comment, r.created_at, u.username, r.user_id FROM reviews r JOIN users u ON r.user_id = u.id WHERE r.product_id = $product_id ORDER BY r.created_at DESC";
+$reviews_result = $conn->query($reviews_sql);
 ?>
 
 <!DOCTYPE html>
@@ -153,13 +157,11 @@ $more_products_result = $conn->query($more_products_sql);
         border-radius: 8px;
         overflow: hidden;
         margin-bottom: 16px;
-        /* Add margin for spacing between product cards */
     }
 
     .card img {
         width: 600px;
         height: 500px;
-        /* Set a fixed height for product images */
         object-fit: cover;
         border-radius: 8px;
     }
@@ -198,36 +200,25 @@ $more_products_result = $conn->query($more_products_sql);
 
     .card .right-section h1 {
         font-size: 26px;
-        /* Larger font size */
         font-weight: 600;
-        /* Bold font weight */
         color: #2d3748;
-        /* Darker color for better contrast */
     }
 
     .card .right-section .bid-section button {
         background-color: #48bb78;
-        /* Primary button color */
         color: white;
-        /* Text color */
         transition: background-color 0.3s;
-        /* Smooth transition */
     }
 
     .card .right-section .bid-section button:hover {
         background-color: #38a169;
-        /* Darker shade on hover */
     }
 
     .card .right-section .bid-section input {
         border: 2px solid #e2e8f0;
-        /* Thicker border */
         border-radius: 4px;
-        /* Rounded corners */
         padding: 10px;
-        /* Padding for input */
         font-size: 16px;
-        /* Larger font size */
     }
 
     .card .right-section p {
@@ -247,26 +238,21 @@ $more_products_result = $conn->query($more_products_sql);
     .card .right-section .time-left {
         margin-top: 16px;
         text-align: center;
-        /* Center the text */
     }
 
     .card .right-section .time-left .time-box {
         display: flex;
         justify-content: center;
-        /* Center the time boxes */
         margin-top: 8px;
-        /* Add space between time boxes */
     }
 
     .card .right-section .time-left .time-box div {
         background-color: #edf2f7;
         padding: 16px;
-        /* Increased padding for a wider look */
         border-radius: 4px;
         text-align: center;
         margin-right: 8px;
         flex: 1;
-        /* Allow time boxes to grow equally */
     }
 
     .card .right-section .time-left .time-box div p {
@@ -290,10 +276,10 @@ $more_products_result = $conn->query($more_products_sql);
     .card .right-section .starting-bid p {
         font-size: 18px;
         font-weight: bold;
-        color:rgb(72, 75, 80);
+        color: rgb(72, 75, 80);
     }
 
-    .card .right-section .starting-bid p span.price{
+    .card .right-section .starting-bid p span.price {
         font-size: 24px;
         color: #2d3748;
     }
@@ -354,50 +340,37 @@ $more_products_result = $conn->query($more_products_sql);
 
     .tab-content {
         display: none;
-        /* Hide all tab content by default */
     }
 
     .tab-content.active {
         display: block;
-        /* Show active tab content */
     }
 
     .more-products-container {
         display: flex;
         flex-wrap: wrap;
         gap: 16px;
-        /* Space between product cards */
         margin-top: 20px;
-        /* Add margin to separate from previous content */
     }
 
     .more-products-container .card {
         flex: 1 1 calc(50% - 16px);
-        /* Two cards per row with some margin */
         max-width: calc(50% - 16px);
-        /* Ensure cards do not exceed this width */
         background-color: white;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        /* Slightly stronger shadow */
         overflow: hidden;
         transition: transform 0.3s, box-shadow 0.3s;
-        /* Smooth transition for hover effect */
     }
 
     .more-products-container .card:hover {
         transform: translateY(-5px);
-        /* Lift effect on hover */
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-        /* Stronger shadow on hover */
     }
 
     .more-products-container .card img {
         width: 300px;
-        /* Make image responsive */
         height: 300px;
-        /* Maintain aspect ratio */
         object-fit: cover;
-        /* Add a border below the image */
     }
 
     @media (min-width: 768px) {
@@ -416,7 +389,6 @@ $more_products_result = $conn->query($more_products_sql);
         font-weight: bold;
         margin: 0;
         color: #2d3748;
-        /* Darker color for better contrast */
     }
 
     .more-products-container .right-section p {
@@ -427,16 +399,12 @@ $more_products_result = $conn->query($more_products_sql);
     .more-products-container .starting-bid {
         font-weight: bold;
         color: #48bb78;
-        /* Change color to match the theme */
         font-size: 16px;
-        /* Slightly larger font size */
     }
 
     .more-products-container .card a {
         text-decoration: none;
-        /* Remove underline from links */
         color: inherit;
-        /* Inherit color from parent */
     }
 
     @media (min-width: 1024px) {
@@ -460,6 +428,131 @@ $more_products_result = $conn->query($more_products_sql);
             width: 68px;
             height: 80px;
         }
+    }
+
+    /* Reviews Section */
+    .reviews-list {
+        margin-top: 20px;
+    }
+
+    .review {
+        background-color: #f9f9f9;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    .review-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .review-rating {
+        color: #f39c12;
+        /* Gold color for stars */
+    }
+
+    .review-date {
+        font-size: 0.9em;
+        color: #718096;
+        /* Gray color */
+    }
+
+    .review-form {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding-right: 30px;
+
+    }
+
+    .review-form label {
+        display: block;
+        margin-top: 10px;
+    }
+
+    .review-form textarea {
+        width: 100%;
+        height: 80px;
+        border: 1px solid #e2e8f0;
+        border-radius: 4px;
+        padding: 5px;
+    }
+
+    .review-form button {
+        margin-top: 10px;
+        background-color: #48bb78;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .review-form button:hover {
+        background-color: #38a169;
+        /* Darker shade on hover */
+    }
+
+    .rating-container {
+        display: flex;
+        align-items: center;
+        /* Align items vertically */
+    }
+
+    .rating-container label {
+        margin-right: 10px;
+        /* Space between label and stars */
+    }
+
+    .star-rating {
+        direction: rtl;
+        /* Right to left for star selection */
+        display: flex;
+        justify-content: flex-start;
+        /* Align stars to the left */
+    }
+
+    .star-rating input {
+        display: none;
+        /* Hide the radio buttons */
+    }
+
+    .star-rating label {
+        font-size: 30px;
+        color: #ddd;
+        /* Default star color */
+        cursor: pointer;
+    }
+
+    .star-rating input:checked~label {
+        color: #f39c12;
+        /* Color for selected stars */
+    }
+
+    .star-rating label:hover,
+    .star-rating label:hover~label {
+        color: #f39c12;
+        /* Color for hovered stars */
+    }
+
+    .delete-button {
+        background-color: #e53e3e;
+        /* Red color */
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+
+    .delete-button:hover {
+        background-color: #c53030;
+        /* Darker red on hover */
     }
     </style>
 </head>
@@ -509,7 +602,8 @@ $more_products_result = $conn->query($more_products_sql);
                     </div>
                 </div>
                 <div class="starting-bid">
-                    <p><span class="price"><?php echo ($highest_bid > $row['starting_bid']) ? "Current bid: $" . number_format($highest_bid, 2) : "Starting bid: $" . number_format($row['starting_bid'], 2); ?></span>
+                    <p><span
+                            class="price"><?php echo ($highest_bid > $row['starting_bid']) ? "Current bid: $" . number_format($highest_bid, 2) : "Starting bid: $" . number_format($row['starting_bid'], 2); ?></span>
                     </p>
                     <p><span class="text"><?php echo htmlspecialchars($reserve_status); ?></span></p>
                 </div>
@@ -530,7 +624,8 @@ $more_products_result = $conn->query($more_products_sql);
         <div class="tabs">
             <button class="active" onclick="showTab('description')">Description</button>
             <button class="inactive" onclick="showTab('auction-history')">Auction History</button>
-            <button class="inactive" onclick="showTab('reviews')">Reviews (0)</button>
+            <button class="inactive" onclick="showTab('reviews')">Reviews
+                (<?php echo $reviews_result->num_rows; ?>)</button>
             <button class="inactive" onclick="showTab('more-products')">More Products</button>
         </div>
 
@@ -554,37 +649,83 @@ $more_products_result = $conn->query($more_products_sql);
             ?>
         </div>
 
+
         <div id="reviews" class="tab-content">
             <h2>Reviews</h2>
+            <div class="review-form">
+                <h3>Submit Your Review</h3><hr>
+                <form action="submit_review.php" method="post">
+                    <input type="hidden" name="product_id" value="<?php echo $product_id; ?>">
+                    <div class="rating-container">
+                        <label for="rating">Rating:</label>
+                        <div class="star-rating">
+                            <input type="radio" id="star5" name="rating" value="5" required>
+                            <label for="star5" class="star">★</label>
+                            <input type="radio" id="star4" name="rating" value="4">
+                            <label for="star4" class="star">★</label>
+                            <input type="radio" id="star3" name="rating" value="3">
+                            <label for="star3" class="star">★</label>
+                            <input type="radio" id="star2" name="rating" value="2">
+                            <label for="star2" class="star">★</label>
+                            <input type="radio" id="star1" name="rating" value="1">
+                            <label for="star1" class="star">★</label>
+                        </div>
+                    </div>
+                    <label for="comment">Comment:</label><br>
+                    <textarea name="comment" id="comment" required></textarea>
+                    <button type="submit">Submit Review</button>
+                </form>
+            </div>
+            <?php if ($reviews_result->num_rows > 0): ?>
+            <div class="reviews-list">
+                <?php while ($review_row = $reviews_result->fetch_assoc()): ?>
+                <div class="review">
+                    <div class="review-header">
+                        <strong><?php echo htmlspecialchars($review_row['username']); ?></strong>
+                        <span class="review-rating"><?php echo str_repeat('★', $review_row['rating']); ?></span>
+                        <span class="review-date"><?php echo htmlspecialchars($review_row['created_at']); ?></span>
+                        <?php if ($review_row['user_id'] == $user_id): ?>
+                        <form action="delete_review.php" method="post" style="display:inline;">
+                            <input type="hidden" name="review_id" value="<?php echo $review_row['id']; ?>">
+                            <input type="hidden" name="product_id" value="<?php echo $product_id; ?>">
+                            <button type="submit" class="delete-button">Delete</button>
+                        </form>
+                        <?php endif; ?>
+                    </div><hr>
+                    <p><?php echo htmlspecialchars($review_row['comment']); ?></p>
+                </div>
+                <?php endwhile; ?>
+            </div>
+            <?php else: ?>
             <p>No reviews yet.</p>
+            <?php endif; ?>
         </div>
-
         <div id="more-products" class="tab-content">
             <h2>More Products</h2>
             <div class="more-products-container">
                 <?php
-        if ($more_products_result->num_rows > 0) {
-            while ($more_product_row = $more_products_result->fetch_assoc()) {
-                $image_url = isset($more_product_row['image_url']) ? htmlspecialchars($more_product_row['image_url']) : 'default_image.jpg';
+                if ($more_products_result->num_rows > 0) {
+                    while ($more_product_row = $more_products_result->fetch_assoc()) {
+                        $image_url = isset($more_product_row['image_url']) ? htmlspecialchars($more_product_row['image_url']) : 'default_image.jpg';
 
-                echo '<div class="card">';
-                echo '<a href="product_details.php?id=' . $more_product_row['id'] . '">';
-                echo '<img src="' . $image_url . '" alt="' . htmlspecialchars($more_product_row['product_name']) . '">';
-                echo '<div class="right-section">';
-                echo '<h1>' . htmlspecialchars($more_product_row['product_name']) . '</h1>';
-                echo '<br>';
-                // Display End Date
-                $end_time = new DateTime($more_product_row['end_time']);
-                echo '<p>End Date: ' . htmlspecialchars($end_time->format('Y-m-d')) . '</p>'; // Format as needed
-                echo '<p class="starting-bid">Starting bid: $' . number_format($more_product_row['starting_bid'], 2) . '</p>';
-                echo '</div>'; // Close right-section div
-                echo '</a>';
-                echo '</div>'; // Close card div
-            }
-        } else {
-            echo "<p>No more products from this seller.</p>";
-        }
-        ?>
+                        echo '<div class="card">';
+                        echo '<a href="product_details.php?id=' . $more_product_row['id'] . '">';
+                        echo '<img src="' . $image_url . '" alt="' . htmlspecialchars($more_product_row['product_name']) . '">';
+                        echo '<div class="right-section">';
+                        echo '<h1>' . htmlspecialchars($more_product_row['product_name']) . '</h1>';
+                        echo '<br>';
+                        // Display End Date
+                        $end_time = new DateTime($more_product_row['end_time']);
+                        echo '<p>End Date: ' . htmlspecialchars($end_time->format('Y-m-d')) . '</p>'; // Format as needed
+                        echo '<p class="starting-bid">Starting bid: $' . number_format($more_product_row['starting_bid'], 2) . '</p>';
+                        echo '</div>'; // Close right-section div
+                        echo '</a>';
+                        echo '</div>'; // Close card div
+                    }
+                } else {
+                    echo "<p>No more products from this seller.</p>";
+                }
+                ?>
             </div>
         </div>
     </div>
