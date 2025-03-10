@@ -111,7 +111,7 @@ $reserve_status = ($highest_bid >= $reserve_price) ? "Reserve price has been met
 // Fetch all products from the same seller for the "More Products" tab
 $seller_id = $row['seller_id'];
 $more_products_sql = "
-    SELECT p.id, p.product_name, p.description, p.starting_bid, 
+    SELECT p.id, p.product_name, p.description, p.starting_bid, p.end_time,
            (SELECT pi.image_url FROM product_images pi WHERE pi.product_id = p.id LIMIT 1) AS image_url
     FROM products p
     WHERE p.seller_id = $seller_id AND p.id != $product_id
@@ -129,277 +129,305 @@ $more_products_result = $conn->query($more_products_sql);
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <script src="js/script.js"></script>
     <style>
-        body {
-            background-color: #f7fafc;
-            font-family: Arial, sans-serif;
-            overflow-y: scroll;
-        }
+    body {
+        background-color: #f7fafc;
+        font-family: Arial, sans-serif;
+        overflow-y: scroll;
+    }
 
-        body::-webkit-scrollbar {
-            display: none;
-        }
+    body::-webkit-scrollbar {
+        display: none;
+    }
 
-        .product-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 16px;
-        }
+    .product-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 16px;
+    }
 
+    .card {
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 16px;
+        /* Add margin for spacing between product cards */
+    }
+
+    .card img {
+        width: 600px;
+        height: 500px;
+        /* Set a fixed height for product images */
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    .additional-images {
+        display: flex;
+        margin-top: 10px;
+        flex-wrap: wrap;
+        gap: 7px;
+        border: 2px solid black;
+        border-radius: 8px;
+        padding: 5px;
+    }
+
+    .additional-images img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 4px;
+        margin: 5px;
+        cursor: pointer;
+    }
+
+    .card .left-section,
+    .card .right-section {
+        padding: 16px;
+    }
+
+    .card .left-section {
+        flex: 1;
+    }
+
+    .card .right-section {
+        flex: 1;
+    }
+
+    .card .right-section h1 {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .card .right-section p {
+        color: #4a5568;
+        margin-top: 8px;
+    }
+
+    .card .right-section .item-condition {
+        margin-top: 16px;
+        font-weight: bold;
+    }
+
+    .card .right-section .item-condition span {
+        color: #48bb78;
+    }
+
+    .card .right-section .time-left {
+        margin-top: 16px;
+    }
+
+    .card .right-section .time-left h2 {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .card .right-section .time-left .time-box {
+        display: flex;
+        margin-top: 8px;
+    }
+
+    .card .right-section .time-left .time-box div {
+        background-color: #edf2f7;
+        padding: 8px;
+        border-radius: 4px;
+        text-align: center;
+        margin-right: 8px;
+    }
+
+    .card .right-section .time-left .time-box div p {
+        margin: 0;
+    }
+
+    .card .right-section .time-left .time-box div p:first-child {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .card .right-section .time-left .time-box div p:last-child {
+        font-size: 12px;
+        color: #718096;
+    }
+
+    .card .right-section .starting-bid {
+        margin-top: 16px;
+    }
+
+    .card .right-section .starting-bid p {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .card .right-section .starting-bid p span {
+        font-size: 24px;
+        color: #2d3748;
+    }
+
+    .card .right-section .bid-section {
+        margin-top: 16px;
+        display: flex;
+        align-items: center;
+    }
+
+    .card .right-section .bid-section button {
+        background-color: #edf2f7;
+        color: #2d3748;
+        padding: 10px 20px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .card .right-section .bid-section input {
+        width: 80px;
+        padding: 10px 20px;
+        text-align: center;
+        border: 1px solid #e2e8f0;
+        border-radius: 4px;
+        margin: 0 8px;
+    }
+
+    .card .right-section .bid-section .bid-button {
+        background-color: #48bb78;
+        color: white;
+        width: 200px;
+    }
+
+    .tabs {
+        margin-top: 16px;
+        display: flex;
+    }
+
+    .tabs button {
+        padding: 8px 16px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        margin-right: 8px;
+    }
+
+    .tabs .active {
+        background-color: #48bb78;
+        color: white;
+    }
+
+    .tabs .inactive {
+        background-color: white;
+        color: #2d3748;
+        border: 1px solid #e2e8f0;
+    }
+
+    .tab-content {
+        display: none;
+        /* Hide all tab content by default */
+    }
+
+    .tab-content.active {
+        display: block;
+        /* Show active tab content */
+    }
+
+    .more-products-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        /* Space between product cards */
+        margin-top: 20px;
+        /* Add margin to separate from previous content */
+    }
+
+    .more-products-container .card {
+        flex: 1 1 calc(50% - 16px);
+        /* Two cards per row with some margin */
+        max-width: calc(50% - 16px);
+        /* Ensure cards do not exceed this width */
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        /* Slightly stronger shadow */
+        overflow: hidden;
+        transition: transform 0.3s, box-shadow 0.3s;
+        /* Smooth transition for hover effect */
+    }
+
+    .more-products-container .card:hover {
+        transform: translateY(-5px);
+        /* Lift effect on hover */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        /* Stronger shadow on hover */
+    }
+
+    .more-products-container .card img {
+        width: 300px;
+        /* Make image responsive */
+        height: 300px;
+        /* Maintain aspect ratio */
+        object-fit: cover;
+        /* Add a border below the image */
+    }
+
+    @media (min-width: 768px) {
+        .more-products-container .card {
+            flex: 1 1 calc(25% - 16px);
+            width: 400px;
+        }
+    }
+
+    .more-products-container .right-section {
+        padding: 16px;
+    }
+
+    .more-products-container .right-section h1 {
+        font-size: 18px;
+        font-weight: bold;
+        margin: 0;
+        color: #2d3748;
+        /* Darker color for better contrast */
+    }
+
+    .more-products-container .right-section p {
+        color: #4a5568;
+        margin: 4px 0;
+    }
+
+    .more-products-container .starting-bid {
+        font-weight: bold;
+        color: #48bb78;
+        /* Change color to match the theme */
+        font-size: 16px;
+        /* Slightly larger font size */
+    }
+
+    .more-products-container .card a {
+        text-decoration: none;
+        /* Remove underline from links */
+        color: inherit;
+        /* Inherit color from parent */
+    }
+
+    @media (min-width: 1024px) {
         .card {
-            display: flex;
-            flex-direction: column;
-            background-color: white;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            overflow: hidden;
-            margin-bottom: 16px; /* Add margin for spacing between product cards */
+            flex-direction: row;
         }
+    }
 
+    @media (max-width: 768px) {
         .card img {
-            width: 600px;
-            height: 500px; /* Set a fixed height for product images */
-            object-fit: cover;
-            border-radius: 8px;
+            width: 100%;
+            height: auto;
         }
 
         .additional-images {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-            flex-wrap: wrap;
+            flex-direction: row;
+            overflow-x: auto;
         }
 
         .additional-images img {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 4px;
-            margin: 5px;
-            cursor: pointer;
+            width: 68px;
+            height: 80px;
         }
-
-        .card .left-section,
-        .card .right-section {
-            padding: 16px;
-        }
-
-        .card .left-section {
-            flex: 1;
-        }
-
-        .card .right-section {
-            flex: 1;
-        }
-
-        .card .right-section h1 {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .card .right-section p {
-            color: #4a5568;
-            margin-top: 8px;
-        }
-
-        .card .right-section .item-condition {
-            margin-top: 16px;
-            font-weight: bold;
-        }
-
-        .card .right-section .item-condition span {
-            color: #48bb78;
-        }
-
-        .card .right-section .time-left {
-            margin-top: 16px;
-        }
-
-        .card .right-section .time-left h2 {
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .card .right-section .time-left .time-box {
-            display: flex;
-            margin-top: 8px;
-        }
-
-        .card .right-section .time-left .time-box div {
-            background-color: #edf2f7;
-            padding: 8px;
-            border-radius: 4px;
-            text-align: center;
-            margin-right: 8px;
-        }
-
-        .card .right-section .time-left .time-box div p {
-            margin: 0;
-        }
-
-        .card .right-section .time-left .time-box div p:first-child {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .card .right-section .time-left .time-box div p:last-child {
-            font-size: 12px;
-            color: #718096;
-        }
-
-        .card .right-section .starting-bid {
-            margin-top: 16px;
-        }
-
-        .card .right-section .starting-bid p {
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .card .right-section .starting-bid p span {
-            font-size: 24px;
-            color: #2d3748;
-        }
-
-        .card .right-section .bid-section {
-            margin-top: 16px;
-            display: flex;
-            align-items: center;
-        }
-
-        .card .right-section .bid-section button {
-            background-color: #edf2f7;
-            color: #2d3748;
-            padding: 10px 20px;
-            border-radius: 4px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .card .right-section .bid-section input {
-            width: 80px;
-            padding: 10px 20px;
-            text-align: center;
-            border: 1px solid #e2e8f0;
-            border-radius: 4px;
-            margin: 0 8px;
-        }
-
-        .card .right-section .bid-section .bid-button {
-            background-color: #48bb78;
-            color: white;
-            width: 200px;
-        }
-
-        .tabs {
-            margin-top: 16px;
-            display: flex;
-        }
-
-        .tabs button {
-            padding: 8px 16px;
-            border-radius: 4px;
-            border: none;
-            cursor: pointer;
-            margin-right: 8px;
-        }
-
-        .tabs .active {
-            background-color: #48bb78;
-            color: white;
-        }
-
-        .tabs .inactive {
-            background-color: white;
-            color: #2d3748;
-            border: 1px solid #e2e8f0;
-        }
-
-        .tab-content {
-            display: none; /* Hide all tab content by default */
-        }
-
-        .tab-content.active {
-            display: block; /* Show active tab content */
-        }
-
-        .more-products-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px; /* Space between product cards */
-            margin-top: 20px; /* Add margin to separate from previous content */
-        }
-
-        .more-products-container .card {
-            flex: 1 1 calc(25% - 16px); /* Four cards per row with some margin */
-            max-width: calc(25% - 16px); /* Ensure cards do not exceed this width */
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Slightly stronger shadow */
-            overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition for hover effect */
-        }
-
-        .more-products-container .card:hover {
-            transform: translateY(-5px); /* Lift effect on hover */
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Stronger shadow on hover */
-        }
-
-        .more-products-container .card img {
-            width: 300px;
-            height: 200px; /* Set a fixed height for product images */
-            object-fit: cover;
-            border-bottom: 2px solid #48bb78; /* Add a border below the image */
-        }
-
-        .more-products-container .right-section {
-            padding: 16px;
-        }
-
-        .more-products-container .right-section h1 {
-            font-size: 18px;
-            font-weight: bold;
-            margin: 0;
-            color: #2d3748; /* Darker color for better contrast */
-        }
-
-        .more-products-container .right-section p {
-            color: #4a5568;
-            margin: 4px 0;
-        }
-
-        .more-products-container .starting-bid {
-            font-weight: bold;
-            color: #48bb78; /* Change color to match the theme */
-            font-size: 16px; /* Slightly larger font size */
-        }
-
-        .more-products-container .card a {
-            text-decoration: none; /* Remove underline from links */
-            color: inherit; /* Inherit color from parent */
-        }
-
-        @media (min-width: 1024px) {
-            .card {
-                flex-direction: row;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .card img {
-                width: 100%;
-                height: auto;
-            }
-
-            .additional-images {
-                flex-direction: row;
-                overflow-x: auto;
-            }
-
-            .additional-images img {
-                width: 80px;
-                height: 80px;
-            }
-        }
+    }
     </style>
 </head>
 
@@ -503,108 +531,112 @@ $more_products_result = $conn->query($more_products_sql);
             <h2>More Products</h2>
             <div class="more-products-container">
                 <?php
-                if ($more_products_result->num_rows > 0) {
-                    while ($more_product_row = $more_products_result->fetch_assoc()) {
-                        $image_url = isset($more_product_row['image_url']) ? htmlspecialchars($more_product_row['image_url']) : 'default_image.jpg';
+        if ($more_products_result->num_rows > 0) {
+            while ($more_product_row = $more_products_result->fetch_assoc()) {
+                $image_url = isset($more_product_row['image_url']) ? htmlspecialchars($more_product_row['image_url']) : 'default_image.jpg';
 
-                        echo '<div class="card">';
-                        echo '<a href="product_details.php?id=' . $more_product_row['id'] . '">';
-                        echo '<img src="' . $image_url . '" alt="' . htmlspecialchars($more_product_row['product_name']) . '">';
-                        echo '<div class="right-section">';
-                        echo '<h1>' . htmlspecialchars($more_product_row['product_name']) . '</h1>';
-                        echo '<p>' . htmlspecialchars($more_product_row['description']) . '</p>';
-                        echo '<p class="starting-bid">Starting bid: $' . number_format($more_product_row['starting_bid'], 2) . '</p>';
-                        echo '</div>';
-                        echo '</a>';
-                        echo '</div>';
-                    }
-                } else {
-                    echo "<p>No more products from this seller.</p>";
-                }
-                ?>
+                echo '<div class="card">';
+                echo '<a href="product_details.php?id=' . $more_product_row['id'] . '">';
+                echo '<img src="' . $image_url . '" alt="' . htmlspecialchars($more_product_row['product_name']) . '">';
+                echo '<div class="right-section">';
+                echo '<h1>' . htmlspecialchars($more_product_row['product_name']) . '</h1>';
+                echo '<br>';
+                // Display End Date
+                $end_time = new DateTime($more_product_row['end_time']);
+                echo '<p>End Date: ' . htmlspecialchars($end_time->format('Y-m-d')) . '</p>'; // Format as needed
+                echo '<p class="starting-bid">Starting bid: $' . number_format($more_product_row['starting_bid'], 2) . '</p>';
+                echo '</div>'; // Close right-section div
+                echo '</a>';
+                echo '</div>'; // Close card div
+            }
+        } else {
+            echo "<p>No more products from this seller.</p>";
+        }
+        ?>
             </div>
         </div>
     </div>
 
     <script>
-        function increaseBid() {
-            let bidInput = document.getElementById("bidamount");
-            bidInput.value = parseInt(bidInput.value) + 10;
+    function increaseBid() {
+        let bidInput = document.getElementById("bidamount");
+        bidInput.value = parseInt(bidInput.value) + 10;
+    }
+
+    function decreaseBid() {
+        let bidInput = document.getElementById("bidamount");
+        if (parseInt(bidInput.value) > <?php echo htmlspecialchars($highest_bid); ?>) {
+            bidInput.value = parseInt(bidInput.value) - 10;
         }
+    }
 
-        function decreaseBid() {
-            let bidInput = document.getElementById("bidamount");
-            if (parseInt(bidInput.value) > <?php echo htmlspecialchars($highest_bid); ?>) {
-                bidInput.value = parseInt(bidInput.value) - 10;
-            }
+    function changeMainImage(imageUrl) {
+        document.getElementById("mainImage").src = imageUrl; // Change the main image source
+    }
+
+    function showTab(tabName) {
+        // Hide all tab contents
+        const tabContents = document.querySelectorAll('.tab-content');
+        tabContents.forEach(content => {
+            content.classList.remove('active');
+        });
+
+        // Remove active class from all tabs
+        const tabs = document.querySelectorAll('.tabs button');
+        tabs.forEach(tab => {
+            tab.classList.remove('active');
+            tab.classList.add('inactive');
+        });
+
+        // Show the selected tab content
+        document.getElementById(tabName).classList.add('active');
+
+        // Set the clicked tab as active
+        const activeTab = Array.from(tabs).find(tab => tab.textContent.toLowerCase().includes(tabName.replace('-',
+            ' ')));
+        if (activeTab) {
+            activeTab.classList.add('active');
+            activeTab.classList.remove('inactive');
         }
+    }
 
-        function changeMainImage(imageUrl) {
-            document.getElementById("mainImage").src = imageUrl; // Change the main image source
-        }
+    document.addEventListener("DOMContentLoaded", function() {
+        let productId = <?php echo json_encode($product_id); ?>; // Dynamically fetch product ID
 
-        function showTab(tabName) {
-            // Hide all tab contents
-            const tabContents = document.querySelectorAll('.tab-content');
-            tabContents.forEach(content => {
-                content.classList.remove('active');
-            });
+        fetch(`get_timer.php?id=${productId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.end_time) {
+                    let endTimeUTC = new Date(data.end_time).getTime(); // Parse ISO date correctly
 
-            // Remove active class from all tabs
-            const tabs = document.querySelectorAll('.tabs button');
-            tabs.forEach(tab => {
-                tab.classList.remove('active');
-                tab.classList.add('inactive');
-            });
+                    function updateCountdown() {
+                        let now = new Date().getTime();
+                        let timeLeft = endTimeUTC - now;
 
-            // Show the selected tab content
-            document.getElementById(tabName).classList.add('active');
-
-            // Set the clicked tab as active
-            const activeTab = Array.from(tabs).find(tab => tab.textContent.toLowerCase().includes(tabName.replace('-', ' ')));
-            if (activeTab) {
-                activeTab.classList.add('active');
-                activeTab.classList.remove('inactive');
-            }
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            let productId = <?php echo json_encode($product_id); ?>; // Dynamically fetch product ID
-
-            fetch(`get_timer.php?id=${productId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.end_time) {
-                        let endTimeUTC = new Date(data.end_time).getTime(); // Parse ISO date correctly
-
-                        function updateCountdown() {
-                            let now = new Date().getTime();
-                            let timeLeft = endTimeUTC - now;
-
-                            if (timeLeft <= 0) {
-                                document.querySelector(".time-left").innerHTML = "<p>Auction ended</p>";
-                                return;
-                            }
-
-                            let days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-                            let hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                            let minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-                            let seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-                            document.getElementById("days").innerText = days;
-                            document.getElementById("hours").innerText = hours;
-                            document.getElementById("minutes").innerText = minutes;
-                            document.getElementById("seconds").innerText = seconds;
+                        if (timeLeft <= 0) {
+                            document.querySelector(".time-left").innerHTML = "<p>Auction ended</p>";
+                            return;
                         }
 
-                        setInterval(updateCountdown, 1000);
-                        updateCountdown();
-                    } else {
-                        document.querySelector(".time-left").innerHTML = "<p>Invalid product</p>";
+                        let days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                        let hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        let minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                        let seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                        document.getElementById("days").innerText = days;
+                        document.getElementById("hours").innerText = hours;
+                        document.getElementById("minutes").innerText = minutes;
+                        document.getElementById("seconds").innerText = seconds;
                     }
-                })
-                .catch(error => console.error("Error fetching timer:", error));
-        });
+
+                    setInterval(updateCountdown, 1000);
+                    updateCountdown();
+                } else {
+                    document.querySelector(".time-left").innerHTML = "<p>Invalid product</p>";
+                }
+            })
+            .catch(error => console.error("Error fetching timer:", error));
+    });
     </script>
 
 </body>

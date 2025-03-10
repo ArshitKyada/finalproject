@@ -175,6 +175,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         class="hidden" required onchange="updateIcon('icon3')">
                                 </div>
                             </div><br>
+                            <div>
+                                <div class="upload-area" onclick="document.getElementById('coverImage4').click()">
+                                    <span class="upload-icon" id="icon4">+</span>
+                                    <input type="file" id="coverImage4" name="coverImage[]" accept="image/*"
+                                        class="hidden" required onchange="updateIcon('icon4')">
+                                </div>
+                            </div><br>
                         </div><br>
 
                         <div>

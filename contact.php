@@ -9,7 +9,7 @@
     <style>
         /* Adding background color to the contact section */
         .contact-section {
-            background-color:rgb(255, 255, 255);
+            background-color: #fff;
             padding: 40px 20px;
         }
         
