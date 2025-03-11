@@ -121,6 +121,7 @@ $more_products_result = $conn->query($more_products_sql);
 // Fetch reviews for the product
 $reviews_sql = "SELECT r.id, r.rating, r.comment, r.created_at, u.username, r.user_id FROM reviews r JOIN users u ON r.user_id = u.id WHERE r.product_id = $product_id ORDER BY r.created_at DESC";
 $reviews_result = $conn->query($reviews_sql);
+
 ?>
 
 <!DOCTYPE html>
@@ -205,13 +206,16 @@ $reviews_result = $conn->query($reviews_sql);
     }
 
     .card .right-section .bid-section button {
-        background-color: #48bb78;
+        background-color: #0A3D62;
         color: white;
+        width: 100px;
+        height: 50px;
         transition: background-color 0.3s;
     }
 
     .card .right-section .bid-section button:hover {
-        background-color: #38a169;
+        background-color: rgb(8, 44, 69);
+        color: white;
     }
 
     .card .right-section .bid-section input {
@@ -309,7 +313,7 @@ $reviews_result = $conn->query($reviews_sql);
     }
 
     .card .right-section .bid-section .bid-button {
-        background-color: #48bb78;
+        background-color: #0A3D62;
         color: white;
         width: 200px;
     }
@@ -328,7 +332,7 @@ $reviews_result = $conn->query($reviews_sql);
     }
 
     .tabs .active {
-        background-color: #48bb78;
+        background-color: #0A3D62;
         color: white;
     }
 
@@ -398,7 +402,7 @@ $reviews_result = $conn->query($reviews_sql);
 
     .more-products-container .starting-bid {
         font-weight: bold;
-        color: #48bb78;
+        color: #0A3D62;
         font-size: 16px;
     }
 
@@ -467,7 +471,6 @@ $reviews_result = $conn->query($reviews_sql);
         border: 1px solid #e2e8f0;
         border-radius: 8px;
         padding-right: 30px;
-
     }
 
     .review-form label {
@@ -481,11 +484,12 @@ $reviews_result = $conn->query($reviews_sql);
         border: 1px solid #e2e8f0;
         border-radius: 4px;
         padding: 5px;
+        background-color: #f7fafc;
     }
 
     .review-form button {
         margin-top: 10px;
-        background-color: #48bb78;
+        background-color: #0A3D62;
         color: white;
         padding: 10px 20px;
         border: none;
@@ -494,7 +498,7 @@ $reviews_result = $conn->query($reviews_sql);
     }
 
     .review-form button:hover {
-        background-color: #38a169;
+        background-color: rgb(7, 41, 65);
         /* Darker shade on hover */
     }
 
@@ -506,6 +510,7 @@ $reviews_result = $conn->query($reviews_sql);
 
     .rating-container label {
         margin-right: 10px;
+        margin-top: 10px;
         /* Space between label and stars */
     }
 
@@ -553,6 +558,25 @@ $reviews_result = $conn->query($reviews_sql);
     .delete-button:hover {
         background-color: #c53030;
         /* Darker red on hover */
+    }
+
+    /* Auction History Styles */
+    .bid-entry {
+        background-color: #f9f9f9;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .bid-entry p {
+        margin: 5px 0;
+        color: #4a5568;
+    }
+
+    .bid-entry strong {
+        color: #2d3748;
     }
     </style>
 </head>
@@ -637,23 +661,31 @@ $reviews_result = $conn->query($reviews_sql);
         <div id="auction-history" class="tab-content">
             <h2>Auction History</h2>
             <?php
-            $history_sql = "SELECT * FROM bid WHERE product_id = $product_id ORDER BY bid_time DESC";
-            $history_result = $conn->query($history_sql);
-            if ($history_result->num_rows > 0) {
-                while ($history_row = $history_result->fetch_assoc()) {
-                    echo "<p>User ID: " . htmlspecialchars($history_row['user_id']) . " - Bid: $" . number_format($history_row['bid_amount'], 2) . " - Time: " . htmlspecialchars($history_row['bid_time']) . "</p>";
-                }
-            } else {
-                echo "<p>No bids placed yet.</p>";
-            }
-            ?>
+    $history_sql = "
+        SELECT b.bid_amount, b.bid_time, u.username 
+        FROM bid b 
+        JOIN users u ON b.user_id = u.id 
+        WHERE b.product_id = $product_id 
+        ORDER BY b.bid_time DESC";
+    $history_result = $conn->query($history_sql);
+    if ($history_result->num_rows > 0) {
+        while ($history_row = $history_result->fetch_assoc()) {
+            echo '<div class="bid-entry">';
+            echo '<p><strong>Username:</strong> ' . htmlspecialchars($history_row['username']) . '</p>';
+            echo '<p><strong>Bid:</strong> $' . number_format($history_row['bid_amount'], 2) . '</p>';
+            echo '<p><strong>Time:</strong> ' . htmlspecialchars($history_row['bid_time']) . '</p>';
+            echo '</div>';
+        }
+    } else {
+        echo "<p>No bids placed yet.</p>";
+    }
+    ?>
         </div>
-
-
         <div id="reviews" class="tab-content">
             <h2>Reviews</h2>
             <div class="review-form">
-                <h3>Submit Your Review</h3><hr>
+                <h3>Submit Your Review</h3>
+                <hr>
                 <form action="submit_review.php" method="post">
                     <input type="hidden" name="product_id" value="<?php echo $product_id; ?>">
                     <div class="rating-container">
@@ -691,7 +723,8 @@ $reviews_result = $conn->query($reviews_sql);
                             <button type="submit" class="delete-button">Delete</button>
                         </form>
                         <?php endif; ?>
-                    </div><hr>
+                    </div>
+                    <hr>
                     <p><?php echo htmlspecialchars($review_row['comment']); ?></p>
                 </div>
                 <?php endwhile; ?>

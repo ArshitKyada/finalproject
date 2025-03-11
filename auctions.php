@@ -2,6 +2,8 @@
 include_once 'header.php';
 include_once 'preloader.php';
 include_once 'connect.php'; // Database connection file
+include_once 'delete_auction.php';
+
 
 $sql = "SELECT p.*, 
                (SELECT pi.image_url FROM product_images pi WHERE pi.product_id = p.id ORDER BY pi.id LIMIT 1) AS coverImageMain,
@@ -31,8 +33,8 @@ $result = mysqli_query($conn, $sql);
         <a href="product_details.php?id=<?php echo $row['id']; ?>" class="card-link">
             <div class="card">
                 <div class="relative">
-                    <img src="<?php echo $row['coverImageMain']; ?>" 
-                         alt="<?php echo htmlspecialchars($row['product_name']); ?>">
+                    <img src="<?php echo $row['coverImageMain']; ?>"
+                        alt="<?php echo htmlspecialchars($row['product_name']); ?>">
                 </div>
                 <div class="content">
                     <h3><?php echo htmlspecialchars($row['product_name']); ?></h3>
@@ -46,6 +48,17 @@ $result = mysqli_query($conn, $sql);
         </a>
         <?php } ?>
     </div>
+    <script>
+        function autoDeleteExpiredAuctions() {
+            fetch('delete_expired_auctions.php')
+                .then(response => response.text())
+                .then(data => console.log("Expired auctions deleted"))
+                .catch(error => console.error('Error:', error));
+        }
+
+    // Run every second
+    setInterval(autoDeleteExpiredAuctions, 100);
+    </script>
 </body>
 
 </html>

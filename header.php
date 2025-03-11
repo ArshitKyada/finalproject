@@ -71,7 +71,7 @@ if (session_status() == PHP_SESSION_NONE) {
                 if ($_SESSION['account_type'] === 'seller') {
                     echo '<a class="line" href="sellerindex.php">Dashboard</a>';
                 } elseif ($_SESSION['account_type'] === 'buyer') {
-                    echo '<a class="line" href="bidhistory.php">Bid History</a>';
+                    echo '<a class="line" href="bid_history.php">Bid History</a>';
                 }
                 echo '<a class="btn" href="logout.php">Logout</a>'; // Logout button
             } else {
