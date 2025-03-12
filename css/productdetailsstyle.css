@@ -1,0 +1,444 @@
+body {
+    background-color: #f7fafc;
+    font-family: Arial, sans-serif;
+    overflow-y: scroll;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+.product-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+.card img {
+    width: 600px;
+    height: 500px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.additional-images {
+    display: flex;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    gap: 7px;
+    border-radius: 8px;
+    padding: 5px;
+}
+
+.additional-images img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.card .left-section,
+.card .right-section {
+    padding: 16px;
+}
+
+.card .left-section {
+    flex: 1;
+}
+
+.card .right-section {
+    flex: 1;
+    padding: 20px;
+}
+
+.card .right-section h1 {
+    font-size: 26px;
+    font-weight: 600;
+    color: #2d3748;
+}
+
+.card .right-section .bid-section button {
+    background-color: #0A3D62;
+    color: white;
+    width: 100px;
+    height: 50px;
+    transition: background-color 0.3s;
+}
+
+.card .right-section .bid-section button:hover {
+    background-color: rgb(8, 44, 69);
+    color: white;
+}
+
+.card .right-section .bid-section input {
+    border: 2px solid #e2e8f0;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.card .right-section p {
+    color: #4a5568;
+    margin-top: 8px;
+}
+
+.card .right-section .item-condition {
+    margin-top: 16px;
+    font-weight: bold;
+}
+
+.card .right-section .item-condition span {
+    color: #48bb78;
+}
+
+.card .right-section .time-left {
+    margin-top: 16px;
+    text-align: center;
+}
+
+.card .right-section .time-left .time-box {
+    display: flex;
+    justify-content: center;
+    margin-top: 8px;
+}
+
+.card .right-section .time-left .time-box div {
+    background-color: #edf2f7;
+    padding: 16px;
+    border-radius: 4px;
+    text-align: center;
+    margin-right: 8px;
+    flex: 1;
+}
+
+.card .right-section .time-left .time-box div p {
+    margin: 0;
+}
+
+.card .right-section .time-left .time-box div p:first-child {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.card .right-section .time-left .time-box div p:last-child {
+    font-size: 12px;
+    color: #718096;
+}
+
+.card .right-section .starting-bid {
+    margin-top: 16px;
+}
+
+.card .right-section .starting-bid p {
+    font-size: 18px;
+    font-weight: bold;
+    color: rgb(72, 75, 80);
+}
+
+.card .right-section .starting-bid p span.price {
+    font-size: 24px;
+    color: #2d3748;
+}
+
+.card .right-section .bid-section {
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.card .right-section .bid-section button {
+    background-color: #edf2f7;
+    color: #2d3748;
+    padding: 10px 20px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+.card .right-section .bid-section input {
+    width: 80px;
+    padding: 10px 20px;
+    text-align: center;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    margin: 0 8px;
+}
+
+.card .right-section .bid-section .bid-button {
+    background-color: #0A3D62;
+    color: white;
+    width: 200px;
+}
+
+.tabs {
+    margin-top: 16px;
+    display: flex;
+}
+
+.tabs button {
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    margin-right: 8px;
+}
+
+.tabs .active {
+    background-color: #0A3D62;
+    color: white;
+}
+
+.tabs .inactive {
+    background-color: white;
+    color: #2d3748;
+    border: 1px solid #e2e8f0;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.more-products-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.more-products-container .card {
+    flex: 1 1 calc(50% - 16px);
+    max-width: calc(50% - 16px);
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.more-products-container .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.more-products-container .card img {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+}
+
+@media (min-width: 768px) {
+    .more-products-container .card {
+        flex: 1 1 calc(25% - 16px);
+        width: 400px;
+    }
+}
+
+.more-products-container .right-section {
+    padding: 16px;
+}
+
+.more-products-container .right-section h1 {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+    color: #2d3748;
+}
+
+.more-products-container .right-section p {
+    color: #4a5568;
+    margin: 4px 0;
+}
+
+.more-products-container .starting-bid {
+    font-weight: bold;
+    color: #0A3D62;
+    font-size: 16px;
+}
+
+.more-products-container .card a {
+    text-decoration: none;
+    color: inherit;
+}
+
+@media (min-width: 1024px) {
+    .card {
+        flex-direction: row;
+    }
+}
+
+@media (max-width: 768px) {
+    .card img {
+        width: 100%;
+        height: auto;
+    }
+
+    .additional-images {
+        flex-direction: row;
+        overflow-x: auto;
+    }
+
+    .additional-images img {
+        width: 68px;
+        height: 80px;
+    }
+}
+
+/* Reviews Section */
+.reviews-list {
+    margin-top: 20px;
+}
+
+.review {
+    background-color: #f9f9f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.review-rating {
+    color: #f39c12;
+    /* Gold color for stars */
+}
+
+.review-date {
+    font-size: 0.9em;
+    color: #718096;
+    /* Gray color */
+}
+
+.review-form {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding-right: 30px;
+}
+
+.review-form label {
+    display: block;
+    margin-top: 10px;
+}
+
+.review-form textarea {
+    width: 100%;
+    height: 80px;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    padding: 5px;
+    background-color: #f7fafc;
+}
+
+.review-form button {
+    margin-top: 10px;
+    background-color: #0A3D62;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.review-form button:hover {
+    background-color: rgb(7, 41, 65);
+    /* Darker shade on hover */
+}
+
+.rating-container {
+    display: flex;
+    align-items: center;
+    /* Align items vertically */
+}
+
+.rating-container label {
+    margin-right: 10px;
+    margin-top: 10px;
+    /* Space between label and stars */
+}
+
+.star-rating {
+    direction: rtl;
+    /* Right to left for star selection */
+    display: flex;
+    justify-content: flex-start;
+    /* Align stars to the left */
+}
+
+.star-rating input {
+    display: none;
+    /* Hide the radio buttons */
+}
+
+.star-rating label {
+    font-size: 30px;
+    color: #ddd;
+    /* Default star color */
+    cursor: pointer;
+}
+
+.star-rating input:checked~label {
+    color: #f39c12;
+    /* Color for selected stars */
+}
+
+.star-rating label:hover,
+.star-rating label:hover~label {
+    color: #f39c12;
+    /* Color for hovered stars */
+}
+
+.delete-button {
+    background-color: #e53e3e;
+    /* Red color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    background-color: #c53030;
+    /* Darker red on hover */
+}
+
+/* Auction History Styles */
+.bid-entry {
+    background-color: #f9f9f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.bid-entry p {
+    margin: 5px 0;
+    color: #4a5568;
+}
+
+.bid-entry strong {
+    color: #2d3748;
+}
