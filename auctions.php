@@ -9,7 +9,6 @@ $sql = "SELECT p.*,
                COALESCE(MAX(b.bid_amount), p.starting_bid) AS highest_bid 
         FROM products p
         LEFT JOIN bid b ON p.id = b.product_id
-        WHERE p.end_time > NOW()  -- Only select active auctions
         GROUP BY p.id";
 
 $result = mysqli_query($conn, $sql);
@@ -50,7 +49,7 @@ $result = mysqli_query($conn, $sql);
     </div>
     <script>
         function autoDeleteExpiredAuctions() {
-            fetch('delete_auction.php')
+            fetch('.php')
                 .then(response => response.text())
                 .then(data => {
                     console.log(data); // Log the response from the server
