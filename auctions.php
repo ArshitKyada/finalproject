@@ -1,15 +1,15 @@
 <?php 
-include_once 'header.php';
-include_once 'preloader.php';
+include_once 'header.php'; // Include your header file
+include_once 'preloader.php'; // Include your preloader file
 include_once 'connect.php'; // Database connection file
-include_once 'delete_auction.php';
 
-
+// SQL to select products that are active (not expired)
 $sql = "SELECT p.*, 
                (SELECT pi.image_url FROM product_images pi WHERE pi.product_id = p.id ORDER BY pi.id LIMIT 1) AS coverImageMain,
                COALESCE(MAX(b.bid_amount), p.starting_bid) AS highest_bid 
         FROM products p
         LEFT JOIN bid b ON p.id = b.product_id
+        WHERE p.end_time > NOW()  -- Only select active auctions
         GROUP BY p.id";
 
 $result = mysqli_query($conn, $sql);
@@ -50,14 +50,18 @@ $result = mysqli_query($conn, $sql);
     </div>
     <script>
         function autoDeleteExpiredAuctions() {
-            fetch('delete_expired_auctions.php')
+            fetch('delete_auction.php')
                 .then(response => response.text())
-                .then(data => console.log("Expired auctions deleted"))
+                .then(data => {
+                    console.log(data); // Log the response from the server
+                    // Optionally, you can display a message to the user
+                    // alert(data); // Uncomment to show an alert
+                })
                 .catch(error => console.error('Error:', error));
         }
 
-    // Run every second
-    setInterval(autoDeleteExpiredAuctions, 100);
+        // Set the interval to 5 minutes (300000 milliseconds)
+        setInterval(autoDeleteExpiredAuctions, 300);
     </script>
 </body>
 

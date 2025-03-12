@@ -143,16 +143,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <option value="Refurbished">Refurbished</option>
                         </select><br><br>
 
-                        <label class="label">Upload Images <span style="color: red;">*</span></label><br><br>
                         <div>
-                            <label for="coverImageMain" class="label">Main Image <span style="color: red;">*</span></label><br>
+                            <label for="coverImageMain" class="label">Main Image <span style="color: red;">*</span></label><br><br>
                             <div class="upload-area" id="uploadAreaMain" onclick="document.getElementById('coverImageMain').click()">
                                 <span class="upload-icon" id="iconMain">+</span>
                                 <input type="file" id="coverImageMain" name="coverImageMain" accept="image/*"
                                     class="hidden" required onchange="updateIcon('iconMain')">
                             </div>
-                        </div><br>
-
+                        </div>
+                        <hr>
+                        <label class="label">Add More Image <span style="color: red;">*</span></label><br>
                         <div class="upload-container">
                             <div>
                                 <div class="upload-area" onclick="document.getElementById('coverImage1').click()">

@@ -1,5 +1,6 @@
 <?php
 include_once 'connect.php';
+include_once 'preloader.php';
 
 session_start(); // Start session for user tracking
 
@@ -372,8 +373,8 @@ $reviews_result = $conn->query($reviews_sql);
     }
 
     .more-products-container .card img {
-        width: 300px;
-        height: 300px;
+        width: 100%;
+        height: 450px;
         object-fit: cover;
     }
 
