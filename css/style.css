@@ -51,7 +51,7 @@
     }
 
     .header nav .btn:hover {
-        background-color: #007bff;
+        background-color: #00202f ;
         color: #fff;
     }
 
@@ -149,7 +149,13 @@
     }
 
     .view-auctions {
-        background-color: #007bff;
+        background-color: #0a3d62;
+        transition: background-color 0.5s ease, color 0.2s ease;
+    }
+
+    .view-auctions:hover {
+        background-color: #06243a;
+        color: white;
     }
 
     .watch-video {
@@ -158,7 +164,7 @@
     }
 
     .watch-video:hover {
-        background-color: #007bff;
+        background-color: #0a3d62;
         color: white;
     }
 

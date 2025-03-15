@@ -41,7 +41,7 @@ include_once 'header.php';
             <h1 class="headline">Winning bids, one click at a time</h1>
             <p class="subheadline">Where auctions meet technology for a seamless bidding experience.</p>
             <div class="buttons">
-                <a href="#" class="button view-auctions">View Auctions</a>
+                <a href="auctions.php" class="button view-auctions">View Auctions</a>
                 <a href="#" class="button watch-video">Watch Video</a>
             </div>
         </div>
@@ -86,8 +86,7 @@ include_once 'header.php';
     </div>
 
     <div class="category-container" id="categories">
-        <h2>OUR CATEGORIES</h2>
-        <h1>Find Products By Category</h1><br>
+        <h1>OUR CATEGORIES</h1><br>
         <div class="categories">
             <div class="category">
                 <h3>Smart Phones</h3>

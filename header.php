@@ -45,7 +45,7 @@ if (session_status() == PHP_SESSION_NONE) {
         }
 
         .btn:hover {
-            background: #0056b3;
+            background: #083d54 ;
         }
     </style>
 </head>

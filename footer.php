@@ -186,10 +186,10 @@
         <p>&copy; 2025 Auctioneers. All Rights Reserved.</p>
         <div class="payment-methods">
             <p>We Accept:</p>
-            <a href="#" target="_blank"><img src="images/visa.png" alt="Visa" class="payment-logo"></a>
-            <a href="#" target="_blank"><img src="images/mastercard.png" alt="MasterCard" class="payment-logo"></a>
-            <a href="#" target="_blank"><img src="images/paypal.png" alt="PayPal" class="payment-logo"></a>
-            <a href="#" target="_blank"><img src="images/gpay.png" alt="Discover" class="payment-logo"></a>
+            <a href="#"><img src="images/visa.png" alt="Visa" class="payment-logo"></a>
+            <a href="#"><img src="images/mastercard.png" alt="MasterCard" class="payment-logo"></a>
+            <a href="#"><img src="images/paypal.png" alt="PayPal" class="payment-logo"></a>
+            <a href="#"><img src="images/gpay.png" alt="Discover" class="payment-logo"></a>
         </div>
     </div>
 
