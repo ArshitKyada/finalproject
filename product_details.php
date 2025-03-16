@@ -123,6 +123,10 @@ $more_products_result = $conn->query($more_products_sql);
 $reviews_sql = "SELECT r.id, r.rating, r.comment, r.created_at, u.username, r.user_id FROM reviews r JOIN users u ON r.user_id = u.id WHERE r.product_id = $product_id ORDER BY r.created_at DESC";
 $reviews_result = $conn->query($reviews_sql);
 
+// Check if the auction has ended
+$current_time = new DateTime(); // Get the current time
+$end_time = new DateTime($row['end_time']); // Assuming 'end_time' is in the product row
+$auction_ended = $current_time > $end_time; // Check if the current time is greater than the end time
 ?>
 
 <!DOCTYPE html>
@@ -188,15 +192,14 @@ $reviews_result = $conn->query($reviews_sql);
                     <p><span class="text"><?php echo htmlspecialchars($reserve_status); ?></span></p>
                 </div>
 
-                <div class="bid-section">
+                <div class="bid-section" <?php echo $auction_ended ? 'style="display:none;"' : ''; ?>>
                     <form action="" method="post">
                         <input type="hidden" name="product_id" value="<?php echo $product_id; ?>">
                         <button type="button" onclick="decreaseBid()">-</button>
                         <input type="text" id="bidamount" name="bid_amount"
-                            value="<?php echo htmlspecialchars($highest_bid + 10); ?>">
+                            value="<?php echo htmlspecialchars($highest_bid + 10); ?>" <?php echo $auction_ended ? 'disabled' : ''; ?>>
                         <button type="button" onclick="increaseBid()">+</button>
-                        <br><br>
-                        <button type="submit" name="place_bid" class="bid-button">Bid</button>
+                        <button type="submit" name="place_bid" class="bid-button" <?php echo $auction_ended ? 'disabled' : ''; ?>>Bid</button>
                     </form>
                 </div>
             </div>
@@ -289,6 +292,7 @@ $reviews_result = $conn->query($reviews_sql);
             <p>No reviews yet.</p>
             <?php endif; ?>
         </div>
+        
         <div id="more-products" class="tab-content">
             <h2>More Products</h2>
             <div class="more-products-container">

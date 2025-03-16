@@ -31,15 +31,16 @@ include_once 'header.php';
     .categories .category a:hover img {
         transform: scale(1.1);
     }
+
     </style>
 </head>
 
 <body>
 
     <div class="container" id="home">
-        <div class="content">
+        <div class="content"><br><br>
             <h1 class="headline">Winning bids, one click at a time</h1>
-            <p class="subheadline">Where auctions meet technology for a seamless bidding experience.</p>
+            <br>
             <div class="buttons">
                 <a href="auctions.php" class="button view-auctions">View Auctions</a>
                 <a href="#" class="button watch-video">Watch Video</a>

@@ -122,14 +122,9 @@
     .headline {
         font-size: 3.4rem;
         font-weight: bold;
-        margin-bottom: 10px;
-        color: #222;
-    }
-
-    .subheadline {
-        font-size: 1.2rem;
         margin-bottom: 30px;
-        color: #555;
+        color: #222;
+        margin-top: 100px;
     }
 
     .buttons {

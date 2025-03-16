@@ -131,7 +131,6 @@ $result = mysqli_query($conn, $sql);
                 <div class="content">
                     <h3><?php echo htmlspecialchars($row['product_name']); ?></h3>
                     <p>Current bid: <span>$<?php echo number_format($row['highest_bid'], 2); ?></span></p>
-                    <p><?php echo htmlspecialchars(substr($row['description'], 0, 50)) . '...'; ?></p>
                     <p>Ends on: <span><?php echo date('Y-m-d', strtotime($row['end_time'])); ?></span></p>
                     <div class="actions">
                         <button>Bid Now</button>
