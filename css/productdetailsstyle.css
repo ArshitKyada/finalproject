@@ -245,10 +245,33 @@ body::-webkit-scrollbar {
     object-fit: cover;
 }
 
+/* Existing styles for bid-section */
+.card .right-section .bid-section {
+    margin-top: 16px;
+    display: flex;
+    align-items: center; /* Center items vertically */
+}
+
+/* New styles for mobile screens */
+@media (max-width: 768px) {
+    .card .right-section .bid-section {
+        padding-left: 70px;
+        align-items: center; /* Center items horizontally */
+    }
+    .card .right-section .bid-section .bid-button {
+        margin-top: 15px;
+        margin-left: 92px;
+    }
+}
+
 @media (min-width: 768px) {
     .more-products-container .card {
         flex: 1 1 calc(25% - 16px);
         width: 400px;
+    }
+
+    .bid-section{
+
     }
 }
 
