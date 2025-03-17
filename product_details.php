@@ -201,15 +201,20 @@ $auction_ended = $current_time > $end_time; // Check if the current time is grea
                         <input type="hidden" name="product_id" value="<?php echo $product_id; ?>">
                         <button type="button" onclick="decreaseBid()">-</button>
                         <input type="text" id="bidamount" name="bid_amount"
-                            value="<?php echo htmlspecialchars(($highest_bidder ? $highest_bidder['bid_amount'] : $row['starting_bid']) + 10); ?>" <?php echo $auction_ended ? 'disabled' : ''; ?>>
+                            value="<?php echo htmlspecialchars(($highest_bidder ? $highest_bidder['bid_amount'] : $row['starting_bid']) + 10); ?>"
+                            <?php echo $auction_ended ? 'disabled' : ''; ?>>
                         <button type="button" onclick="increaseBid()">+</button>
-                        <button type="submit" name="place_bid" class="bid-button" <?php echo $auction_ended ? 'disabled' : ''; ?>>Bid</button>
+                        <button type="submit" name="place_bid" class="bid-button"
+                            <?php echo $auction_ended ? 'disabled' : ''; ?>>Bid</button>
                     </form>
                 </div>
 
                 <!-- Win Message -->
-                <div class="win-message" style="<?php echo $is_highest_bidder ? 'display:block;' : 'display:none;'; ?>">
-                    <p>Congratulations! You have the highest bid for this product!</p>
+                <div class="win-message"
+                    style="<?php echo $is_highest_bidder && $auction_ended ? 'display:block;' : 'display:none;'; ?>">
+                    <p>Congratulations! You have won the auction!</p>
+                    <a href="payment_page.php?product_id=<?php echo $product_id; ?>" class="payment-button">Proceed to
+                        Payment</a>
                 </div>
             </div>
         </div>
@@ -301,7 +306,7 @@ $auction_ended = $current_time > $end_time; // Check if the current time is grea
             <p>No reviews yet.</p>
             <?php endif; ?>
         </div>
-        
+
         <div id="more-products" class="tab-content">
             <h2>More Products</h2>
             <div class="more-products-container">
@@ -340,7 +345,8 @@ $auction_ended = $current_time > $end_time; // Check if the current time is grea
 
     function decreaseBid() {
         let bidInput = document.getElementById("bidamount");
-        if (parseInt(bidInput.value) > <?php echo htmlspecialchars($highest_bidder ? $highest_bidder['bid_amount'] : $row['starting_bid']); ?>) {
+        if (parseInt(bidInput.value) >
+            <?php echo htmlspecialchars($highest_bidder ? $highest_bidder['bid_amount'] : $row['starting_bid']); ?>) {
             bidInput.value = parseInt(bidInput.value) - 10;
         }
     }
@@ -377,12 +383,13 @@ $auction_ended = $current_time > $end_time; // Check if the current time is grea
 
     document.addEventListener("DOMContentLoaded", function() {
         let productId = <?php echo json_encode($product_id); ?>; // Dynamically fetch product ID
+        let endTimeUTC = new Date("<?php echo $row['end_time']; ?>").getTime(); // Get end time from PHP
 
         fetch(`get_timer.php?id=${productId}`)
             .then(response => response.json())
             .then(data => {
                 if (data.end_time) {
-                    let endTimeUTC = new Date(data.end_time).getTime(); // Parse ISO date correctly
+                    endTimeUTC = new Date(data.end_time).getTime(); // Parse ISO date correctly
 
                     function updateCountdown() {
                         let now = new Date().getTime();
@@ -390,7 +397,8 @@ $auction_ended = $current_time > $end_time; // Check if the current time is grea
 
                         if (timeLeft <= 0) {
                             document.querySelector(".time-left").innerHTML = "<p>Auction ended</p>";
-                            document.getElementById("bidSection").style.display = "none"; // Hide bid section
+                            document.getElementById("bidSection").style.display =
+                            "none"; // Hide bid section
                             return;
                         }
 
@@ -418,14 +426,21 @@ $auction_ended = $current_time > $end_time; // Check if the current time is grea
             fetch(`get_highest_bid.php?id=${productId}`)
                 .then(response => response.json())
                 .then(data => {
-                    if (data.highest_bidder_id === <?php echo json_encode($user_id); ?>) {
-                        document.querySelector('.win-message').style.display = 'block';
+                    // Check if the auction has ended
+                    if (endTimeUTC <= new Date().getTime()) {
+                        // Only show win message if the user is the highest bidder
+                        if (data.highest_bidder_id === <?php echo json_encode($user_id); ?>) {
+                            document.querySelector('.win-message').style.display = 'block';
+                        } else {
+                            document.querySelector('.win-message').style.display = 'none';
+                        }
                     } else {
-                        document.querySelector('.win-message').style.display = 'none';
+                        document.querySelector('.win-message').style.display =
+                        'none'; // Hide if auction is still ongoing
                     }
                 })
                 .catch(error => console.error('Error fetching highest bid:', error));
-        }, 5000); // Check every 5 seconds
+        }, 1000); // Check every 5 seconds
     });
     </script>
 

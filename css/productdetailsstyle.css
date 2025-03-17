@@ -241,7 +241,7 @@ body::-webkit-scrollbar {
 
 .more-products-container .card img {
     width: 100%;
-    height: 450px;
+    height: 300px;
     object-fit: cover;
 }
 
@@ -269,14 +269,58 @@ body::-webkit-scrollbar {
         flex: 1 1 calc(25% - 16px);
         width: 400px;
     }
-
-    .bid-section{
-
-    }
 }
 
 .more-products-container .right-section {
     padding: 16px;
+}
+
+/* Win Message Container */
+.win-message {
+    background-color: #f8f9fa; /* Light gray background */
+    border: 1px solid #28a745; /* Green border */
+    border-radius: 8px; /* Rounded corners */
+    padding: 20px; /* Padding inside the box */
+    margin-top: 20px; /* Space above the win message */
+    text-align: center; /* Center the text */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Win Message Text */
+.win-message p {
+    font-size: 38px; /* Font size for the message */
+    color: #28a745; /* Green text color */
+    margin: 0; /* Remove default margin */
+}
+
+/* Payment Button */
+.payment-button {
+    display: inline-block; /* Make it a block element */
+    padding: 12px 24px; /* Padding for the button */
+    background-color: #0A3D62; /* Green background */
+    color: white; /* White text */
+    text-decoration: none; /* No underline */
+    border-radius: 5px; /* Rounded corners */
+    margin-top: 10px; /* Space above the button */
+    font-size: 16px; /* Font size for the button */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+/* Payment Button Hover Effect */
+.payment-button:hover {
+    background-color: #072840; /* Darker green on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .win-message {
+        padding: 15px; /* Less padding on smaller screens */
+    }
+
+    .payment-button {
+        padding: 10px 20px; /* Smaller padding on smaller screens */
+        font-size: 14px; /* Smaller font size on smaller screens */
+    }
 }
 
 .more-products-container .right-section h1 {
