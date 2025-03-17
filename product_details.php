@@ -65,17 +65,21 @@ if ($result->num_rows > 0) {
     die("Error: Product not found.");
 }
 
-// Fetch the highest bid
-$bid_sql = "SELECT MAX(bid_amount) AS highest_bid FROM bid WHERE product_id = $product_id";
-$bid_result = $conn->query($bid_sql);
-$highest_bid = $row['starting_bid']; // Default to starting bid if no bids exist
+// Fetch the highest bid and the highest bidder
+$highest_bid_sql = "
+    SELECT b.user_id, b.bid_amount 
+    FROM bid b 
+    WHERE b.product_id = $product_id 
+    ORDER BY b.bid_amount DESC 
+    LIMIT 1";
+$highest_bid_result = $conn->query($highest_bid_sql);
+$highest_bidder = null;
 
-if ($bid_result->num_rows > 0) {
-    $bid_row = $bid_result->fetch_assoc();
-    if ($bid_row['highest_bid'] !== null) {
-        $highest_bid = $bid_row['highest_bid'];
-    }
+if ($highest_bid_result->num_rows > 0) {
+    $highest_bidder = $highest_bid_result->fetch_assoc();
 }
+
+$is_highest_bidder = ($highest_bidder && $highest_bidder['user_id'] == $user_id);
 
 // Fetch the main image from product_images table
 $image_sql = "SELECT image_url FROM product_images WHERE product_id = $product_id LIMIT 1"; // Fetch only the main image
@@ -107,7 +111,7 @@ if ($additional_images_result->num_rows > 0) {
 $reserve_price = $row['reserve_price'] ?? 0;
 
 // Update reserve price status
-$reserve_status = ($highest_bid >= $reserve_price) ? "Reserve price has been met" : "Reserve price has not been met";
+$reserve_status = ($highest_bidder['bid_amount'] >= $reserve_price) ? "Reserve price has been met" : "Reserve price has not been met";
 
 // Fetch all products from the same seller for the "More Products" tab
 $seller_id = $row['seller_id'];
@@ -187,20 +191,25 @@ $auction_ended = $current_time > $end_time; // Check if the current time is grea
                 </div>
                 <div class="starting-bid">
                     <p><span
-                            class="price"><?php echo ($highest_bid > $row['starting_bid']) ? "Current bid: $" . number_format($highest_bid, 2) : "Starting bid: $" . number_format($row['starting_bid'], 2); ?></span>
+                            class="price"><?php echo ($highest_bidder ? "Current bid: $" . number_format($highest_bidder['bid_amount'], 2) : "Starting bid: $" . number_format($row['starting_bid'], 2)); ?></span>
                     </p>
                     <p><span class="text"><?php echo htmlspecialchars($reserve_status); ?></span></p>
                 </div>
 
-                <div class="bid-section" <?php echo $auction_ended ? 'style="display:none;"' : ''; ?>>
+                <div class="bid-section" id="bidSection" <?php echo $auction_ended ? 'style="display:none;"' : ''; ?>>
                     <form action="" method="post">
                         <input type="hidden" name="product_id" value="<?php echo $product_id; ?>">
                         <button type="button" onclick="decreaseBid()">-</button>
                         <input type="text" id="bidamount" name="bid_amount"
-                            value="<?php echo htmlspecialchars($highest_bid + 10); ?>" <?php echo $auction_ended ? 'disabled' : ''; ?>>
+                            value="<?php echo htmlspecialchars(($highest_bidder ? $highest_bidder['bid_amount'] : $row['starting_bid']) + 10); ?>" <?php echo $auction_ended ? 'disabled' : ''; ?>>
                         <button type="button" onclick="increaseBid()">+</button>
                         <button type="submit" name="place_bid" class="bid-button" <?php echo $auction_ended ? 'disabled' : ''; ?>>Bid</button>
                     </form>
+                </div>
+
+                <!-- Win Message -->
+                <div class="win-message" style="<?php echo $is_highest_bidder ? 'display:block;' : 'display:none;'; ?>">
+                    <p>Congratulations! You have the highest bid for this product!</p>
                 </div>
             </div>
         </div>
@@ -331,7 +340,7 @@ $auction_ended = $current_time > $end_time; // Check if the current time is grea
 
     function decreaseBid() {
         let bidInput = document.getElementById("bidamount");
-        if (parseInt(bidInput.value) > <?php echo htmlspecialchars($highest_bid); ?>) {
+        if (parseInt(bidInput.value) > <?php echo htmlspecialchars($highest_bidder ? $highest_bidder['bid_amount'] : $row['starting_bid']); ?>) {
             bidInput.value = parseInt(bidInput.value) - 10;
         }
     }
@@ -381,6 +390,7 @@ $auction_ended = $current_time > $end_time; // Check if the current time is grea
 
                         if (timeLeft <= 0) {
                             document.querySelector(".time-left").innerHTML = "<p>Auction ended</p>";
+                            document.getElementById("bidSection").style.display = "none"; // Hide bid section
                             return;
                         }
 
@@ -402,6 +412,20 @@ $auction_ended = $current_time > $end_time; // Check if the current time is grea
                 }
             })
             .catch(error => console.error("Error fetching timer:", error));
+
+        // Real-time check for highest bidder
+        setInterval(function() {
+            fetch(`get_highest_bid.php?id=${productId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.highest_bidder_id === <?php echo json_encode($user_id); ?>) {
+                        document.querySelector('.win-message').style.display = 'block';
+                    } else {
+                        document.querySelector('.win-message').style.display = 'none';
+                    }
+                })
+                .catch(error => console.error('Error fetching highest bid:', error));
+        }, 5000); // Check every 5 seconds
     });
     </script>
 
