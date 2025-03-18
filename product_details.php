@@ -79,7 +79,11 @@ if ($highest_bid_result->num_rows > 0) {
     $highest_bidder = $highest_bid_result->fetch_assoc();
 }
 
-$is_highest_bidder = ($highest_bidder && $highest_bidder['user_id'] == $user_id);
+// Check if highest_bidder is set before accessing it
+$is_highest_bidder = false; // Default value
+if ($highest_bidder && isset($highest_bidder['user_id'])) {
+    $is_highest_bidder = ($highest_bidder['user_id'] == $user_id);
+}
 
 // Fetch the main image from product_images table
 $image_sql = "SELECT image_url FROM product_images WHERE product_id = $product_id LIMIT 1"; // Fetch only the main image
@@ -111,7 +115,7 @@ if ($additional_images_result->num_rows > 0) {
 $reserve_price = $row['reserve_price'] ?? 0;
 
 // Update reserve price status
-$reserve_status = ($highest_bidder['bid_amount'] >= $reserve_price) ? "Reserve price has been met" : "Reserve price has not been met";
+$reserve_status = ($highest_bidder && $highest_bidder['bid_amount'] >= $reserve_price) ? "Reserve price has been met" : "Reserve price has not been met";
 
 // Fetch all products from the same seller for the "More Products" tab
 $seller_id = $row['seller_id'];

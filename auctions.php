@@ -121,7 +121,7 @@ $result = mysqli_query($conn, $sql);
                         if ($row['auction_status'] == 'sold') {
                             echo '<span class="status sold">Sold</span>';
                         } elseif ($row['auction_status'] == 'ended') {
-                            echo '<span class="status ended">Auction Ended</span>';
+                            echo '<span class="status ended">Unsold</span>';
                         } else {
                             echo '<span class="status active">Active</span>';
                         }

@@ -14,8 +14,19 @@ include_once 'header.php';
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <style>
+    /* Hide scrollbar */
     body::-webkit-scrollbar {
         display: none;
+    }
+
+    /* Apply background image only to the content section */
+    .container {
+        background-image: url('images/back.png'); /* Ensure the path is correct */
+        background-size: cover; /* Cover the entire section */
+        background-position: center; /* Center the image */
+        background-repeat: no-repeat; /* No repeating */
+        padding: 50px; /* Add padding for better spacing */
+        border-radius: 10px; /* Rounded corners for a nice effect */
     }
 
     .categories .category a {
@@ -31,8 +42,8 @@ include_once 'header.php';
     .categories .category a:hover img {
         transform: scale(1.1);
     }
+</style>
 
-    </style>
 </head>
 
 <body>

@@ -8,6 +8,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
+    // Check if username and password are both 'admin'
+    if ($username === 'admin' && $password === 'admin') {
+        $_SESSION['user_id'] = 'admin'; // Set a session variable for admin
+        $_SESSION['username'] = 'admin';
+        header("Location: admin/index.php");
+        exit();
+    }
+
     $query = "SELECT * FROM users WHERE username='$username'";
     $result = mysqli_query($conn, $query);
 

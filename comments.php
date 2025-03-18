@@ -8,18 +8,14 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
 
     <style>
-    body {
-        font-family: Arial, sans-serif;
-    }
-
-    section {
+    .commentsection {
         padding: 3rem 0;
         text-align: center;
+        background-color:white;
     }
 
     .comment-container {
         max-width: 1200px;
-        background-color:rgb(255, 255, 255);
         margin: 0 auto;
     }
 
@@ -156,7 +152,7 @@
 </head>
 
 <body>
-    <section>
+    <section class="commentsection">
         <div class="container">
             <h2>What Clients Say</h2>
             <p>Explore the world’s best & largest Bidding marketplace with our beautiful Bidding products. We want to be

@@ -1,67 +1,93 @@
+<?php
+include 'connect.php'; // Include your database connection
+
+// Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    // Redirect to login page or show an error
+    header("Location: login.php");
+    exit();
+}
+
+// Handle form submission
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $subject = $_POST['subject'];
+    $message = $_POST['message'];
+    $user_id = $_SESSION['user_id']; // Get the user ID from the session
+
+    // Basic SQL query to insert data (not using prepared statements)
+    $query = "INSERT INTO contactus (user_id, name, email, subject, message) VALUES ('$user_id', '$name', '$email', '$subject', '$message')";
+    
+    // Execute the query
+    if (mysqli_query($conn, $query)){}
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auctioneers</title>
+    <title>Contact Us</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-        /* Adding background color to the contact section */
+        /* Add your CSS styles here */
         .contact-section {
             background-color: #fff;
             padding: 40px 20px;
         }
-        
+
         .contact-header h1 {
             text-align: center;
             color: #0a2e79;
         }
-        
+
         .contact-container {
             display: flex;
             justify-content: space-between;
             margin-top: 40px;
         }
-        
+
         .contact-info {
             flex: 1;
             padding-right: 20px;
             box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.15);
         }
-        
+
         .info-item {
             margin-bottom: 20px;
         }
-        
+
         .info-item i {
             font-size: 24px;
             color: #0a2e79;
             margin-right: 10px;
         }
-        
+
         .info-item h3 {
             color: #0a2e79;
             font-size: 18px;
             margin-bottom: 5px;
         }
-        
+
         .info-item p {
             font-size: 14px;
             color: #333;
         }
-        
+
         .contact-form {
             flex: 1;
             padding-left: 20px;
             box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.15);
         }
-        
+
         .contact-form h3 {
             color: #0a2e79;
             margin-bottom: 20px;
         }
-        
+
         .contact-form form input,
         .contact-form form textarea {
             width: 100%;
@@ -70,7 +96,7 @@
             border: 1px solid #ddd;
             border-radius: 4px;
         }
-        
+
         .contact-form form button {
             background-color: #0a2e79;
             color: white;
@@ -79,7 +105,7 @@
             border-radius: 4px;
             cursor: pointer;
         }
-        
+
         .contact-form form button:hover {
             background-color: #083b6b;
         }
@@ -116,20 +142,16 @@
             </div>
             <div class="contact-form">
                 <h3>Send Us a Message</h3>
-                <form style="padding-right: 20px;">
-                    <input type="text" placeholder="Your Name" required>
-                    <input type="email" placeholder="Your Email" required>
-                    <input type="text" placeholder="Subject">
-                    <textarea placeholder="Message" required></textarea>
+                <form action="" method="POST" style="padding-right: 20px;">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="email" name="email" placeholder="Your Email" required>
+                    <input type="text" name="subject" placeholder="Subject">
+                    <textarea name="message" placeholder="Message" required></textarea>
                     <button type="submit">Send Message</button>
                 </form>
             </div>
         </div>
     </div>
-
-    <?php 
-        include 'footer.php';
-    ?>
 </body>
 
 </html>
