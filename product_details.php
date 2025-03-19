@@ -172,6 +172,73 @@ $auction_ended = $current_time > $end_time; // Check if the current time is grea
             /* Slightly smaller font size on mobile */
         }
     }
+
+    .more-products-container {
+        display: flex;
+        flex-wrap: wrap;
+        /* Allow items to wrap to the next line */
+        gap: 20px;
+        /* Space between product cards */
+        margin-top: 20px;
+        /* Space above the section */
+    }
+
+    .more-products-card {
+        background-color: #fff;
+        /* White background for product cards */
+        color:black;
+        border: 1px solid #ddd;
+        /* Light border */
+        border-radius: 5px;
+        /* Rounded corners */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        /* Subtle shadow */
+        width: calc(25% - 20px);
+        /* Four cards per row with gap */
+        min-height: 350px;
+        /* Set a minimum height for cards */
+        transition: transform 0.2s;
+        /* Smooth transition for hover effect */
+        overflow: hidden;
+        /* Prevent overflow */
+    }
+
+    .more-products-card:hover {
+        transform: scale(1.05);
+        /* Slightly enlarge card on hover */
+    }
+
+    .more-products-card img {
+        width: 100%;
+        /* Make image responsive */
+        height: auto;
+        /* Maintain aspect ratio */
+        border-top-left-radius: 5px;
+        /* Rounded corners for the top */
+        border-top-right-radius: 5px;
+        /* Rounded corners for the top */
+    }
+
+    .more-products-card a{
+        text-decoration:none;
+        color: black;
+        text-align: center;
+    }
+
+    .more-products-card h3 {
+        font-size: 18px;
+        /* Font size for product name */
+        margin: 10px;
+        color:black;
+        /* Margin around the title */
+    }
+
+    .more-products-card p {
+        margin: 10px;
+        /* Margin around the description and price */
+        color: black;
+        /* Darker gray for text */
+    }
     </style>
 </head>
 
@@ -196,8 +263,9 @@ $auction_ended = $current_time > $end_time; // Check if the current time is grea
             <div class="right-section">
                 <div id="description">
                     <p class="description-text">
-                        <h1><?php echo htmlspecialchars($row['product_name']); ?></h1><hr>
-                        <?php echo nl2br(htmlspecialchars($row['description'])); ?>
+                    <h1><?php echo htmlspecialchars($row['product_name']); ?></h1>
+                    <hr>
+                    <?php echo nl2br(htmlspecialchars($row['description'])); ?>
                     </p>
                 </div>
                 <p class="item-condition">ITEM CONDITION:
@@ -344,22 +412,22 @@ $auction_ended = $current_time > $end_time; // Check if the current time is grea
             <h2>More Products</h2>
             <div class="more-products-container">
                 <?php
-                if ($more_products_result->num_rows > 0) {
-                    while ($more_product_row = $more_products_result->fetch_assoc()) {
-                        $image_url = isset($more_product_row['image_url']) ? htmlspecialchars($more_product_row['image_url']) : 'default_image.jpg';
+        if ($more_products_result->num_rows > 0) {
+            while ($more_product_row = $more_products_result->fetch_assoc()) {
+                $image_url = isset($more_product_row['image_url']) ? htmlspecialchars($more_product_row['image_url']) : 'default_image.jpg';
 
-                        echo '<div class="card">';
-                        echo '<a href="product_details.php?id=' . $more_product_row['id'] . '">';
-                        echo '<img src="' . $image_url . '" alt="' . htmlspecialchars($more_product_row['product_name']) . '">';
-                        echo '<h3>' . htmlspecialchars($more_product_row['product_name']) . '</h3>';
-                        echo '<p>Starting Bid: $' . number_format($more_product_row['starting_bid'], 2) . '</p>';
-                        echo '</a>';
-                        echo '</div>';
-                    }
-                } else {
-                    echo '<p>No more products available from this seller.</p>';
-                }
-                ?>
+                echo '<div class="more-products-card">';
+                echo '<a href="product_details.php?id=' . $more_product_row['id'] . '">';
+                echo '<img src="' . $image_url . '" alt="' . htmlspecialchars($more_product_row['product_name']) . '">';
+                echo '<h3>' . htmlspecialchars($more_product_row['product_name']) . '</h3>';
+                echo '<p>Starting Bid: $' . number_format($more_product_row['starting_bid'], 2) . '</p>';
+                echo '</a>';
+                echo '</div>';
+            }
+        } else {
+            echo '<p>No more products available from this seller.</p>';
+        }
+        ?>
             </div>
         </div>
     </div>
