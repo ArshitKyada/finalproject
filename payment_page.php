@@ -2,8 +2,8 @@
 // Start the session
 session_start();
 
-include_once 'connect.php';
-include_once 'header.php';
+include_once 'connect.php'; // Include your database connection
+include_once 'header.php'; // Include your header
 
 // Check if product_id is set in GET request
 if (isset($_GET['product_id']) && !empty($_GET['product_id'])) {
@@ -27,32 +27,46 @@ $highest_bid_sql = "SELECT MAX(bid_amount) AS highest_bid FROM bid WHERE product
 $highest_bid_result = $conn->query($highest_bid_sql);
 $highest_bid = $highest_bid_result->fetch_assoc()['highest_bid'] ?? 0;
 
+// Check if a payment has already been made for this product
+$payment_check_sql = "SELECT COUNT(*) as payment_exists FROM payments WHERE product_id = $product_id";
+$payment_check_result = $conn->query($payment_check_sql);
+$payment_exists = $payment_check_result->fetch_assoc()['payment_exists'] > 0;
+
+if ($payment_exists) {
+    die("<script>alert('Payment has already been made for this product.'); window.location.href = 'index.php';</script>");
+}
+
+if (isset($_SESSION['user_id'])) {
+    $userId = $_SESSION['user_id'];
+}
+
 // Process form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get form data
-    $full_name = $_POST['full_name'];
-    $email = $_POST['email'];
-    $address = $_POST['address'];
-    $city = $_POST['city'];
-    $state = $_POST['state'];
-    $zip_code = $_POST['zip_code'];
-    $card_name = $_POST['card_name'];
-    $card_number = $_POST['card_number'];
-    $exp_month = $_POST['exp_month'];
-    $exp_year = $_POST['exp_year'];
-    $cvv = $_POST['cvv'];
+    $full_name = $conn->real_escape_string($_POST['full_name']);
+    $email = $conn->real_escape_string($_POST['email']);
+    $address = $conn->real_escape_string($_POST['address']);
+    $city = $conn->real_escape_string($_POST['city']);
+    $state = $conn->real_escape_string($_POST['state']);
+    $zip_code = $conn->real_escape_string($_POST['zip_code']);
+    $card_name = $conn->real_escape_string($_POST['card_name']);
+    $card_number = $conn->real_escape_string($_POST['card_number']);
+    $exp_month = $conn->real_escape_string($_POST['exp_month']);
+    $exp_year = $conn->real_escape_string($_POST['exp_year']);
+    $cvv = $conn->real_escape_string($_POST['cvv']);
 
-    // Basic SQL query to insert data
-    $sql = "INSERT INTO payments (full_name, email, address, city, state, zip_code, card_name, card_number, exp_month, exp_year, cvv) 
-            VALUES ('$full_name', '$email', '$address', '$city', '$state', '$zip_code', '$card_name', '$card_number', '$exp_month', '$exp_year', '$cvv')";
+    $sql = "INSERT INTO payments (full_name, email, address, city, state, zip_code, card_name, card_number, exp_month, exp_year, cvv, amount_due, product_id) 
+    VALUES ('$full_name', '$email', '$address', '$city', '$state', '$zip_code', '$card_name', '$card_number', '$exp_month', '$exp_year', '$cvv', $highest_bid, $product_id)";
 
-    // Execute the query
+// Execute the query
     if ($conn->query($sql) === TRUE) {
-        echo "<script>alert('Payment successfully! Thank you for your purchase.'); window.location.href = 'thank_you.php';</script>";
+        echo "<script>alert('Payment successfully! Thank you for your purchase.'); window.location.href = 'index.php';</script>";
     } else {
         echo "<script>alert('Error storing payment details: " . $conn->error . "');</script>";
     }
 }
+
+$conn->close(); // Close the database connection
 ?>
 
 <!DOCTYPE html>
@@ -171,7 +185,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <div class="container">
-
         <form action="" method="POST">
             <center>
                 <h1>Payment for <?php echo htmlspecialchars($product['product_name']); ?></h1>
@@ -246,7 +259,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit" class="btn" name="submit_payment">Submit</button>
         </form>
     </div>
-
 </body>
 
 </html>

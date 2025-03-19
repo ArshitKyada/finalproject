@@ -10,29 +10,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Check if username and password are both 'admin'
     if ($username === 'admin' && $password === 'admin') {
-        $_SESSION['user_id'] = 'admin'; // Set a session variable for admin
-        $_SESSION['username'] = 'admin';
         header("Location: admin/index.php");
         exit();
     }
 
+    // Fetch user from the database
     $query = "SELECT * FROM users WHERE username='$username'";
     $result = mysqli_query($conn, $query);
 
     if (mysqli_num_rows($result) > 0) {
         $user = mysqli_fetch_assoc($result);
         
+        // Verify password (consider using password_hash and password_verify for production)
         if ($user['password'] == $password) {
-            $_SESSION['user_id'] = $user['id'];
+            // Set session variables for the logged-in user
+            $_SESSION['user_id'] = $user['id']; // Set the user ID in session
             $_SESSION['username'] = $user['username'];
             $_SESSION['account_type'] = $user['account_type'];
             
+            // Redirect based on account type
             if ($user['account_type'] == 'buyer') {
                 header("Location: index.php");
             } else {
-                header("Location: index.php");
+                header("Location: index.php"); // Redirect to seller dashboard
             }
-            exit();
         } else {
             $error = 'Invalid password.';
         }
@@ -49,89 +50,89 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Auctioneers</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f5f5f5;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-    }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
-    .login-container {
-        background-color: #fff;
-        padding: 40px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        max-width: 400px;
-        box-sizing: border-box;
-    }
+        .login-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
 
-    .login-container h2 {
-        margin: 0 0 10px;
-        font-size: 24px;
-        font-weight: bold;
-        color: #333;
-    }
+        .login-container h2 {
+            margin: 0 0 10px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
 
-    .login-container p {
-        margin: 0 0 20px;
-        color: #666;
-    }
+        .login-container p {
+            margin: 0 0 20px;
+            color: #666;
+        }
 
-    .login-container label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-        color: #333;
-    }
+        .login-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
 
-    .login-container input[type="text"],
-    .login-container input[type="password"] {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 20px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        background-color: #f0f4ff;
-    }
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f0f4ff;
+        }
 
-    .login-container a {
-        color: #007bff;
-        text-decoration: none;
-    }
+        .login-container a {
+            color: #007bff;
+            text-decoration: none;
+        }
 
-    .login-container a:hover {
-        text-decoration: underline;
-    }
+        .login-container a:hover {
+            text-decoration: underline;
+        }
 
-    .login-container .login-button {
-        width: 100%;
-        padding: 10px;
-        border: none;
-        border-radius: 4px;
-        background-color: #007bff;
-        color: #fff;
-        font-size: 16px;
-        cursor: pointer;
-    }
+        .login-container .login-button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
 
-    .login-container .login-button:hover {
-        background-color: #0056b3;
-    }
+        .login-container .login-button:hover {
+            background-color: #0056b3;
+        }
 
-    .login-container .signup-link {
-        text-align: center;
-        margin-top: 20px;
-    }
+        .login-container .signup-link {
+            text-align: center;
+            margin-top: 20px;
+        }
 
-    .error {
-        color: red;
-        text-align: center;
-        margin-bottom: 10px;
-    }
+        .error {
+            color: red;
+            text-align: center;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 
