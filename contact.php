@@ -3,9 +3,6 @@ include 'connect.php'; // Include your database connection
 
 // Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
-    // Redirect to login page or show an error
-    header("Location: login.php");
-    exit();
 }
 
 // Handle form submission

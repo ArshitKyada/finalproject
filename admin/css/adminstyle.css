@@ -12,6 +12,7 @@ aside {
     color: white;
     display: flex;
     flex-direction: column;
+    z-index: 10;
 }
 
 aside h1 {

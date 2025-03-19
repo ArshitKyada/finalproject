@@ -31,10 +31,10 @@
         }
 
         .divider {
-            width: 100%;
-            height: 4px;
-            background-color: rgb(0, 0, 0);
-            margin-bottom: 24px;
+            width: 100%; /* Full width */
+            height: 4px; /* Height of the line */
+            background-color: black; /* Color of the line */
+            margin-bottom: 24px; /* Space below the line */
         }
 
         .card-container {
@@ -88,7 +88,6 @@
     <main>
         <h2>Dashboard</h2>
         <div class="divider"></div> <!-- Divider line added here -->
-        
         <div class="card-container">
             <div class="card">
                 <div class="total-users">
