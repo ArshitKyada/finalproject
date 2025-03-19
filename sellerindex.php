@@ -1,5 +1,12 @@
-<?php include_once 'header.php';
-include_once 'preloader.php';
+<?php
+session_start(); // Start the session
+include_once 'connect.php'; // Include your database connection
+include_once 'header.php';
+
+// Fetch total active auctions based on end_time without prepared statements
+$sql = "SELECT COUNT(*) as total_active_auctions FROM products WHERE end_time > NOW()";
+$result = mysqli_query($conn, $sql);
+$totalActiveAuctions = mysqli_fetch_assoc($result)['total_active_auctions'];
 ?>
 
 <!DOCTYPE html>
@@ -220,7 +227,7 @@ include_once 'preloader.php';
                         <div class="icon blue"><i class="fas fa-gavel"></i></div>
                         <div>
                             <p class="card-title">Active Auctions</p>
-                            <p class="card-value">12</p>
+                            <p class="card-value"><?php echo htmlspecialchars($totalActiveAuctions); ?></p>
                         </div>
                     </div>
                     <div class="card">
