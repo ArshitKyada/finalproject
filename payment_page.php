@@ -68,6 +68,104 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     body::-webkit-scrollbar {
         display: none;
     }
+
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: #1f242d;
+        padding: 25px;
+    }
+
+    .container form {
+        width: 100%;
+        max-width: 700px;
+        /* Ensures that the form won't exceed 700px */
+        padding: 40px;
+        background: #fff;
+        border-radius: 10px;
+        box-sizing: border-box;
+    }
+
+    form .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        /* Added gap to separate the fields */
+    }
+
+    .column {
+        flex: 1 1 48%;
+        /* Each column will take up 48% of the available space */
+        min-width: 250px;
+        /* Prevents columns from shrinking too much */
+    }
+
+    .column .title {
+        font-size: 20px;
+        color: #333;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+    }
+
+    .input-box {
+        margin-bottom: 15px;
+        /* Ensures there's space between fields */
+    }
+
+    .input-box span {
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    .input-box input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 16px;
+        box-sizing: border-box;
+        /* Prevents inputs from overflowing */
+    }
+
+    .flex {
+        display: flex;
+        gap: 15px;
+        /* Ensures there's space between flex items */
+    }
+
+    .flex .input-box {
+        margin-top: 5px;
+        flex: 1 1 45%;
+        /* Ensures that the inputs within the flex container take up equal space */
+    }
+
+    .input-box img {
+        height: 34px;
+        margin-top: 5px;
+        filter: drop-shadow(0 0 1px #000);
+    }
+
+    form .btn {
+        width: 100%;
+        padding: 14px;
+        background: #8175d3;
+        border: none;
+        outline: none;
+        border-radius: 6px;
+        font-size: 17px;
+        color: #fff;
+        margin-top: 20px;
+        cursor: pointer;
+        transition: .5s;
+    }
+
+    form .btn:hover {
+        background: #6a5acd;
+    }
     </style>
 </head>
 
