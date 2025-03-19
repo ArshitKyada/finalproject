@@ -77,6 +77,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="css/addproductstyle.css">
+    <style>
+    .product-description {
+        width: 600px;
+        /* Full width */
+        height: 150px;
+        /* Set height */
+        padding: 10px;
+        /* Padding for inner spacing */
+        border: 1px solid #ccc;
+        /* Light gray border */
+        border-radius: 5px;
+        /* Rounded corners */
+        font-family: 'Roboto', sans-serif;
+        /* Font style */
+        font-size: 14px;
+        /* Font size */
+        color: #333;
+        /* Dark gray text color */
+        resize: vertical;
+        /* Allow vertical resizing */
+        margin-top: 5px;
+    }
+
+    @media (max-width: 768px) {
+        .product-description {
+            width: 400px;
+            height: 120px;
+            font-size: 16px;
+        }
+    }
+    </style>
 </head>
 
 <body>
@@ -133,7 +164,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <div>
                             <label for="productDescription" class="label">Product Description <span
                                     style="color: red;">*</span></label>
-                            <input type="text" id="productDescription" name="productDescription" class="input" required>
+                            <textarea id="productDescription" name="productDescription" class="product-description"
+                                required></textarea>
                         </div><br>
                         <label class="label">Condition *</label>
                         <select name="productCondition" class="select" required>
@@ -144,8 +176,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </select><br><br>
 
                         <div>
-                            <label for="coverImageMain" class="label">Main Image <span style="color: red;">*</span></label><br><br>
-                            <div class="upload-area" id="uploadAreaMain" onclick="document.getElementById('coverImageMain').click()">
+                            <label for="coverImageMain" class="label">Main Image <span
+                                    style="color: red;">*</span></label><br><br>
+                            <div class="upload-area" id="uploadAreaMain"
+                                onclick="document.getElementById('coverImageMain').click()">
                                 <span class="upload-icon" id="iconMain">+</span>
                                 <input type="file" id="coverImageMain" name="coverImageMain" accept="image/*"
                                     class="hidden" required onchange="updateIcon('iconMain')">

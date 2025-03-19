@@ -147,6 +147,32 @@ $auction_ended = $current_time > $end_time; // Check if the current time is grea
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <script src="js/script.js"></script>
     <link rel="stylesheet" href="css/productdetailsstyle.css">
+    <style>
+    #description {
+        margin: 0;
+        /* Remove any margin */
+        padding: 0;
+        /* Remove any padding */
+    }
+
+    .description-text {
+        font-size: 16px;
+        /* Font size for better readability */
+        line-height: 1.6;
+        /* Line height for spacing between lines */
+        color: #333;
+        /* Dark gray text color */
+        padding: 10px;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+        .description-text {
+            font-size: 14px;
+            /* Slightly smaller font size on mobile */
+        }
+    }
+    </style>
 </head>
 
 <body>
@@ -168,8 +194,12 @@ $auction_ended = $current_time > $end_time; // Check if the current time is grea
             </div>
             <!-- Right Section -->
             <div class="right-section">
-                <h1><?php echo htmlspecialchars($row['product_name']); ?></h1>
-                <p><?php echo htmlspecialchars($row['description']); ?></p>
+                <div id="description">
+                    <p class="description-text">
+                        <h1><?php echo htmlspecialchars($row['product_name']); ?></h1><hr>
+                        <?php echo nl2br(htmlspecialchars($row['description'])); ?>
+                    </p>
+                </div>
                 <p class="item-condition">ITEM CONDITION:
                     <span><?php echo htmlspecialchars($row['product_condition']); ?></span>
                 </p>
@@ -231,8 +261,7 @@ $auction_ended = $current_time > $end_time; // Check if the current time is grea
         </div>
 
         <div id="description" class="tab-content active">
-            <h2>Description</h2>
-            <p><?php echo htmlspecialchars($row['description']); ?></p>
+            <p class="description-text"><?php echo nl2br(htmlspecialchars($row['description'])); ?></p>
         </div>
 
         <div id="auction-history" class="tab-content">
@@ -322,25 +351,19 @@ $auction_ended = $current_time > $end_time; // Check if the current time is grea
                         echo '<div class="card">';
                         echo '<a href="product_details.php?id=' . $more_product_row['id'] . '">';
                         echo '<img src="' . $image_url . '" alt="' . htmlspecialchars($more_product_row['product_name']) . '">';
-                        echo '<div class="right-section">';
-                        echo '<h1>' . htmlspecialchars($more_product_row['product_name']) . '</h1>';
-                        echo '<br>';
-                        // Display End Date
-                        $end_time = new DateTime($more_product_row['end_time']);
-                        echo '<p>End Date: ' . htmlspecialchars($end_time->format('Y-m-d')) . '</p>'; // Format as needed
-                        echo '<p class="starting-bid">Starting bid: $' . number_format($more_product_row['starting_bid'], 2) . '</p>';
-                        echo '</div>'; // Close right-section div
+                        echo '<h3>' . htmlspecialchars($more_product_row['product_name']) . '</h3>';
+                        echo '<p>Starting Bid: $' . number_format($more_product_row['starting_bid'], 2) . '</p>';
                         echo '</a>';
-                        echo '</div>'; // Close card div
+                        echo '</div>';
                     }
                 } else {
-                    echo "<p>No more products from this seller.</p>";
+                    echo '<p>No more products available from this seller.</p>';
                 }
                 ?>
             </div>
         </div>
     </div>
-
+    <?php include_once 'footer.php'; ?>
     <script>
     function increaseBid() {
         let bidInput = document.getElementById("bidamount");
@@ -402,7 +425,7 @@ $auction_ended = $current_time > $end_time; // Check if the current time is grea
                         if (timeLeft <= 0) {
                             document.querySelector(".time-left").innerHTML = "<p>Auction ended</p>";
                             document.getElementById("bidSection").style.display =
-                            "none"; // Hide bid section
+                                "none"; // Hide bid section
                             return;
                         }
 
@@ -440,14 +463,13 @@ $auction_ended = $current_time > $end_time; // Check if the current time is grea
                         }
                     } else {
                         document.querySelector('.win-message').style.display =
-                        'none'; // Hide if auction is still ongoing
+                            'none'; // Hide if auction is still ongoing
                     }
                 })
                 .catch(error => console.error('Error fetching highest bid:', error));
         }, 1000); // Check every 5 seconds
     });
     </script>
-
 </body>
 
 </html>

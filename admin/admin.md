@@ -1,6 +1,6 @@
 Your **admin panel** for the online auction system should include the following key features:
 
-### **1. Dashboard**  
+### **1. Dashboard**     done
 - Overview of total auctions, active auctions, completed auctions, and revenue  
 - Latest bids and upcoming auctions  
 - Recent user activity and top-performing sellers  
