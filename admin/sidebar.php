@@ -11,8 +11,8 @@
         <nav>
             <a href="index.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
             <a href="manageauction.php"><i class="fas fa-gavel"></i> Manage Auctions</a>
-            <a href="#"><i class="fas fa-users"></i> Users</a>
-            <a href="#"><i class="fas fa-cogs"></i> Settings</a>
+            <a href="manageusers.php"><i class="fas fa-users"></i> Users</a>
+            <a href="contact.php"><i class="fas fa-cogs"></i> contactus</a>
             <a href="../logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </nav>
     </aside>

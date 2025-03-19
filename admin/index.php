@@ -27,14 +27,14 @@
             font-size: 28px;
             font-weight: 700;
             margin-bottom: 8px; /* Adjusted margin for better spacing */
-            color: #333;
+            color: black;
         }
 
         .divider {
-            width: 100%; /* Full width */
-            height: 4px; /* Height of the line */
-            background-color: black; /* Color of the line */
-            margin-bottom: 24px; /* Space below the line */
+            width: 100%;
+            height: 4px;
+            background-color: rgb(0, 0, 0);
+            margin-bottom: 24px;
         }
 
         .card-container {
@@ -45,7 +45,7 @@
         }
 
         .card {
-            background-color: white;
+            background-color:rgb(16, 42, 81);
             border-radius: 12px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 30px;
@@ -62,7 +62,7 @@
         .total-users, .contact-messages, .total-auctions {
             font-size: 24px;
             font-weight: bold;
-            color: #4299e1;
+            color:rgb(255, 255, 255);
             padding: 30px;
         }
 
@@ -88,6 +88,7 @@
     <main>
         <h2>Dashboard</h2>
         <div class="divider"></div> <!-- Divider line added here -->
+        
         <div class="card-container">
             <div class="card">
                 <div class="total-users">
