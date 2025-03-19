@@ -144,7 +144,14 @@ if (!$result) {
             background-color: #1d4ed8;
         }
 
- </style>
+    </style>
+    <script>
+        function deleteProduct(productId) {
+            if (confirm("Are you sure you want to delete this product?")) {
+                window.location.href = 'delete_product.php?id=' + productId;
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -173,6 +180,8 @@ if (!$result) {
                                 <p>Start Time: <?php echo date('m/d/Y', strtotime($row['start_time'])); ?></p>
                                 <p>End Time: <?php echo date('m/d/Y', strtotime($row['end_time'])); ?></p>
                                 <p class="price">Starting Bid: $<?php echo number_format($row['starting_bid'], 2); ?></p>
+                                <button class="button" onclick="location.href='edit_product.php?id=<?php echo $row['id']; ?>'">Edit</button>
+                                <button class="button" onclick="deleteProduct(<?php echo $row['id']; ?>)">Delete</button>
                             </div>
                         <?php endwhile; ?>
                     <?php else: ?>
