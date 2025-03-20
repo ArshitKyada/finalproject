@@ -48,9 +48,9 @@
         <nav>
             <a href="index.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
             <a href="manageauction.php"><i class="fas fa-gavel"></i> Manage Auctions</a>
-            <a href="manageusers.php"><i class="fas fa-users"></i> Users</a>
-            <a href="earnings.php"><i class="fas fa-money-bill-wave"></i> Earnings</a>
-            <a href="contact.php"><i class="fas fa-cogs"></i> Contact Us</a>
+            <a href="manageusers.php"><i class="fas fa-users"></i> Manage Users</a>
+            <a href="earnings.php"><i class="fas fa-money-bill-wave"></i> Manage Earnings</a>
+            <a href="contact.php"><i class="fas fa-cogs"></i> Feedback</a>
             <a href="../logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </nav>
     </aside>

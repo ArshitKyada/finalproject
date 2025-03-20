@@ -2,6 +2,8 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+
+$current_page = basename($_SERVER['PHP_SELF']); // Get the current page name
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +17,6 @@ if (session_status() == PHP_SESSION_NONE) {
     <title>Auctioneers</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-
         .nav .line {
             position: relative;
             text-decoration: none;
@@ -37,6 +38,10 @@ if (session_status() == PHP_SESSION_NONE) {
             width: 100%;
         }
 
+        .nav .line.active::after {
+            width: 100%; /* Show line for active link */
+        }
+
         .btn {
             padding: 8px 15px;
             color: white;
@@ -46,7 +51,7 @@ if (session_status() == PHP_SESSION_NONE) {
         }
 
         .btn:hover {
-            background: #083d54 ;
+            background: #083d54;
         }
     </style>
 </head>
@@ -61,18 +66,18 @@ if (session_status() == PHP_SESSION_NONE) {
             <i class="fas fa-bars"></i>
         </div>
         <nav class="nav">
-            <a class="line" href="index.php">Home</a>
-            <a class="line" href="about.php">About Us</a>
-            <a class="line" href="auctions.php">Browse Product</a>
-            <a class="line" href="blog.php">Blog</a>
-            <a class="line" href="index.php#contact">Contact</a>
+            <a class="line <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>" href="index.php">Home</a>
+            <a class="line <?php echo ($current_page == 'about.php') ? 'active' : ''; ?>" href="about.php">About Us</a>
+            <a class="line <?php echo ($current_page == 'auctions.php') ? 'active' : ''; ?>" href="auctions.php">Browse Product</a>
+            <a class="line <?php echo ($current_page == 'blog.php') ? 'active' : ''; ?>" href="blog.php">Blog</a>
+            <a class="line <?php echo ($current_page == 'index.php#contact') ? 'active' : ''; ?>" href="index.php#contact">Contact</a>
 
             <?php 
             if (!empty($_SESSION['account_type'])) {
                 if ($_SESSION['account_type'] === 'seller') {
-                    echo '<a class="line" href="sellerindex.php">Dashboard</a>';
+                    echo '<a class="line ' . ($current_page == 'sellerindex.php' ? 'active' : '') . '" href="sellerindex.php">Dashboard</a>';
                 } elseif ($_SESSION['account_type'] === 'buyer') {
-                    echo '<a class="line" href="bid_history.php">Bid History</a>';
+                    echo '<a class="line ' . ($current_page == 'bid_history.php' ? 'active' : '') . '" href="bid_history.php">Bid History</a>';
                 }
                 echo '<a class="btn" href="logout.php">Logout</a>'; // Logout button
             } else {

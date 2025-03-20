@@ -3,7 +3,12 @@ include_once 'header.php'; // Include your header file
 include_once 'preloader.php'; // Include your preloader file
 include_once 'connect.php'; // Database connection file
 
-// Base SQL query to select all products
+// Pagination variables
+$limit = 8; // Number of items per page
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Current page
+$offset = ($page - 1) * $limit; // Calculate offset
+
+// Base SQL query to select all products with LIMIT and OFFSET
 $sql = "SELECT p.*, 
                (SELECT pi.image_url FROM product_images pi WHERE pi.product_id = p.id ORDER BY pi.id LIMIT 1) AS coverImageMain,
                COALESCE(MAX(b.bid_amount), p.starting_bid) AS highest_bid,
@@ -16,9 +21,16 @@ $sql = "SELECT p.*,
         FROM products p
         LEFT JOIN bid b ON p.id = b.product_id
         GROUP BY p.id
-        ORDER BY p.start_time DESC"; // Default to recent
+        ORDER BY p.start_time DESC
+        LIMIT $limit OFFSET $offset"; // Add LIMIT and OFFSET
 
 $result = mysqli_query($conn, $sql);
+
+// Query to count total products
+$totalResult = mysqli_query($conn, "SELECT COUNT(*) as total FROM products");
+$totalRow = mysqli_fetch_assoc($totalResult);
+$totalProducts = $totalRow['total'];
+$totalPages = ceil($totalProducts / $limit); // Calculate total pages
 ?>
 
 <!DOCTYPE html>
@@ -104,6 +116,32 @@ $result = mysqli_query($conn, $sql);
         .actions button:hover {
             background-color: #218838;
         }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .pagination a {
+            margin: 0 5px;
+            padding: 8px 12px;
+            border: 2px solid black;
+            border-radius: 5px;
+            text-decoration: none;
+            color:rgb(11, 42, 76);
+            background-color:white;
+        }
+
+        .pagination a.active {
+            background-color:rgb(12, 40, 70);
+            color: white;
+        }
+
+        .pagination a:hover {
+            background-color: #0056b3;
+            color: white;
+        }
     </style>
 </head>
 
@@ -114,7 +152,7 @@ $result = mysqli_query($conn, $sql);
             <div class="card">
                 <div class="relative">
                     <img src="<?php echo $row['coverImageMain']; ?>"
-                        alt="<?php echo htmlspecialchars($row['product_name']); ?>">
+                        alt="<?php echo htmlspecialchars($row['product_name']); ?>" loading="lazy">
                     <div class="auction-status">
                         <?php 
                         if ($row['auction_status'] == 'sold') {
@@ -139,5 +177,23 @@ $result = mysqli_query($conn, $sql);
         </a>
         <?php } ?>
     </div>
+
+    <div class="pagination">
+        <?php if ($page > 1): ?>
+            <a href="?page=<?php echo $page - 1; ?>">Previous</a>
+        <?php endif; ?>
+
+        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+            <a href="?page=<?php echo $i; ?>" class="<?php echo ($i == $page) ? 'active' : ''; ?>">
+                <?php echo $i; ?>
+            </a>
+        <?php endfor; ?>
+
+        <?php if ($page < $totalPages): ?>
+            <a href="?page=<?php echo $page + 1; ?>">Next</a>
+        <?php endif; ?>
+    </div>
+
+    <?php include_once 'footer.php' ?>
 </body>
 </html>
