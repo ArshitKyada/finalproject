@@ -83,24 +83,64 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="css/addproductstyle.css">
     <style>
-        .button {
-            background-color: #2563eb; /* Blue background */
-            color: white; /* White text */
-            padding: 10px 20px; /* Padding */
-            border: none; /* No border */
-            border-radius: 5px; /* Rounded corners */
-            cursor: pointer; /* Pointer cursor on hover */
-            font-size: 16px; /* Font size */
-            transition: background-color 0.3s; /* Smooth transition */
-        }
+    .button {
+        background-color: #2563eb;
+        /* Blue background */
+        color: white;
+        /* White text */
+        padding: 10px 20px;
+        /* Padding */
+        border: none;
+        /* No border */
+        border-radius: 5px;
+        /* Rounded corners */
+        cursor: pointer;
+        /* Pointer cursor on hover */
+        font-size: 16px;
+        /* Font size */
+        transition: background-color 0.3s;
+        /* Smooth transition */
+    }
 
-        .button:hover {
-            background-color: #1d4ed8; /* Darker blue on hover */
-        }
+    .button:hover {
+        background-color: #1d4ed8;
+        /* Darker blue on hover */
+    }
 
-        .button:active {
-            background-color: #1e40af; /* Even darker blue on click */
+    .button:active {
+        background-color: #1e40af;
+        /* Even darker blue on click */
+    }
+
+    .product-description {
+        width: 600px;
+        /* Full width */
+        height: 150px;
+        /* Set height */
+        padding: 10px;
+        /* Padding for inner spacing */
+        border: 1px solid #ccc;
+        /* Light gray border */
+        border-radius: 5px;
+        /* Rounded corners */
+        font-family: 'Roboto', sans-serif;
+        /* Font style */
+        font-size: 14px;
+        /* Font size */
+        color: #333;
+        /* Dark gray text color */
+        resize: vertical;
+        /* Allow vertical resizing */
+        margin-top: 5px;
+    }
+
+    @media (max-width: 768px) {
+        .product-description {
+            width: 400px;
+            height: 120px;
+            font-size: 16px;
         }
+    }
     </style>
 </head>
 
@@ -125,13 +165,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <form method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="id" value="<?php echo $product['id']; ?>">
                         <div>
-                            <label for="productName" class="label">Product Name <span style="color: red;">*</span></label>
-                            <input type="text" id="productName" name="productName" class="input" value="<?php echo htmlspecialchars($product['product_name']); ?>" required>
+                            <label for="productName" class="label">Product Name <span
+                                    style="color: red;">*</span></label>
+                            <input type="text" id="productName" name="productName" class="input"
+                                value="<?php echo htmlspecialchars($product['product_name']); ?>" required>
                         </div><br>
                         <div>
                             <label for="category" class="label">Category <span style="color: red;">*</span></label>
                             <select id="category" name="category" class="select" required>
-                                <option value="<?php echo htmlspecialchars($product['category']); ?>" selected><?php echo htmlspecialchars($product['category']); ?></option>
+                                <option value="<?php echo htmlspecialchars($product['category']); ?>" selected>
+                                    <?php echo htmlspecialchars($product['category']); ?></option>
                                 <option value="electronics">Electronics</option>
                                 <option value="fashion">Fashion</option>
                                 <option value="home">Home & Garden</option>
@@ -141,34 +184,46 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </select>
                         </div><br>
                         <div>
-                            <label for="startTime" class="label">Start time (MM/DD/YY) <span style="color: red;">*</span></label>
-                            <input type="datetime-local" id="startTime" name="startTime" class="input" value="<?php echo date('Y-m-d\TH:i', strtotime($product['start_time'])); ?>" required>
+                            <label for="startTime" class="label">Start time (MM/DD/YY) <span
+                                    style="color: red;">*</span></label>
+                            <input type="datetime-local" id="startTime" name="startTime" class="input"
+                                value="<?php echo date('Y-m-d\TH:i', strtotime($product['start_time'])); ?>" required>
                         </div><br>
                         <div>
-                            <label for="endTime" class="label">End time (MM/DD/YY) <span style="color: red;">*</span></label>
-                            <input type="datetime-local" id="endTime" name="endTime" class="input" value="<?php echo date('Y-m-d\TH:i', strtotime($product['end_time'])); ?>" required>
+                            <label for="endTime" class="label">End time (MM/DD/YY) <span
+                                    style="color: red;">*</span></label>
+                            <input type="datetime-local" id="endTime" name="endTime" class="input"
+                                value="<?php echo date('Y-m-d\TH:i', strtotime($product['end_time'])); ?>" required>
                         </div><br>
                         <div>
-                            <label for="startingBid" class="label">Starting Bid (USD) <span style="color: red;">*</span></label>
-                            <input type="text" id="startingBid" name="startingBid" class="input" value="<?php echo htmlspecialchars($product['starting_bid']); ?>" required>
+                            <label for="startingBid" class="label">Starting Bid (USD) <span
+                                    style="color: red;">*</span></label>
+                            <input type="text" id="startingBid" name="startingBid" class="input"
+                                value="<?php echo htmlspecialchars($product['starting_bid']); ?>" required>
                         </div><br>
                         <div>
-                            <label for="productDescription" class="label">Product Description <span style="color: red;">*</span></label>
-                            <input type="text" id="productDescription" name="productDescription" class="input" value="<?php echo htmlspecialchars($product['description']); ?>" required>
+                            <label for="productDescription" class="label">Product Description <span
+                                    style="color: red;">*</span></label>
+                            <textarea id="productDescription" name="productDescription" class="product-description"
+                                required><?php echo htmlspecialchars($product['description']); ?></textarea>
                         </div><br>
                         <label class="label">Condition *</label>
                         <select name="productCondition" class="select" required>
-                            <option value="<?php echo htmlspecialchars($product['product_condition']); ?>" selected><?php echo htmlspecialchars($product['product_condition']); ?></option>
+                            <option value="<?php echo htmlspecialchars($product['product_condition']); ?>" selected>
+                                <?php echo htmlspecialchars($product['product_condition']); ?></option>
                             <option value="New">New</option>
                             <option value="Used">Used</option>
                             <option value="Refurbished">Refurbished</option>
                         </select><br><br>
 
                         <div>
-                            <label for="coverImageMain" class="label">Main Image <span style="color: red;">*</span></label><br><br>
-                            <div class="upload-area" id=" uploadAreaMain" onclick="document.getElementById('coverImageMain').click()">
+                            <label for="coverImageMain" class="label">Main Image <span
+                                    style="color: red;">*</span></label><br><br>
+                            <div class="upload-area" id=" uploadAreaMain"
+                                onclick="document.getElementById('coverImageMain').click()">
                                 <span class="upload-icon" id="iconMain">+</span>
-                                <input type="file" id="coverImageMain" name="coverImageMain" accept="image/*" class="hidden" onchange="updateIcon('iconMain')">
+                                <input type="file" id="coverImageMain" name="coverImageMain" accept="image/*"
+                                    class="hidden" onchange="updateIcon('iconMain')">
                             </div>
                         </div>
                         <hr>

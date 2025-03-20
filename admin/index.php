@@ -31,6 +31,7 @@
         }
 
         .divider {
+            margin-top:16px;
             width: 100%; /* Full width */
             height: 4px; /* Height of the line */
             background-color: black; /* Color of the line */
