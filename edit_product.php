@@ -174,12 +174,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <select id="category" name="category" class="select" required>
                                 <option value="<?php echo htmlspecialchars($product['category']); ?>" selected>
                                     <?php echo htmlspecialchars($product['category']); ?></option>
-                                <option value="electronics">Electronics</option>
-                                <option value="fashion">Fashion</option>
-                                <option value="home">Home & Garden</option>
-                                <option value="automotive">Automotive</option>
-                                <option value="sports">Sports</option>
-                                <option value="toys">Toys & Games</option>
+                                <option value="Accessories">Accessories</option>
+                                <option value="Cars">Cars</option>
+                                <option value="Electronics">Electronics</option>
+                                <option value="Fashion">Fashion</option>
+                                <option value="Music">Music</option>
+                                <option value="Mobile">Mobile</option>
                             </select>
                         </div><br>
                         <div>
