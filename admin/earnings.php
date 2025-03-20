@@ -35,6 +35,7 @@
             height: 4px;
             background-color: rgb(0, 0, 0);
             margin-bottom: 24px;
+            margin-top:20px;
         }
 
         .earnings-summary {
@@ -48,7 +49,7 @@
         }
 
         .earnings-summary p {
-            font-size: 20px;
+            font-size: 30px;
             margin: 10px 0;
         }
 
@@ -112,8 +113,7 @@
             $fivePercent = $totalEarnings * 0.05;
 
             // Display results
-            echo "<p>Total Earnings: $" . number_format($totalEarnings, 2) . "</p>";
-            echo "<p>5% of Total Earnings: $" . number_format($fivePercent, 2) . "</p>";
+            echo "<p>Total Earnings:<strong> $" . number_format($fivePercent, 2) . "</strong></p>";
             ?>
         </div>
 
@@ -136,7 +136,7 @@
                     while ($row = $result->fetch_assoc()) {
                         echo "<tr>";
                         echo "<td>" . $row['id'] . "</td>"; // Display payment ID
-                        echo "< td>$" . number_format($row['amount_due'], 2) . "</td>"; // Display amount due
+                        echo "<td>$" . number_format($row['amount_due'], 2) . "</td>"; // Display amount due
                         echo "<td>" . date('Y-m-d', strtotime($row['created_at'])) . "</td>"; // Display payment date
                         echo "</tr>";
                     }

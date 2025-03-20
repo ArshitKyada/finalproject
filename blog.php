@@ -1,4 +1,3 @@
-
 <?php
 include_once 'preloader.php';
 ?>
@@ -91,6 +90,11 @@ include_once 'preloader.php';
         border-radius: 0.25rem;
         margin: 0 0.25rem;
     }
+
+    .card a {
+        text-decoration: none;
+        color:black;
+    }
     </style>
 </head>
 
@@ -104,43 +108,63 @@ include_once 'preloader.php';
     <main>
         <div class="grid">
             <div class="card">
-                <img src="https://placehold.co/600x400" alt="Colorful plants on a white table">
-                <div class="content">
-                    <span class="date">November 3, 2022</span>
-                    <h2>An Introvert’s Guide to Be Successful at Work</h2>
-                </div>
+                <a href="blog1.html">
+                    <img src="images/blog1.jpg" alt="Colorful plants on a white table">
+                    <div class="content">
+                        <span class="date">November 3, 2022</span>
+                        <h2>An Introvert’s Guide to Be Successful at Work</h2>
+                    </div>
+                </a>
             </div>
 
             <div class="card">
-                <img src="https://placehold.co/600x400" alt="Workspace with computer and decorations">
-                <div class="content">
-                    <span class="date">November 3, 2022</span>
-                    <h2>Why You Should (Often) Pay More for Links</h2>
-                </div>
+                <a href="blog2.html">
+                    <img src="images/blog2.jpg" alt="Workspace with computer and decorations">
+                    <div class="content">
+                        <span class="date">November 3, 2022</span>
+                        <h2>Why You Should (Often) Pay More for Links</h2>
+                    </div>
+                </a>
             </div>
 
             <div class="card">
-                <img src="https://placehold.co/600x400" alt="Word 'CREATE' in wooden letters">
-                <div class="content">
-                    <span class="date">October 29, 2022</span>
-                    <h2>David Droga Still Has Faith in Online Creative.</h2>
-                </div>
+                <a href="blog3.html">
+                    <img src="images/blog3.jpg" alt="Word 'CREATE' in wooden letters">
+                    <div class="content">
+                        <span class="date">October 29, 2022</span>
+                        <h2>David Droga Still Has Faith in Online Creative.</h2>
+                    </div>
+                </a>
             </div>
 
             <div class="card">
-                <img src="https://placehold.co/600x400" alt="Sunset over mountains">
-                <div class="content">
-                    <span class="date">October 25, 2022</span>
-                    <h2>How Nature Inspires Creative Thinking</h2>
-                </div>
+                <a href="blog4.html">
+                    <img src="images/blog4.jpg" alt="Sunset over mountains">
+                    <div class="content">
+                        <span class="date">October 25, 2022</span>
+                        <h2>How Nature Inspires Creative Thinking</h2>
+                    </div>
+                </a>
             </div>
 
             <div class="card">
-                <img src="https://placehold.co/600x400" alt="People working in a team">
-                <div class="content">
-                    <span class="date">October 20, 2022</span>
-                    <h2>The Importance of Collaboration in Business</h2>
-                </div>
+                <a href="blog5.html">
+                    <img src="images/blog5.jpg" alt="People working in a team">
+                    <div class="content">
+                        <span class="date">October 20, 2022</span>
+                        <h2>The Importance of Collaboration in Business</h2>
+                    </div>
+                </a>
+            </div>
+
+            <div class="card">
+                <a href="blog1.html">
+                    <img src="images/blog6.jpg" alt="People working in a team">
+                    <div class="content">
+                        <span class="date">October 10, 2022</span>
+                        <h2>What We Do When Everyone Gets It Wrong!</h2>
+                    </div>
+                </a>
             </div>
         </div>
 

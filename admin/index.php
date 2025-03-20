@@ -31,7 +31,7 @@
         }
 
         .divider {
-            margin-top:16px;
+            margin-top:36px;
             width: 100%; /* Full width */
             height: 4px; /* Height of the line */
             background-color: black; /* Color of the line */
@@ -50,7 +50,7 @@
             border-radius: 12px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 30px;
-            width: 250px; /* Fixed width for square boxes */
+            width: 270px; /* Fixed width for square boxes */
             height: 100px; /* Fixed height for square boxes */
             text-align: center;
             transition: transform 0.2s;
