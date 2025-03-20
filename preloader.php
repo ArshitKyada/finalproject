@@ -5,7 +5,6 @@
     </div>
 </div>
 
-<!-- Preloader CSS -->
 <style>
     /* Preloader Styles */
     .preloader {
