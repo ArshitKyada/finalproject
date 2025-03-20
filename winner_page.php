@@ -1,1 +1,0 @@
-<h1>won the auction</h1>
