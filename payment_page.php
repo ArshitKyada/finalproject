@@ -196,29 +196,29 @@ $conn->close(); // Close the database connection
                     <h3 class="title">Billing Address</h3>
                     <div class="input-box">
                         <span>Full Name :</span>
-                        <input type="text" name="full_name" placeholder="Jacob Aiden" required>
+                        <input type="text" name="full_name" placeholder="Arshit kyada" required>
                     </div>
                     <div class="input-box">
                         <span>Email :</span>
-                        <input type="email" name="email" placeholder="example@example.com" required>
+                        <input type="email" name="email" placeholder="arshitkyada@gmail.com" required>
                     </div>
                     <div class="input-box">
                         <span>Address :</span>
-                        <input type="text" name="address" placeholder="Room - Street - Locality" required>
+                        <input type="text" name="address" placeholder="Street - Locality" required>
                     </div>
                     <div class="input-box">
                         <span>City :</span>
-                        <input type="text" name="city" placeholder="Berlin" required>
+                        <input type="text" name="city" placeholder="Surat" required>
                     </div>
 
                     <div class="flex">
                         <div class="input-box">
                             <span>State :</span>
-                            <input type="text" name="state" placeholder="Germany" required>
+                            <input type="text" name="state" placeholder="Gujarat" required>
                         </div>
                         <div class="input-box">
                             <span>Zip Code :</span>
-                            <input type="number" name="zip_code" placeholder="123 456" required>
+                            <input type="number" name="zip_code" placeholder="395 006" required>
                         </div>
                     </div>
                 </div>
@@ -231,7 +231,7 @@ $conn->close(); // Close the database connection
                     </div>
                     <div class="input-box">
                         <span>Name On Card :</span>
-                        <input type="text" name="card_name" placeholder="Mr. Jacob Aiden" required>
+                        <input type="text" name="card_name" placeholder="Mr.Arshit kyada" required>
                     </div>
                     <div class="input-box">
                         <span>Credit Card Number :</span>
