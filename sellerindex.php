@@ -42,26 +42,32 @@ $totalActiveAuctions = mysqli_fetch_assoc($resultActiveAuctions)['total_active_a
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="css/sellerstyle.css">
     <style>
-        .withdraw-button {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 10px 15px;
-            background-color: #28a745;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: background-color 0.3s, transform 0.2s;
-        }
+    .withdraw-button {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 10px 15px;
+        background-color: #28a745;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: background-color 0.3s, transform 0.2s;
+    }
 
-        .withdraw-button:hover {
-            background-color: #218838;
-            transform: scale(1.05);
-        }
+    .withdraw-button:hover {
+        background-color: #218838;
+        transform: scale(1.05);
+    }
 
-        .withdraw-button:active {
-            transform: scale(0.95);
+    .withdraw-button:active {
+        transform: scale(0.95);
+    }
+
+    @media (max-width: 768px) {
+        .overview-cards {
+            margin-bottom: 75px;
         }
+    }
     </style>
 </head>
 

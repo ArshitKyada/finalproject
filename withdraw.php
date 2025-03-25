@@ -27,6 +27,9 @@ $totalWithdrawn = mysqli_fetch_assoc($resultWithdrawals)['total_withdrawn'] ?? 0
 // Calculate available balance
 $availableBalance = $totalRevenue - $totalWithdrawn;
 
+// Prevent negative balance
+$availableBalance = max(0, $availableBalance);
+
 // Minimum withdrawal amount
 $minWithdraw = 500;
 $message = "";
@@ -35,11 +38,12 @@ $message = "";
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $withdrawAmount = $_POST['withdraw_amount'];
 
+    // Validate withdrawal amount
     if ($withdrawAmount >= $minWithdraw && $withdrawAmount <= $availableBalance) {
-        // Insert withdrawal record into database (WITHOUT prepared statement)
+        // Insert withdrawal record into database (without prepared statement)
         $query = "INSERT INTO withdrawals (seller_id, amount) VALUES ($userId, $withdrawAmount)";
         if (mysqli_query($conn, $query)) {
-            $availableBalance -= $withdrawAmount;
+            $availableBalance -= $withdrawAmount; // Update available balance
             $message = "<div class='alert alert-success'>Withdrawal of $$withdrawAmount processed successfully!<br> Updated Balance: $" . number_format($availableBalance, 2) . "</div>";
         } else {
             $message = "<div class='alert alert-danger'>Error processing withdrawal.</div>";
@@ -58,8 +62,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="css/sellerstyle.css">
     <style>
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #e9ecef; /* Light gray background */
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
         }
@@ -68,106 +72,81 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             max-width: 500px;
             margin: auto;
             margin-top: 50px;
-            padding: 35px; /* Increased padding for a more spacious feel */
-            background-color: #ffffff; /* White background for the container */
-            border-radius: 15px; /* More rounded corners */
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Deeper shadow for a floating effect */
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
 
         h1 {
-            color: #343a40; /* Darker text color */
-            margin-bottom: 20px; /* Space below the heading */
+            color: #333;
         }
 
         .form-group {
-            margin-bottom: 20px; /* Increased space between form elements */
+            margin-bottom: 15px;
             text-align: left;
         }
 
         label {
             display: block;
-            margin-bottom: 8px; /* More space below labels */
-            font-weight: bold;
-            color: #495057; /* Darker label color */
+            margin-bottom: 5px;
         }
 
         input[type="number"] {
             width: 100%;
-            padding: 12px; /* Increased padding for input */
-            border: 1px solid #ced4da; /* Light border color */
+            padding: 10px;
+            border: 1px solid #ccc;
             border-radius: 5px;
-            font-size: 16px;
-            transition: border-color 0.3s; /* Smooth transition for border color */
-        }
-
-        input[type="number"]:focus {
-            border-color: #28a745; /* Green border on focus */
-            outline: none; /* Remove default outline */
         }
 
         .withdraw-button {
             width: 100%;
-            padding: 14px; /* Increased padding for button */
-            background-color: #28a745; /* Green background */
+            padding: 10px;
+            background-color: #28a745;
             color: white;
-            font-size: 18px; /* Larger font size */
-            font-weight: bold;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
         }
 
         .withdraw-button:hover {
-            background-color: #218838; /* Darker green on hover */
-            transform: scale(1.05);
-        }
-
-        .withdraw-button:active {
-            transform: scale(0.95);
+            background-color: #218838;
         }
 
         .alert {
-            padding: 12px; /* Increased padding for alerts */
-            margin-bottom: 20px; /* More space below alerts */
+            margin: 10px 0;
+            padding: 10px;
             border-radius: 5px;
         }
 
         .alert-success {
-            background-color: #d4edda; /* Light green background */
-            color: #155724; /* Dark green text */
-            border: 1px solid #c3e6cb; /* Green border */
+            background-color: #d4edda;
+            color: #155724;
         }
 
         .alert-danger {
-            background-color: #f8d7da; /* Light red background */
-            color: #721c24; /* Dark red text */
-            border: 1px solid #f5c6cb; /* Red border */
+            background-color: #f8d7da;
+            color: #721c24;
         }
 
         .balance-info {
-            font-size: 20px; /* Larger font size for balance info */
-            font-weight: bold;
-            color: #343a40; /* Darker text color */
-            margin-top: 20px; /* More space above balance info */
+            font-size: 18px;
+            margin-top: 20px;
         }
 
         .back-button {
             display: inline-block;
-            margin-top: 20px; /* More space above back button */
-            padding: 12px 20px; /* Increased padding for back button */
-            background-color: #007bff; /* Blue background */
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
             color: white;
-            font-weight: bold;
             text-decoration: none;
             border-radius: 5px;
-            transition: background-color 0.3s, transform 0.2s;
         }
 
         .back-button:hover {
-            background-color: #0056b3; /* Darker blue on hover */
-            transform: scale(1.05);
+            background-color: #0056b3;
         }
     </style>
 </head>

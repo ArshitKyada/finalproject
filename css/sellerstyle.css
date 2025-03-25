@@ -2,7 +2,6 @@ body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     background-color: #f7fafc;
-    overflow: hidden;
 }
 
 body::-webkit-scrollbar {
@@ -150,34 +149,30 @@ th {
     color: #e53e3e;
 }
 
+
 /* Responsive Design */
+
 @media (max-width: 768px) {
     .main-content {
         flex-direction: column;
     }
-
     .dashboard-content {
         padding-bottom: 60px;
     }
-
     .overview-cards {
         flex-direction: column;
     }
-
     .card {
         flex: 1;
         text-align: center;
         flex-direction: column;
     }
-
     .icon {
         margin-bottom: 8px;
     }
-
     .seller-header h1 {
         font-size: 18px;
     }
-
     .notification-button {
         margin-right: 8px;
     }

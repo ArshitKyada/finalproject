@@ -8,10 +8,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
     .sidebar {
+        overflow: hidden;
         background-color: rgb(226, 234, 249);
         padding: 16px;
         width: 250px;
-        height:600px;
+        height: 600px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         z-index: 1000;
     }
@@ -38,13 +39,13 @@
         transform: scale(1.05);
     }
 
-    /* Responsive Sidebar for Mobile */
     @media (max-width: 768px) {
         .sidebar {
             width: 100%;
+            max-height: 60px;
             padding: 12px;
             display: flex;
-            justify-content: space-around;
+            justify-content: center;
             box-shadow: none;
             position: fixed;
             bottom: 0;
@@ -55,19 +56,18 @@
         .sidebar nav {
             display: flex;
             gap: 12px;
+            flex-wrap: wrap;
+            /* Allow items to wrap */
         }
 
         .sidebar nav a {
-            font-size: 14px;
-            padding: 10px;
+            font-size: 16px;
+            /* Increase font size */
+            padding: 12px;
+            /* Increase padding */
             display: flex;
             flex-direction: column;
             align-items: center;
-        }
-
-        .sidebar nav a i {
-            margin-right: 0;
-            margin-bottom: 4px;
         }
     }
     </style>
