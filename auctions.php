@@ -9,15 +9,9 @@ $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Current page
 $offset = ($page - 1) * $limit; // Calculate offset
 
 // Base SQL query to select all products with LIMIT and OFFSET
-$sql = "SELECT p.*, 
+$sql = "SELECT p.id, p.product_name, p.starting_bid, p.end_time, 
                (SELECT pi.image_url FROM product_images pi WHERE pi.product_id = p.id ORDER BY pi.id LIMIT 1) AS coverImageMain,
-               COALESCE(MAX(b.bid_amount), p.starting_bid) AS highest_bid,
-               p.end_time,
-               (CASE 
-                    WHEN NOW() > p.end_time AND MAX(b.bid_amount) IS NOT NULL THEN 'sold' 
-                    WHEN NOW() > p.end_time THEN 'ended' 
-                    ELSE 'active' 
-                END) AS auction_status
+               COALESCE(MAX(b.bid_amount), p.starting_bid) AS highest_bid
         FROM products p
         LEFT JOIN bid b ON p.id = b.product_id
         GROUP BY p.id
@@ -129,12 +123,12 @@ $totalPages = ceil($totalProducts / $limit); // Calculate total pages
             border: 2px solid black;
             border-radius: 5px;
             text-decoration: none;
-            color:rgb(11, 42, 76);
-            background-color:white;
+            color: rgb(11, 42, 76);
+            background-color: white;
         }
 
         .pagination a.active {
-            background-color:rgb(12, 40, 70);
+            background-color: rgb(12, 40, 70);
             color: white;
         }
 
@@ -151,17 +145,15 @@ $totalPages = ceil($totalProducts / $limit); // Calculate total pages
         <a href="product_details.php?id=<?php echo $row['id']; ?>" class="card-link">
             <div class="card">
                 <div class="relative">
-                    <img src="<?php echo $row['coverImageMain']; ?>"
+                    <img src="<?php echo htmlspecialchars($row['coverImageMain']); ?>"
                         alt="<?php echo htmlspecialchars($row['product_name']); ?>" loading="lazy">
                     <div class="auction-status">
                         <?php 
-                        if ($row['auction_status'] == 'sold') {
-                            echo '<span class="status sold">Sold</span>';
-                        } elseif ($row['auction_status'] == 'ended') {
-                            echo '<span class="status ended">Unsold</span>';
-                        } else {
-                            echo '<span class="status active">Active</span>';
+                        $auction_status = 'active';
+                        if (strtotime($row['end_time']) < time()) {
+                            $auction_status = isset($row['highest_bid']) ? 'sold' : 'ended';
                         }
+                        echo '<span class="status ' . $auction_status . '">' . ucfirst($auction_status) . '</span>';
                         ?>
                     </div>
                 </div>
@@ -194,6 +186,6 @@ $totalPages = ceil($totalProducts / $limit); // Calculate total pages
         <?php endif; ?>
     </div>
 
-    <?php include_once 'footer.php' ?>
+    <?php include_once 'footer.php'; ?>
 </body>
 </html>

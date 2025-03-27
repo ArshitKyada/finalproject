@@ -53,7 +53,7 @@ include_once 'header.php';
             <br>
             <div class="buttons">
                 <a href="auctions.php" class="button view-auctions">View Auctions</a>
-                <a href="#" class="button watch-video">Watch Video</a>
+                <a href="https://youtu.be/t_SEW8Y8BfM?si=Sfw0lMnif2o9wE4c" target="_blank" class="button watch-video" width="100%">Watch Video</a>
             </div>
         </div>
         <div class="illustration">
