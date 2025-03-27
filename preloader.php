@@ -28,7 +28,7 @@
     .gavel {
         font-size: 80px;
         color: #0A3D62;
-        animation: gavel-bounce 1.5s infinite ease-in-out;
+        animation: gavel-bounce 1.6s infinite ease-in-out;
     }
 
     /* Gavel Bouncing Animation */

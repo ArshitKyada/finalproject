@@ -1,6 +1,7 @@
 <?php 
-include_once 'header.php'; // Include your header file
+
 include_once 'preloader.php'; // Include your preloader file
+include_once 'header.php'; // Include your header file
 include_once 'connect.php'; // Database connection file
 
 // Pagination variables
