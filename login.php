@@ -1,8 +1,8 @@
 <?php
 session_start();
-include_once('connect.php'); 
+include_once('connect.php'); // Include your database connection file
 
-$error = '';
+$error = ''; // Initialize an error variable
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
@@ -24,16 +24,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Verify password (consider using password_hash and password_verify for production)
         if ($user['password'] == $password) {
             // Set session variables for the logged-in user
-            $_SESSION['user_id'] = $user['id']; // Set the user ID in session
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['account_type'] = $user['account_type'];
-            
+            $_SESSION['user_id'] = $user['id']; // Set user ID
+            $_SESSION['username'] = $user['username']; // Set username
+            $_SESSION['account_type'] = $user['account_type']; // Set account type
+            $_SESSION['user_email'] = $user['email']; // Set user email
+
             // Redirect based on account type
             if ($user['account_type'] == 'buyer') {
                 header("Location: index.php");
             } else {
-                header("Location: index.php"); // Redirect to seller dashboard
+                header("Location: seller_dashboard.php"); // Redirect to seller dashboard
             }
+            exit(); // Ensure no further code is executed after redirection
         } else {
             $error = 'Invalid password.';
         }
@@ -44,112 +46,114 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>Login</title>
     <style>
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #e9ecef;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-    }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e9ecef;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
-    .login-container {
-        background-color: #ffffff;
-        padding: 40px;
-        border-radius: 10px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        max-width: 450px;
-        box-sizing: border-box;
-    }
+        .login-container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            box-sizing: border-box;
+        }
 
-    .login-container h2 {
-        margin: 0 0 15px;
-        font-size: 28px;
-        font-weight: 600;
-        color: #343a40;
-        text-align: center;
-    }
+        .login-container h2 {
+            margin: 0 0 15px;
+            font-size: 28px;
+            font-weight: 600;
+            color: #343a40;
+            text-align: center;
+        }
 
-    .login-container p {
-        margin: 0 0 25px;
-        color: #6c757d;
-        text-align: center;
-    }
+        .login-container p {
+            margin: 0 0 25px;
+            color: #6c757d;
+            text-align: center;
+        }
 
-    .login-container label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: 500;
-        color: #495057;
-    }
+        .login-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #495057;
+        }
 
-    .login-container input[type="text"],
-    .login-container input[type="password"] {
-        width: 350px;
-        padding: 12px;
-        margin-bottom: 20px;
-        border: 1px solid #ced4da;
-        border-radius: 5px;
-        background-color: #f8f9fa;
-        transition: border-color 0.3s;
-    }
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+            transition: border-color 0.3s;
+        }
 
-    .login-container input[type="text"]:focus,
-    .login-container input[type="password"]:focus {
-        border-color: #007bff;
-        outline: none;
-    }
+        .login-container input[type="text"]:focus,
+        .login-container input[type="password"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
 
-    .login-container a {
-        color: #007bff;
-        text-decoration: none;
-        font-size: 14px;
-    }
+        .login-container a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+        }
 
-    .login-container a:hover {
-        text-decoration: underline;
-    }
+        .login-container a:hover {
+            text-decoration: underline;
+        }
 
-    .login-container .login-button {
-        width: 375px;
-        padding: 12px;
-        border: none;
-        border-radius: 5px;
-        background-color: #007bff;
-        color: #ffffff;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
+        .login-container .login-button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #ffffff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
 
-    .login-container .login-button:hover {
-        background-color: #0056b3;
-    }
+        .login-container .login-button:hover {
+            background-color: #0056b3;
+        }
 
-    .login-container .signup-link {
-        text-align: center;
-        margin-top: 20px;
-    }
+        .login-container .signup-link {
+            text-align: center;
+            margin-top: 20px;
+        }
 
-    .error {
-        color: red;
-        text-align: center;
-        margin-bottom: 15px;
-    }
+        .error {
+            color: red;
+            text-align: center;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
-
 <body>
     <div class="login-container">
         <h2>Account Login</h2>
-        <p>Please enter your login details!</p><?php if ($error): ?>
+        <p>Please enter your login details!</p>
+        <?php if ($error): ?>
         <p class="error"><?php echo $error; ?></p>
         <?php endif; ?>
 
@@ -169,5 +173,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </div>
 </body>
-
 </html>

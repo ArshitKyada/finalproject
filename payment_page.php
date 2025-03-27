@@ -5,6 +5,12 @@ session_start();
 include_once 'connect.php'; // Include your database connection
 include_once 'header.php'; // Include your header
 
+// Include PHPMailer classes
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'vendor/autoload.php'; // Adjust the path as necessary
+
 // Check if product_id is set in GET request
 if (isset($_GET['product_id']) && !empty($_GET['product_id'])) {
     $product_id = intval($_GET['product_id']); // Ensure it's an integer
@@ -58,9 +64,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "INSERT INTO payments (full_name, email, address, city, state, zip_code, card_name, card_number, exp_month, exp_year, cvv, amount_due, product_id) 
     VALUES ('$full_name', '$email', '$address', '$city', '$state', '$zip_code', '$card_name', '$card_number', '$exp_month', '$exp_year', '$cvv', $highest_bid, $product_id)";
 
-// Execute the query
+    // Execute the query
     if ($conn->query($sql) === TRUE) {
-        echo "<script>alert('Payment successfully! Thank you for your purchase.'); window.location.href = 'index.php';</script>";
+        // Send email notification
+        $mail = new PHPMailer(true);
+        try {
+            // Server settings
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.gmail.com';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = 'svptybca124@gmail.com'; // Your email
+            $mail->Password   = 'jnpi zozh ntrr yhnf'; // Your email password
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port       = 587;
+
+            // Recipients
+            $mail->setFrom('svptybca124@gmail.com', 'Auctioneers'); // Sender's email and name
+            $mail->addAddress($email, $full_name); // Add recipient
+
+            // Content
+            $mail->isHTML(true);
+            $mail->Subject = 'Payment Successful';
+            $mail->Body    = 'Dear ' . htmlspecialchars($full_name) . ',<br><br>Your payment of $' . number_format($highest_bid, 2) . ' for the product "' . htmlspecialchars($product['product_name']) . '" has been successfully processed.<br><br>Thank you for your purchase!<br><br>Best Regards,<br>Auctioneers';
+
+            $mail->send();
+            echo "<script>alert('Payment successfully! Thank you for your purchase.'); window.location.href = 'index.php';</script>";
+        } catch (Exception $e) {
+            echo "<script>alert('Payment successful, but email could not be sent. Mailer Error: {$mail->ErrorInfo}'); window.location.href = 'index.php';</script>";
+        }
     } else {
         echo "<script>alert('Error storing payment details: " . $conn->error . "');</script>";
     }
@@ -78,107 +109,99 @@ $conn->close(); // Close the database connection
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/paymentstyle.css">
     <style>
-    body::-webkit-scrollbar {
-        display: none;
-    }
+        body::-webkit-scrollbar {
+            display: none;
+        }
 
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
-    .container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        background: #1f242d;
-        padding: 25px;
-    }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #1f242d;
+            padding: 25px;
+        }
 
-    .container form {
-        width: 100%;
-        max-width: 700px;
-        /* Ensures that the form won't exceed 700px */
-        padding: 40px;
-        background: #fff;
-        border-radius: 10px;
-        box-sizing: border-box;
-    }
+        .container form {
+            width: 100%;
+            max-width: 700px;
+            padding: 40px;
+            background: #fff;
+            border-radius: 10px;
+            box-sizing: border-box;
+        }
 
-    form .row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-        /* Added gap to separate the fields */
-    }
+        form .row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
 
-    .column {
-        flex: 1 1 48%;
-        /* Each column will take up 48% of the available space */
-        min-width: 250px;
-        /* Prevents columns from shrinking too much */
-    }
+        .column {
+            flex: 1 1 48%;
+            min-width: 250px;
+        }
 
-    .column .title {
-        font-size: 20px;
-        color: #333;
-        text-transform: uppercase;
-        margin-bottom: 5px;
-    }
+        .column .title {
+            font-size: 20px;
+            color: #333;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
 
-    .input-box {
-        margin-bottom: 15px;
-        /* Ensures there's space between fields */
-    }
+        .input-box {
+            margin-bottom: 15px;
+        }
 
-    .input-box span {
-        display: block;
-        margin-bottom: 8px;
-    }
+        .input-box span {
+            display: block;
+            margin-bottom: 8px;
+        }
 
-    .input-box input {
-        width: 100%;
-        padding: 12px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        font-size: 16px;
-        box-sizing: border-box;
-        /* Prevents inputs from overflowing */
-    }
+        .input-box input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
 
-    .flex {
-        display: flex;
-        gap: 15px;
-        /* Ensures there's space between flex items */
-    }
+        .flex {
+            display: flex;
+            gap: 15px;
+        }
 
-    .flex .input-box {
-        margin-top: 5px;
-        flex: 1 1 45%;
-        /* Ensures that the inputs within the flex container take up equal space */
-    }
+        .flex .input-box {
+            margin-top: 5px;
+            flex: 1 1 45%;
+        }
 
-    .input-box img {
-        height: 34px;
-        margin-top: 5px;
-        filter: drop-shadow(0 0 1px #000);
-    }
+        .input-box img {
+            height: 34px;
+            margin-top: 5px;
+            filter: drop-shadow(0 0 1px #000);
+        }
 
-    form .btn {
-        width: 100%;
-        padding: 14px;
-        background: #8175d3;
-        border: none;
-        outline: none;
-        border-radius: 6px;
-        font-size: 17px;
-        color: #fff;
-        margin-top: 20px;
-        cursor: pointer;
-        transition: .5s;
-    }
+        form .btn {
+            width: 100%;
+            padding: 14px;
+            background: #8175d3;
+            border: none;
+            outline: none;
+            border-radius: 6px;
+            font-size: 17px;
+            color: #fff;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: .5s;
+        }
 
-    form .btn:hover {
-        background: #6a5acd;
-    }
+        form .btn:hover {
+            background: #6a5acd;
+        }
     </style>
 </head>
 

@@ -1,6 +1,10 @@
 <?php
 include_once 'connect.php';
 include_once 'preloader.php';
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'vendor/autoload.php'; // Adjust the path as necessary
 
 session_start(); // Start session for user tracking
 
@@ -13,6 +17,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
 // Simulated logged-in user (replace with actual session user ID)
 $user_id = $_SESSION['user_id'] ?? 1; 
+$user_email = $_SESSION['user_email']; // Replace with actual user email
 
 // Handle bid submission
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['place_bid'])) {
@@ -135,6 +140,36 @@ $reviews_result = $conn->query($reviews_sql);
 $current_time = new DateTime(); // Get the current time
 $end_time = new DateTime($row['end_time']); // Assuming 'end_time' is in the product row
 $auction_ended = $current_time > $end_time; // Check if the current time is greater than the end time
+
+// Send email notification if the user wins the auction
+if ($is_highest_bidder && $auction_ended) {
+    $mail = new PHPMailer(true);
+    try {
+        //Server settings
+        $mail->isSMTP();                                            // Send using SMTP
+        $mail->Host       = 'smtp.gmail.com';                     // Set the SMTP server to send through
+        $mail->SMTPAuth   = true;                                 // Enable SMTP authentication
+        $mail->Username   = 'svptybca124@gmail.com';            // SMTP username
+        $mail->Password   = 'jnpi zozh ntrr yhnf';                      // SMTP password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;      // Enable TLS encryption
+        $mail->Port       = 587;                                  // TCP port to connect to
+
+        //Recipients
+        $mail->setFrom('svptybca124@gmail.com', 'Auctioneers');
+        $mail->addAddress($user_email, 'User  Name'); // Add a recipient
+
+        // Content
+        $mail->isHTML(true);                                    // Set email format to HTML
+        $mail->Subject = 'Congratulations! You Won the Auction';
+        $mail->Body    = 'Dear User,<br><br>Congratulations! You have won the auction for the product: ' . htmlspecialchars($row['product_name']) . '.<br><br>Thank you for participating!<br><br>Best Regards,<br>Auction Team';
+
+        $mail->send();
+    } catch (Exception $e) {
+        // Log the error messages
+        error_log("Email could not be sent. Mailer Error: {$mail->ErrorInfo}");
+        echo "Email could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -147,7 +182,8 @@ $auction_ended = $current_time > $end_time; // Check if the current time is grea
     <script src="js/script.js"></script>
     <link rel="stylesheet" href="css/productdetailsstyle.css">
     <style>
-    #description {
+        /* Your CSS styles here */
+        #description {
         margin: 0;
         /* Remove any margin */
         padding: 0;
@@ -534,7 +570,7 @@ $auction_ended = $current_time > $end_time; // Check if the current time is grea
                     }
                 })
                 .catch(error => console.error('Error fetching highest bid:', error));
-        }, 1000); // Check every 5 seconds
+        }, 1000); // Check every second
     });
     </script>
 </body>
