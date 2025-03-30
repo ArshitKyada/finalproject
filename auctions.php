@@ -10,9 +10,15 @@ $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Current page
 $offset = ($page - 1) * $limit; // Calculate offset
 
 // Base SQL query to select all products with LIMIT and OFFSET
-$sql = "SELECT p.id, p.product_name, p.starting_bid, p.end_time, 
+$sql = "SELECT p.*, 
                (SELECT pi.image_url FROM product_images pi WHERE pi.product_id = p.id ORDER BY pi.id LIMIT 1) AS coverImageMain,
-               COALESCE(MAX(b.bid_amount), p.starting_bid) AS highest_bid
+               COALESCE(MAX(b.bid_amount), p.starting_bid) AS highest_bid,
+               p.end_time,
+               (CASE 
+                    WHEN NOW() > p.end_time AND MAX(b.bid_amount) IS NOT NULL THEN 'sold' 
+                    WHEN NOW() > p.end_time THEN 'ended' 
+                    ELSE 'active' 
+                END) AS auction_status
         FROM products p
         LEFT JOIN bid b ON p.id = b.product_id
         GROUP BY p.id
@@ -20,6 +26,11 @@ $sql = "SELECT p.id, p.product_name, p.starting_bid, p.end_time,
         LIMIT $limit OFFSET $offset"; // Add LIMIT and OFFSET
 
 $result = mysqli_query($conn, $sql);
+
+// Check for query errors
+if (!$result) {
+    die('Query Error: ' . mysqli_error($conn));
+}
 
 // Query to count total products
 $totalResult = mysqli_query($conn, "SELECT COUNT(*) as total FROM products");
@@ -149,13 +160,15 @@ $totalPages = ceil($totalProducts / $limit); // Calculate total pages
                     <img src="<?php echo htmlspecialchars($row['coverImageMain']); ?>"
                         alt="<?php echo htmlspecialchars($row['product_name']); ?>" loading="lazy">
                     <div class="auction-status">
-                        <?php 
-                        $auction_status = 'active';
-                        if (strtotime($row['end_time']) < time()) {
-                            $auction_status = isset($row['highest_bid']) ? 'sold' : 'ended';
+                    <?php 
+                        if ($row['auction_status'] == 'sold') {
+                            echo '<span class="status sold">Sold</span>';
+                        } elseif ($row['auction_status'] == 'ended') {
+                            echo '<span class="status ended">Unsold</span>';
+                        } else {
+                            echo '<span class="status active">Active</span>';
                         }
-                        echo '<span class="status ' . $auction_status . '">' . ucfirst($auction_status) . '</span>';
-                        ?>
+                    ?>
                     </div>
                 </div>
                 <div class="content">
