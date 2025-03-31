@@ -1,10 +1,6 @@
 <?php
 include_once 'connect.php';
 include_once 'preloader.php';
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-require 'vendor/autoload.php'; // Adjust the path as necessary
 
 session_start(); // Start session for user tracking
 
@@ -141,35 +137,6 @@ $current_time = new DateTime(); // Get the current time
 $end_time = new DateTime($row['end_time']); // Assuming 'end_time' is in the product row
 $auction_ended = $current_time > $end_time; // Check if the current time is greater than the end time
 
-// Send email notification if the user wins the auction
-if ($is_highest_bidder && $auction_ended) {
-    $mail = new PHPMailer(true);
-    try {
-        //Server settings
-        $mail->isSMTP();                                            // Send using SMTP
-        $mail->Host       = 'smtp.gmail.com';                     // Set the SMTP server to send through
-        $mail->SMTPAuth   = true;                                 // Enable SMTP authentication
-        $mail->Username   = 'svptybca124@gmail.com';            // SMTP username
-        $mail->Password   = 'jnpi zozh ntrr yhnf';                      // SMTP password
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;      // Enable TLS encryption
-        $mail->Port       = 587;                                  // TCP port to connect to
-
-        //Recipients
-        $mail->setFrom('svptybca124@gmail.com', 'Auctioneers');
-        $mail->addAddress($user_email, 'User  Name'); // Add a recipient
-
-        // Content
-        $mail->isHTML(true);                                    // Set email format to HTML
-        $mail->Subject = 'Congratulations! You Won the Auction';
-        $mail->Body    = 'Dear User,<br><br>Congratulations! You have won the auction for the product: ' . htmlspecialchars($row['product_name']) . '.<br><br>Thank you for participating!<br><br>Best Regards,<br>Auction Team';
-
-        $mail->send();
-    } catch (Exception $e) {
-        // Log the error messages
-        error_log("Email could not be sent. Mailer Error: {$mail->ErrorInfo}");
-        echo "Email could not be sent. Mailer Error: {$mail->ErrorInfo}";
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -184,96 +151,96 @@ if ($is_highest_bidder && $auction_ended) {
     <style>
         /* Your CSS styles here */
         #description {
-        margin: 0;
-        /* Remove any margin */
-        padding: 0;
-        /* Remove any padding */
-    }
-
-    .description-text {
-        font-size: 16px;
-        /* Font size for better readability */
-        line-height: 1.6;
-        /* Line height for spacing between lines */
-        color: #333;
-        /* Dark gray text color */
-        padding: 10px;
-    }
-
-    /* Responsive Styles */
-    @media (max-width: 768px) {
-        .description-text {
-            font-size: 14px;
-            /* Slightly smaller font size on mobile */
+            margin: 0;
+            /* Remove any margin */
+            padding: 0;
+            /* Remove any padding */
         }
-    }
 
-    .more-products-container {
-        display: flex;
-        flex-wrap: wrap;
-        /* Allow items to wrap to the next line */
-        gap: 20px;
-        /* Space between product cards */
-        margin-top: 20px;
-        /* Space above the section */
-    }
+        .description-text {
+            font-size: 16px;
+            /* Font size for better readability */
+            line-height: 1.6;
+            /* Line height for spacing between lines */
+            color: #333;
+            /* Dark gray text color */
+            padding: 10px;
+        }
 
-    .more-products-card {
-        background-color: #fff;
-        /* White background for product cards */
-        color:black;
-        border: 1px solid #ddd;
-        /* Light border */
-        border-radius: 5px;
-        /* Rounded corners */
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        /* Subtle shadow */
-        width: calc(25% - 20px);
-        /* Four cards per row with gap */
-        min-height: 350px;
-        /* Set a minimum height for cards */
-        transition: transform 0.2s;
-        /* Smooth transition for hover effect */
-        overflow: hidden;
-        /* Prevent overflow */
-    }
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .description-text {
+                font-size: 14px;
+                /* Slightly smaller font size on mobile */
+            }
+        }
 
-    .more-products-card:hover {
-        transform: scale(1.05);
-        /* Slightly enlarge card on hover */
-    }
+        .more-products-container {
+            display: flex;
+            flex-wrap: wrap;
+            /* Allow items to wrap to the next line */
+            gap: 20px;
+            /* Space between product cards */
+            margin-top: 20px;
+            /* Space above the section */
+        }
 
-    .more-products-card img {
-        width: 100%;
-        /* Make image responsive */
-        height: auto;
-        /* Maintain aspect ratio */
-        border-top-left-radius: 5px;
-        /* Rounded corners for the top */
-        border-top-right-radius: 5px;
-        /* Rounded corners for the top */
-    }
+        .more-products-card {
+            background-color: #fff;
+            /* White background for product cards */
+            color: black;
+            border: 1px solid #ddd;
+            /* Light border */
+            border-radius: 5px;
+            /* Rounded corners */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            /* Subtle shadow */
+            width: calc(25% - 20px);
+            /* Four cards per row with gap */
+            min-height: 350px;
+            /* Set a minimum height for cards */
+            transition: transform 0.2s;
+            /* Smooth transition for hover effect */
+            overflow: hidden;
+            /* Prevent overflow */
+        }
 
-    .more-products-card a{
-        text-decoration:none;
-        color: black;
-        text-align: center;
-    }
+        .more-products-card:hover {
+            transform: scale(1.05);
+            /* Slightly enlarge card on hover */
+        }
 
-    .more-products-card h3 {
-        font-size: 18px;
-        /* Font size for product name */
-        margin: 10px;
-        color:black;
-        /* Margin around the title */
-    }
+        .more-products-card img {
+            width: 100%;
+            /* Make image responsive */
+            height: auto;
+            /* Maintain aspect ratio */
+            border-top-left-radius: 5px;
+            /* Rounded corners for the top */
+            border-top-right-radius: 5px;
+            /* Rounded corners for the top */
+        }
 
-    .more-products-card p {
-        margin: 10px;
-        /* Margin around the description and price */
-        color: black;
-        /* Darker gray for text */
-    }
+        .more-products-card a {
+            text-decoration: none;
+            color: black;
+            text-align: center;
+        }
+
+        .more-products-card h3 {
+            font-size: 18px;
+            /* Font size for product name */
+            margin: 10px;
+            color: black;
+            /* Margin around the title */
+        }
+
+        .more-products-card p {
+            margin: 10px;
+            /* Margin around the description and price */
+            color: black;
+            /* Darker gray for text */
+        }
     </style>
 </head>
 
