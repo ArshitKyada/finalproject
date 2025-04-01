@@ -22,7 +22,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 $user_id = $_SESSION['user_id'] ?? 1; 
 $sql = "SELECT email FROM users WHERE id = $user_id;"; // Replace with actual user email
 
-$result=mysqli_query($conn,$sql);
+$result = mysqli_query($conn, $sql);
 $email = '';
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
@@ -170,7 +170,7 @@ if ($auction_ended && $is_highest_bidder) {
 
         // Recipients
         $mail->setFrom('arshitkyada75@gmail.com', 'Mailer');
-        $mail->addAddress($email, 'User '); // Use the fetched email
+        $mail->addAddress($email, 'User  '); // Use the fetched email
 
         // Content
         $mail->isHTML(true);
@@ -184,8 +184,6 @@ if ($auction_ended && $is_highest_bidder) {
         echo "<script>alert('Failed to send email. Error: {$mail->ErrorInfo}');</script>";
     }
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -542,9 +540,15 @@ if ($auction_ended && $is_highest_bidder) {
                         let timeLeft = endTimeUTC - now;
 
                         if (timeLeft <= 0) {
-                            document.querySelector(".time-left").innerHTML = "<p>Auction ended</p>";
+                            document.querySelector(".time-left").innerHTML = "<h2>Auction ended</h2>";
                             document.getElementById("bidSection").style.display =
                                 "none"; // Hide bid section
+
+                            // Check if the auction has ended and refresh the page only once
+                            if (!localStorage.getItem('auctionEnded')) {
+                                localStorage.setItem('auctionEnded', 'true'); // Set the flag
+                                location.reload(); // Refresh the page
+                            }
                             return;
                         }
 
