@@ -2,6 +2,13 @@
 include_once 'connect.php';
 include_once 'preloader.php';
 
+date_default_timezone_set('Asia/Kolkata');
+
+require 'vendor/autoload.php'; // Adjust the path if necessary
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 session_start(); // Start session for user tracking
 
 // Check if product_id is set in GET request
@@ -13,7 +20,16 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
 // Simulated logged-in user (replace with actual session user ID)
 $user_id = $_SESSION['user_id'] ?? 1; 
-$user_email = $_SESSION['user_email']; // Replace with actual user email
+$sql = "SELECT email FROM users WHERE id = $user_id;"; // Replace with actual user email
+
+$result=mysqli_query($conn,$sql);
+$email = '';
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $email = $row['email']; // Store the email in the variable
+} else {
+    echo "No user found with the given ID.";
+}
 
 // Handle bid submission
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['place_bid'])) {
@@ -136,6 +152,39 @@ $reviews_result = $conn->query($reviews_sql);
 $current_time = new DateTime(); // Get the current time
 $end_time = new DateTime($row['end_time']); // Assuming 'end_time' is in the product row
 $auction_ended = $current_time > $end_time; // Check if the current time is greater than the end time
+
+// Send email if auction has ended and user is the highest bidder
+if ($auction_ended && $is_highest_bidder) {
+    // Email sending logic here
+    $mail = new PHPMailer(true); // Create a new PHPMailer instance
+
+    try {
+        // Server settings
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'arshitkyada75@gmail.com'; // Ensure this is correct
+        $mail->Password = 'abmh fape dyjn jizg'; // Ensure this is correct
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;
+
+        // Recipients
+        $mail->setFrom('arshitkyada75@gmail.com', 'Mailer');
+        $mail->addAddress($email, 'User '); // Use the fetched email
+
+        // Content
+        $mail->isHTML(true);
+        $mail->Subject = "Congratulations! You've Won the Auction!";
+        $mail->Body    = "Dear User,<br><br>Congratulations! You have won the auction for the product: <strong>" . htmlspecialchars($row['product_name']) . "</strong>.<br><br>Thank you for participating!<br><br>Best Regards,<br>Your Auction Team";
+        $mail->AltBody = "Dear User,\n\nCongratulations! You have won the auction for the product: " . htmlspecialchars($row['product_name']) . ".\n\nThank you for participating!\n\nBest Regards,\nYour Auction Team";
+
+        // Send email
+        $mail->send();
+    } catch (Exception $e) {
+        echo "<script>alert('Failed to send email. Error: {$mail->ErrorInfo}');</script>";
+    }
+}
+
 
 ?>
 

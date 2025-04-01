@@ -1,5 +1,14 @@
 <?php 
 
+session_start(); // Start the session
+
+// Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    // Redirect to the login page if not logged in
+    header("Location: login.php");
+    exit(); // Ensure no further code is executed
+}
+
 include_once 'preloader.php'; // Include your preloader file
 include_once 'header.php'; // Include your header file
 include_once 'connect.php'; // Database connection file

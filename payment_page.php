@@ -73,13 +73,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mail->isSMTP();
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'svptybca124@gmail.com'; // Your email
-            $mail->Password   = 'jnpi zozh ntrr yhnf'; // Your email password
+            $mail->Username   = 'arshitkyada75@gmail.com'; // Your email
+            $mail->Password   = 'abmh fape dyjn jizg'; // Your email password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port       = 587;
 
             // Recipients
-            $mail->setFrom('svptybca124@gmail.com', 'Auctioneers'); // Sender's email and name
+            $mail->setFrom('arshitkyada75@gmail.com', 'Auctioneers'); // Sender's email and name
             $mail->addAddress($email, $full_name); // Add recipient
 
             // Content
