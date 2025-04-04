@@ -169,14 +169,14 @@ if ($auction_ended && $is_highest_bidder) {
         $mail->Port = 587;
 
         // Recipients
-        $mail->setFrom('arshitkyada75@gmail.com', 'Mailer');
+        $mail->setFrom('arshitkyada75@gmail.com', 'Auctioneers');
         $mail->addAddress($email, 'User  '); // Use the fetched email
 
         // Content
         $mail->isHTML(true);
         $mail->Subject = "Congratulations! You've Won the Auction!";
         $mail->Body    = "Dear User,<br><br>Congratulations! You have won the auction for the product: <strong>" . htmlspecialchars($row['product_name']) . "</strong>.<br><br>Thank you for participating!<br><br>Best Regards,<br>Your Auction Team";
-        $mail->AltBody = "Dear User,\n\nCongratulations! You have won the auction for the product: " . htmlspecialchars($row['product_name']) . ".\n\nThank you for participating!\n\nBest Regards,\nYour Auction Team";
+        $mail->AltBody = "Dear User,\n\nCongratulations! You have won the auction for the product: " . htmlspecialchars($row['product_name']) . ".\n\nThank you for participating!\n\nBest Regards,\nAuction Team";
 
         // Send email
         $mail->send();
