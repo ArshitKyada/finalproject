@@ -80,6 +80,7 @@
             <a href="sellerindex.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
             <a href="sellerauctions.php"><i class="fas fa-gavel"></i> My Auctions</a>
             <a href="addproduct.php"><i class="fas fa-plus-circle"></i> Add Auction</a>
+            <a href="bidding_details.php"><i class="fas fa-truck"></i> Shipping Details</a>
             <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </nav>
     </aside>

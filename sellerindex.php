@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once 'preloader.php';
 include_once 'connect.php';
 include_once 'header.php';
 
@@ -42,6 +43,48 @@ $totalActiveAuctions = mysqli_fetch_assoc($resultActiveAuctions)['total_active_a
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="css/sellerstyle.css">
     <style>
+    body {
+        overflow: hidden;
+    }
+
+    body::-webkit-scrollbar {
+        display: none;
+    }
+
+    .seller-container,
+    .main-content {
+        width: 100%;
+    }
+
+    .seller-header {
+        background-color: rgb(0, 0, 0);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .seller-header h1 {
+        font-size: 20px;
+        color: rgb(255, 255, 255);
+    }
+
+    .notification-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: rgb(255, 255, 255);
+        margin-right: 16px;
+    }
+
+    .main-content {
+        display: flex;
+        flex: 1;
+        flex-wrap: wrap;
+        overflow: hidden;
+    }
+
     .withdraw-button {
         display: inline-block;
         margin-top: 10px;

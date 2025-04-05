@@ -3,6 +3,7 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+include_once 'preloader.php';
 
 require_once 'connect.php'; // Database connection
 include_once 'header.php'; // Header

@@ -175,7 +175,7 @@ if ($auction_ended && $is_highest_bidder) {
         $mail->isHTML(true);
         $mail->Subject = "Congratulations! You've Won the Auction!";
         $mail->Body    = "Dear User,<br><br>Congratulations! You have won the auction for the product: <strong>" . htmlspecialchars($row['product_name']) . "</strong>.<br><br>Thank you for participating!<br><br>Best Regards,<br>Your Auction Team";
-        $mail->AltBody = "Dear User,\n\nCongratulations! You have won the auction for the product: " . htmlspecialchars($row['product_name']) . ".\n\nThank you for participating!\n\nBest Regards,\nAuction Team";
+        $mail->AltBody = "Dear User,\n\nCongratulations! You have won the auction for the product: " . htmlspecialchars($row['product_name']) . ".\n\nThank you for participating!\n\nBest Regards,\nAuctioneers";
 
         // Send email
         $mail->send();

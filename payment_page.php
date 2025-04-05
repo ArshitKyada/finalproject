@@ -61,9 +61,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $exp_year = $conn->real_escape_string($_POST['exp_year']);
     $cvv = $conn->real_escape_string($_POST['cvv']);
 
-    $sql = "INSERT INTO payments (full_name, email, address, city, state, zip_code, card_name, card_number, exp_month, exp_year, cvv, amount_due, product_id) 
-    VALUES ('$full_name', '$email', '$address', '$city', '$state', '$zip_code', '$card_name', '$card_number', '$exp_month', '$exp_year', '$cvv', $highest_bid, $product_id)";
+    $sql = "INSERT INTO payments (user_id, full_name, email, address, city, state, zip_code, card_name, card_number, exp_month, exp_year, cvv, amount_due, product_id) 
+        VALUES ($userId, '$full_name', '$email', '$address', '$city', '$state', '$zip_code', '$card_name', '$card_number', '$exp_month', '$exp_year', '$cvv', $highest_bid, $product_id)";
 
+    
     // Execute the query
     if ($conn->query($sql) === TRUE) {
         // Send email notification
