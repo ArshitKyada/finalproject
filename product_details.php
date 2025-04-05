@@ -171,7 +171,6 @@ if ($auction_ended && $is_highest_bidder) {
         // Recipients
         $mail->setFrom('arshitkyada75@gmail.com', 'Auctioneers');
         $mail->addAddress($email, 'User  '); // Use the fetched email
-
         // Content
         $mail->isHTML(true);
         $mail->Subject = "Congratulations! You've Won the Auction!";
@@ -196,98 +195,98 @@ if ($auction_ended && $is_highest_bidder) {
     <script src="js/script.js"></script>
     <link rel="stylesheet" href="css/productdetailsstyle.css">
     <style>
-        /* Your CSS styles here */
-        #description {
-            margin: 0;
-            /* Remove any margin */
-            padding: 0;
-            /* Remove any padding */
-        }
+    /* Your CSS styles here */
+    #description {
+        margin: 0;
+        /* Remove any margin */
+        padding: 0;
+        /* Remove any padding */
+    }
 
+    .description-text {
+        font-size: 16px;
+        /* Font size for better readability */
+        line-height: 1.6;
+        /* Line height for spacing between lines */
+        color: #333;
+        /* Dark gray text color */
+        padding: 10px;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
         .description-text {
-            font-size: 16px;
-            /* Font size for better readability */
-            line-height: 1.6;
-            /* Line height for spacing between lines */
-            color: #333;
-            /* Dark gray text color */
-            padding: 10px;
+            font-size: 14px;
+            /* Slightly smaller font size on mobile */
         }
+    }
 
-        /* Responsive Styles */
-        @media (max-width: 768px) {
-            .description-text {
-                font-size: 14px;
-                /* Slightly smaller font size on mobile */
-            }
-        }
+    .more-products-container {
+        display: flex;
+        flex-wrap: wrap;
+        /* Allow items to wrap to the next line */
+        gap: 20px;
+        /* Space between product cards */
+        margin-top: 20px;
+        /* Space above the section */
+    }
 
-        .more-products-container {
-            display: flex;
-            flex-wrap: wrap;
-            /* Allow items to wrap to the next line */
-            gap: 20px;
-            /* Space between product cards */
-            margin-top: 20px;
-            /* Space above the section */
-        }
+    .more-products-card {
+        background-color: #fff;
+        /* White background for product cards */
+        color: black;
+        border: 1px solid #ddd;
+        /* Light border */
+        border-radius: 5px;
+        /* Rounded corners */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        /* Subtle shadow */
+        width: calc(25% - 20px);
+        /* Four cards per row with gap */
+        min-height: 350px;
+        /* Set a minimum height for cards */
+        transition: transform 0.2s;
+        /* Smooth transition for hover effect */
+        overflow: hidden;
+        /* Prevent overflow */
+    }
 
-        .more-products-card {
-            background-color: #fff;
-            /* White background for product cards */
-            color: black;
-            border: 1px solid #ddd;
-            /* Light border */
-            border-radius: 5px;
-            /* Rounded corners */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            /* Subtle shadow */
-            width: calc(25% - 20px);
-            /* Four cards per row with gap */
-            min-height: 350px;
-            /* Set a minimum height for cards */
-            transition: transform 0.2s;
-            /* Smooth transition for hover effect */
-            overflow: hidden;
-            /* Prevent overflow */
-        }
+    .more-products-card:hover {
+        transform: scale(1.05);
+        /* Slightly enlarge card on hover */
+    }
 
-        .more-products-card:hover {
-            transform: scale(1.05);
-            /* Slightly enlarge card on hover */
-        }
+    .more-products-card img {
+        width: 100%;
+        /* Make image responsive */
+        height: auto;
+        /* Maintain aspect ratio */
+        border-top-left-radius: 5px;
+        /* Rounded corners for the top */
+        border-top-right-radius: 5px;
+        /* Rounded corners for the top */
+    }
 
-        .more-products-card img {
-            width: 100%;
-            /* Make image responsive */
-            height: auto;
-            /* Maintain aspect ratio */
-            border-top-left-radius: 5px;
-            /* Rounded corners for the top */
-            border-top-right-radius: 5px;
-            /* Rounded corners for the top */
-        }
+    .more-products-card a {
+        text-decoration: none;
+        color: black;
+        text-align: center;
+    }
 
-        .more-products-card a {
-            text-decoration: none;
-            color: black;
-            text-align: center;
-        }
+    .more-products-card h3 {
+        font-size: 18px;
+        /* Font size for product name */
+        margin: 10px;
+        color: black;
+        /* Margin around the title */
+    }
 
-        .more-products-card h3 {
-            font-size: 18px;
-            /* Font size for product name */
-            margin: 10px;
-            color: black;
-            /* Margin around the title */
-        }
-
-        .more-products-card p {
-            margin: 10px;
-            /* Margin around the description and price */
-            color: black;
-            /* Darker gray for text */
-        }
+    .more-products-card p {
+        margin: 10px;
+        /* Margin around the description and price */
+        color: black;
+        /* Darker gray for text */
+    }
     </style>
 </head>
 

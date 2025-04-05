@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($user['account_type'] == 'buyer') {
                 header("Location: index.php");
             } else {
-                header("Location: seller_dashboard.php"); // Redirect to seller dashboard
+                header("Location: sellerindex.php"); // Redirect to seller dashboard
             }
             exit(); // Ensure no further code is executed after redirection
         } else {
