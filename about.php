@@ -1,5 +1,5 @@
 <?php 
-include_once 'header.php' ;
+include_once 'header.php';
 include_once 'preloader.php';
 ?>
 
@@ -11,7 +11,6 @@ include_once 'preloader.php';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-    /* General Styles */
     body {
         font-family: 'Roboto', sans-serif;
         background-color: #f7fafc;
@@ -29,7 +28,6 @@ include_once 'preloader.php';
         padding: 30px;
     }
 
-    /* Hero Section */
     .hero-section {
         background-color: #fff;
         padding: 30px;
@@ -53,7 +51,6 @@ include_once 'preloader.php';
         text-align: left;
     }
 
-    /* Raised Info Styling */
     .raised-info {
         display: flex;
         align-items: center;
@@ -106,7 +103,6 @@ include_once 'preloader.php';
         cursor: pointer;
     }
 
-    /* Why Choose Us Section */
     .why-choose-us {
         text-align: center;
         margin-top: 60px;
@@ -157,7 +153,6 @@ include_once 'preloader.php';
         color: #4A5568;
     }
 
-    /* Responsive Design */
     @media (max-width: 768px) {
         .hero-section {
             flex-direction: column;
@@ -188,7 +183,6 @@ include_once 'preloader.php';
 
 <body>
     <div class="container">
-        <!-- Hero Section -->
         <div class="hero-section">
             <div class="hero-image">
                 <img src="images/home.png" alt="A person in a pink hoodie making an OK sign with both hands">
@@ -215,7 +209,6 @@ include_once 'preloader.php';
             </div>
         </div>
 
-        <!-- Why Choose Us Section -->
         <div class="why-choose-us">
             <h2 class="title">Why Choose Us</h2>
             <p class="text">Explore the world's best & largest Bidding marketplace with our beautiful Bidding products.
@@ -252,6 +245,22 @@ include_once 'preloader.php';
                     </div>
                     <h3 class="card-title">Multi-Currency Support</h3>
                     <p class="card-text">Bid and pay in your preferred currency.</p>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="number">05</div>
+                        <i class="fas fa-shield-alt icon"></i>
+                    </div>
+                    <h3 class="card-title">Secure Transactions</h3>
+                    <p class="card-text">Your transactions are protected with top-notch security measures.</p>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="number">06</div>
+                        <i class="fas fa-headset icon"></i>
+                    </div>
+                    <h3 class="card-title">24/7 Customer Support</h3>
+                    <p class="card-text">Our dedicated support team is here to assist you anytime.</p>
                 </div>
             </div>
         </div>

@@ -5,8 +5,8 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 include_once 'preloader.php';
 
-require_once 'connect.php'; // Database connection
-include_once 'header.php'; // Header
+require_once 'connect.php'; 
+include_once 'header.php'; 
 
 if (!isset($_SESSION['user_id'])) {
     die("Error: User not logged in!");
@@ -32,29 +32,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             VALUES ('$productName', '$category', '$startTime', '$endTime', '$startingBid', '$productDescription', '$productCondition', '$seller_id')";
 
     if (mysqli_query($conn, $sql)) {
-        $productId = mysqli_insert_id($conn); // Get last inserted product ID
+        $productId = mysqli_insert_id($conn); 
 
-        if (!empty($_FILES['coverImageMain']['name'])) { // Check if the main image is uploaded
+        if (!empty($_FILES['coverImageMain']['name'])) { 
             if ($_FILES['coverImageMain']['error'] == UPLOAD_ERR_OK) {
                 $fileName = basename($_FILES['coverImageMain']['name']);
                 $imagePath = 'uploads/' . $fileName;
                 move_uploaded_file($_FILES['coverImageMain']['tmp_name'], $imagePath);
         
-                // Insert main image path into database if needed
                 $sqlImageMain = "INSERT INTO product_images (product_id, image_url) VALUES ('$productId', '$imagePath')";
                 mysqli_query($conn, $sqlImageMain);
             }
         }
 
         // Handle multiple image uploads
-        if (!empty($_FILES['coverImage']['name'][0])) { // Check if files are uploaded
+        if (!empty($_FILES['coverImage']['name'][0])) { 
             foreach ($_FILES['coverImage']['tmp_name'] as $key => $tmpName) {
                 if ($_FILES['coverImage']['error'][$key] == UPLOAD_ERR_OK) {
                     $fileName = basename($_FILES['coverImage']['name'][$key]);
                     $imagePath = 'uploads/' . $fileName;
                     move_uploaded_file($tmpName, $imagePath);
 
-                    // Insert image path into database
                     $sqlImage = "INSERT INTO product_images (product_id, image_url) VALUES ('$productId', '$imagePath')";
                     mysqli_query($conn, $sqlImage);
                 }
@@ -79,25 +77,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="css/addproductstyle.css">
     <style>
     .product-description {
-        width: 600px;
-        /* Full width */
+        width: 620px;
         height: 150px;
-        /* Set height */
         padding: 10px;
-        /* Padding for inner spacing */
         border: 1px solid #ccc;
-        /* Light gray border */
         border-radius: 5px;
-        /* Rounded corners */
         font-family: 'Roboto', sans-serif;
-        /* Font style */
         font-size: 14px;
-        /* Font size */
         color: #333;
-        /* Dark gray text color */
         resize: vertical;
-        /* Allow vertical resizing */
         margin-top: 5px;
+    }
+
+    .input {
+        width: 620px;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1rem;
     }
 
     @media (max-width: 768px) {
@@ -112,7 +110,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <body>
     <div class="seller-container">
-        <!-- Header -->
         <header class="seller-header">
             <h1>Seller Dashboard</h1>
             <div class="header-right">
@@ -120,11 +117,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
         </header>
 
-        <!-- Main Content -->
         <div class="main-content">
-            <!-- Sidebar -->
             <?php include_once 'sidebar.php'; ?>
-            <!-- Dashboard Content -->
             <main class="dashboard-content">
                 <div class="form-container">
                     <h1>Add a product to Auction</h1>
@@ -230,8 +224,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script>
     function updateIcon(iconId) {
         const iconElement = document.getElementById(iconId);
-        iconElement.innerHTML = '<i class="fas fa-check"></i>'; // Change to checkmark icon
-        iconElement.classList.add('uploaded'); // Optional: Add a class for styling
+        iconElement.innerHTML = '<i class="fas fa-check"></i>';
+        iconElement.classList.add('uploaded');
     }
     </script>
 </body>
