@@ -1,4 +1,3 @@
-<!-- Preloader HTML -->
 <div id="preloader" class="preloader">
     <div class="auction-loader">
         <i class="fas fa-gavel gavel"></i>
@@ -6,14 +5,13 @@
 </div>
 
 <style>
-    /* Preloader Styles */
     .preloader {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: #fff; /* Dark background */
+        background: #fff; 
         display: flex;
         justify-content: center;
         align-items: center;
@@ -31,7 +29,6 @@
         animation: gavel-bounce 1.6s infinite ease-in-out;
     }
 
-    /* Gavel Bouncing Animation */
     @keyframes gavel-bounce {
         0% { transform: rotate(-20deg); }
         50% { transform: rotate(0deg); }
@@ -39,16 +36,14 @@
     }
 </style>
 
-<!-- Font Awesome for Gavel Icon -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-<!-- Preloader JavaScript -->
 <script>
     window.addEventListener('load', function () {
         setTimeout(function () {
             const preloader = document.getElementById('preloader');
-            preloader.style.opacity = '0'; // Fade out
-            setTimeout(() => { preloader.style.display = 'none'; }, 1000); // Remove after fade
+            preloader.style.opacity = '0'; 
+            setTimeout(() => { preloader.style.display = 'none'; }, 1000); 
         }, 1000); 
     });
 </script>

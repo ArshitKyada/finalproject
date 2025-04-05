@@ -21,8 +21,8 @@ $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
-    $endTime = strtotime($row['end_time']); // Convert to UNIX timestamp
-    $endTimeISO = date('Y-m-d\TH:i:sP', $endTime); // ISO 8601 format
+    $endTime = strtotime($row['end_time']); 
+    $endTimeISO = date('Y-m-d\TH:i:sP', $endTime); 
 
     echo json_encode(["end_time" => $endTimeISO]);
 } else {

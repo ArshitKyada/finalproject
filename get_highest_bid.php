@@ -20,3 +20,4 @@ if (isset($_GET['id'])) {
     echo json_encode(['highest_bidder_id' => $highest_bidder_id]);
 }
 ?>
+

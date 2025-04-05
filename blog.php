@@ -21,7 +21,6 @@ include_once 'preloader.php';
         display: none;
     }
 
-    /* Banner Section */
     .banner {
         position: relative;
         width: 100%;

@@ -3,7 +3,7 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-$current_page = basename($_SERVER['PHP_SELF']); // Get the current page name
+$current_page = basename($_SERVER['PHP_SELF']); 
 ?>
 
 <!DOCTYPE html>
@@ -39,7 +39,7 @@ $current_page = basename($_SERVER['PHP_SELF']); // Get the current page name
         }
 
         .nav .line.active::after {
-            width: 100%; /* Show line for active link */
+            width: 100%; 
         }
 
         .btn {
@@ -79,9 +79,9 @@ $current_page = basename($_SERVER['PHP_SELF']); // Get the current page name
                 } elseif ($_SESSION['account_type'] === 'buyer') {
                     echo '<a class="line ' . ($current_page == 'bid_history.php' ? 'active' : '') . '" href="bid_history.php">Bid History</a>';
                 }
-                echo '<a class="btn" href="logout.php">Logout</a>'; // Logout button
+                echo '<a class="btn" href="logout.php">Logout</a>'; 
             } else {
-                echo '<a class="btn" href="registration.php">Sign up</a>'; // Sign up button
+                echo '<a class="btn" href="registration.php">Sign up</a>'; 
             }
             ?>
         </nav>

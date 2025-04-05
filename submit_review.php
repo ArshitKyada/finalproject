@@ -4,7 +4,7 @@ session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $product_id = intval($_POST['product_id']);
-    $user_id = $_SESSION['user_id'] ?? 1; // Simulated logged-in user
+    $user_id = $_SESSION['user_id'] ?? 1; 
     $rating = intval($_POST['rating']);
     $comment = trim($_POST['comment']);
 
@@ -16,7 +16,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Error: Comment cannot be empty.");
     }
 
-    // Insert the review into the database
     $insert_review_sql = "INSERT INTO reviews (product_id, user_id, rating, comment) VALUES ($product_id, $user_id, $rating, ?)";
     $stmt = $conn->prepare($insert_review_sql);
     $stmt->bind_param("s", $comment);

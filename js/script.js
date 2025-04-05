@@ -14,4 +14,3 @@
             item.classList.toggle('active');
         });
     });
-

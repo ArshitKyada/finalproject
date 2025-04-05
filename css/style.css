@@ -173,7 +173,6 @@
         }
     }
 
-    /* Trusted Section */
 .trusted-section {
     background-color: #f3f4f6;
     padding: 50px 20px;
@@ -235,7 +234,6 @@
     font-weight: 600;
 }
 
-/* Categories Section */
 .categories {
     display: flex;
     flex-wrap: wrap;
@@ -263,7 +261,6 @@
     margin: auto;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .trusted-grid {
         grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));

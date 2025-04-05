@@ -16,8 +16,6 @@
         border-top: 3px solid black;
     }
 
-
-
     .footer-container {
         display: flex;
         flex-wrap: wrap;

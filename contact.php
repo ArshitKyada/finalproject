@@ -1,22 +1,18 @@
 <?php
-include 'connect.php'; // Include your database connection
+include 'connect.php'; 
 
-// Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
 }
 
-// Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $subject = $_POST['subject'];
     $message = $_POST['message'];
-    $user_id = $_SESSION['user_id']; // Get the user ID from the session
+    $user_id = $_SESSION['user_id']; 
 
-    // Basic SQL query to insert data (not using prepared statements)
     $query = "INSERT INTO contactus (user_id, name, email, subject, message) VALUES ('$user_id', '$name', '$email', '$subject', '$message')";
     
-    // Execute the query
     if (mysqli_query($conn, $query)){}
 }
 ?>
@@ -29,7 +25,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
     <style>
-        /* Add your CSS styles here */
         .contact-section {
             background-color: #fff;
             padding: 40px 20px;

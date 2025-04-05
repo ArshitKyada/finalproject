@@ -1,21 +1,21 @@
 <?php
-// Start the session
+
 session_start();
 
-include_once 'connect.php'; // Include your database connection
-include_once 'header.php'; // Include your header
+include_once 'connect.php'; 
+include_once 'header.php'; 
 
 // Include PHPMailer classes
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'vendor/autoload.php'; // Adjust the path as necessary
+require 'vendor/autoload.php'; 
 
 // Check if product_id is set in GET request
 if (isset($_GET['product_id']) && !empty($_GET['product_id'])) {
-    $product_id = intval($_GET['product_id']); // Ensure it's an integer
+    $product_id = intval($_GET['product_id']); 
 } else {
-    die("Error: Product ID is missing."); // Stop execution if no product ID
+    die("Error: Product ID is missing."); 
 }
 
 // Fetch product details
@@ -48,7 +48,6 @@ if (isset($_SESSION['user_id'])) {
 
 // Process form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get form data
     $full_name = $conn->real_escape_string($_POST['full_name']);
     $email = $conn->real_escape_string($_POST['email']);
     $address = $conn->real_escape_string($_POST['address']);
@@ -65,7 +64,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         VALUES ($userId, '$full_name', '$email', '$address', '$city', '$state', '$zip_code', '$card_name', '$card_number', '$exp_month', '$exp_year', '$cvv', $highest_bid, $product_id)";
 
     
-    // Execute the query
     if ($conn->query($sql) === TRUE) {
         // Send email notification
         $mail = new PHPMailer(true);
@@ -98,7 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-$conn->close(); // Close the database connection
+$conn->close(); 
 ?>
 
 <!DOCTYPE html>
@@ -110,99 +108,99 @@ $conn->close(); // Close the database connection
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/paymentstyle.css">
     <style>
-        body::-webkit-scrollbar {
-            display: none;
-        }
+    body::-webkit-scrollbar {
+        display: none;
+    }
 
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: #1f242d;
-            padding: 25px;
-        }
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: #1f242d;
+        padding: 25px;
+    }
 
-        .container form {
-            width: 100%;
-            max-width: 700px;
-            padding: 40px;
-            background: #fff;
-            border-radius: 10px;
-            box-sizing: border-box;
-        }
+    .container form {
+        width: 100%;
+        max-width: 700px;
+        padding: 40px;
+        background: #fff;
+        border-radius: 10px;
+        box-sizing: border-box;
+    }
 
-        form .row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
+    form .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
 
-        .column {
-            flex: 1 1 48%;
-            min-width: 250px;
-        }
+    .column {
+        flex: 1 1 48%;
+        min-width: 250px;
+    }
 
-        .column .title {
-            font-size: 20px;
-            color: #333;
-            text-transform: uppercase;
-            margin-bottom: 5px;
-        }
+    .column .title {
+        font-size: 20px;
+        color: #333;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+    }
 
-        .input-box {
-            margin-bottom: 15px;
-        }
+    .input-box {
+        margin-bottom: 15px;
+    }
 
-        .input-box span {
-            display: block;
-            margin-bottom: 8px;
-        }
+    .input-box span {
+        display: block;
+        margin-bottom: 8px;
+    }
 
-        .input-box input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 16px;
-            box-sizing: border-box;
-        }
+    .input-box input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 16px;
+        box-sizing: border-box;
+    }
 
-        .flex {
-            display: flex;
-            gap: 15px;
-        }
+    .flex {
+        display: flex;
+        gap: 15px;
+    }
 
-        .flex .input-box {
-            margin-top: 5px;
-            flex: 1 1 45%;
-        }
+    .flex .input-box {
+        margin-top: 5px;
+        flex: 1 1 45%;
+    }
 
-        .input-box img {
-            height: 34px;
-            margin-top: 5px;
-            filter: drop-shadow(0 0 1px #000);
-        }
+    .input-box img {
+        height: 34px;
+        margin-top: 5px;
+        filter: drop-shadow(0 0 1px #000);
+    }
 
-        form .btn {
-            width: 100%;
-            padding: 14px;
-            background: #8175d3;
-            border: none;
-            outline: none;
-            border-radius: 6px;
-            font-size: 17px;
-            color: #fff;
-            margin-top: 20px;
-            cursor: pointer;
-            transition: .5s;
-        }
+    form .btn {
+        width: 100%;
+        padding: 14px;
+        background: #8175d3;
+        border: none;
+        outline: none;
+        border-radius: 6px;
+        font-size: 17px;
+        color: #fff;
+        margin-top: 20px;
+        cursor: pointer;
+        transition: .5s;
+    }
 
-        form .btn:hover {
-            background: #6a5acd;
-        }
+    form .btn:hover {
+        background: #6a5acd;
+    }
     </style>
 </head>
 

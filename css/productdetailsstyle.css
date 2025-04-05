@@ -245,18 +245,16 @@ body::-webkit-scrollbar {
     object-fit: cover;
 }
 
-/* Existing styles for bid-section */
 .card .right-section .bid-section {
     margin-top: 16px;
     display: flex;
-    align-items: center; /* Center items vertically */
+    align-items: center; 
 }
 
-/* New styles for mobile screens */
 @media (max-width: 768px) {
     .card .right-section .bid-section {
         padding-left: 70px;
-        align-items: center; /* Center items horizontally */
+        align-items: center; 
     }
     .card .right-section .bid-section .bid-button {
         margin-top: 15px;
@@ -275,51 +273,46 @@ body::-webkit-scrollbar {
     padding: 16px;
 }
 
-/* Win Message Container */
 .win-message {
-    background-color: #f8f9fa; /* Light gray background */
-    border: 1px solid #28a745; /* Green border */
-    border-radius: 8px; /* Rounded corners */
-    padding: 20px; /* Padding inside the box */
-    margin-top: 20px; /* Space above the win message */
-    text-align: center; /* Center the text */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    background-color: #f8f9fa; 
+    border: 1px solid #28a745; 
+    border-radius: 8px; 
+    padding: 20px; 
+    margin-top: 20px; 
+    text-align: center; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
 
-/* Win Message Text */
 .win-message p {
-    font-size: 38px; /* Font size for the message */
-    color: #28a745; /* Green text color */
-    margin: 0; /* Remove default margin */
+    font-size: 38px; 
+    color: #28a745; 
+    margin: 0; 
 }
 
-/* Payment Button */
 .payment-button {
-    display: inline-block; /* Make it a block element */
-    padding: 12px 24px; /* Padding for the button */
-    background-color: #0A3D62; /* Green background */
-    color: white; /* White text */
-    text-decoration: none; /* No underline */
-    border-radius: 5px; /* Rounded corners */
-    margin-top: 10px; /* Space above the button */
-    font-size: 16px; /* Font size for the button */
-    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+    display: inline-block; 
+    padding: 12px 24px; 
+    background-color: #0A3D62; 
+    color: white; 
+    text-decoration: none; 
+    border-radius: 5px; 
+    margin-top: 10px; 
+    font-size: 16px; 
+    transition: background-color 0.3s ease; 
 }
 
-/* Payment Button Hover Effect */
 .payment-button:hover {
-    background-color: #072840; /* Darker green on hover */
+    background-color: #072840; 
 }
 
-/* Responsive Design */
 @media (max-width: 600px) {
     .win-message {
-        padding: 15px; /* Less padding on smaller screens */
+        padding: 15px; 
     }
 
     .payment-button {
-        padding: 10px 20px; /* Smaller padding on smaller screens */
-        font-size: 14px; /* Smaller font size on smaller screens */
+        padding: 10px 20px; 
+        font-size: 14px; 
     }
 }
 
@@ -369,7 +362,6 @@ body::-webkit-scrollbar {
     }
 }
 
-/* Reviews Section */
 .reviews-list {
     margin-top: 20px;
 }
@@ -390,13 +382,11 @@ body::-webkit-scrollbar {
 
 .review-rating {
     color: #f39c12;
-    /* Gold color for stars */
 }
 
 .review-date {
     font-size: 0.9em;
     color: #718096;
-    /* Gray color */
 }
 
 .review-form {
@@ -434,55 +424,45 @@ body::-webkit-scrollbar {
 
 .review-form button:hover {
     background-color: rgb(7, 41, 65);
-    /* Darker shade on hover */
 }
 
 .rating-container {
     display: flex;
     align-items: center;
-    /* Align items vertically */
 }
 
 .rating-container label {
     margin-right: 10px;
     margin-top: 10px;
-    /* Space between label and stars */
 }
 
 .star-rating {
     direction: rtl;
-    /* Right to left for star selection */
     display: flex;
     justify-content: flex-start;
-    /* Align stars to the left */
 }
 
 .star-rating input {
     display: none;
-    /* Hide the radio buttons */
 }
 
 .star-rating label {
     font-size: 30px;
     color: #ddd;
-    /* Default star color */
     cursor: pointer;
 }
 
 .star-rating input:checked~label {
     color: #f39c12;
-    /* Color for selected stars */
 }
 
 .star-rating label:hover,
 .star-rating label:hover~label {
     color: #f39c12;
-    /* Color for hovered stars */
 }
 
 .delete-button {
     background-color: #e53e3e;
-    /* Red color */
     color: white;
     border: none;
     border-radius: 4px;
@@ -492,10 +472,8 @@ body::-webkit-scrollbar {
 
 .delete-button:hover {
     background-color: #c53030;
-    /* Darker red on hover */
 }
 
-/* Auction History Styles */
 .bid-entry {
     background-color: #f9f9f9;
     border: 1px solid #e2e8f0;

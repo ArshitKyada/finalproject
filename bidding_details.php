@@ -1,18 +1,17 @@
-<?php
+<?php 
+
 session_start();
 include_once 'preloader.php';
-include_once 'connect.php'; // Include your database connection
-include_once 'header.php'; // Include your header
+include_once 'connect.php';
+include_once 'header.php';
 
-// Ensure the user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php"); // Redirect to login if not logged in
+    header("Location: login.php");
     exit();
 }
 
-$sellerId = $_SESSION['user_id']; // Get the seller's user ID
+$sellerId = $_SESSION['user_id'];
 
-// Fetch shipping addresses of buyers for products sold by the seller
 $sqlShippingAddresses = "
     SELECT p.full_name, p.email, p.address, p.city, p.state, p.zip_code, pr.product_name
     FROM payments p
@@ -22,7 +21,6 @@ $sqlShippingAddresses = "
 
 $resultShippingAddresses = mysqli_query($conn, $sqlShippingAddresses);
 
-// Check for SQL errors
 if (!$resultShippingAddresses) {
     die("Database query failed: " . mysqli_error($conn));
 }
@@ -85,26 +83,15 @@ if (!$resultShippingAddresses) {
         padding: 16px;
         overflow-y: auto;
         max-height: calc(100vh - 190px);
-    }
-
-    .dashboard-content {
-        flex: 1;
-        padding: 16px;
-        overflow-y: auto;
-        max-height: calc(100vh - 190px);
         background-color: #f9f9f9;
-        /* Light background for contrast */
         border-radius: 8px;
-        /* Rounded corners */
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        /* Subtle shadow */
     }
 
     h2 {
         font-size: 20px;
         margin-bottom: 20px;
         color: #333;
-        /* Darker text for headings */
     }
 
     table {
@@ -112,50 +99,39 @@ if (!$resultShippingAddresses) {
         border-collapse: collapse;
         margin-top: 20px;
         background-color: white;
-        /* White background for the table */
         border-radius: 8px;
-        /* Rounded corners */
         overflow: hidden;
-        /* Prevents overflow of rounded corners */
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        /* Subtle shadow */
     }
 
     th,
     td {
         border: 1px solid #ddd;
         padding: 12px;
-        /* Increased padding for better spacing */
         text-align: left;
     }
 
     th {
         background-color: #f2f2f2;
-        /* Light gray for header */
         font-weight: bold;
-        /* Bold text for headers */
     }
 
     tr:nth-child(even) {
         background-color: #f9f9f9;
-        /* Light gray for even rows */
     }
 
     tr:hover {
         background-color: #f1f1f1;
-        /* Highlight on hover */
     }
 
     @media (max-width: 768px) {
         .dashboard-content {
             padding: 8px;
-            /* Less padding on smaller screens */
         }
 
         th,
         td {
             padding: 8px;
-            /* Less padding for smaller screens */
         }
     }
     </style>
@@ -168,7 +144,7 @@ if (!$resultShippingAddresses) {
         </header>
 
         <div class="main-content">
-            <?php include_once 'sidebar.php'; // Include sidebar ?>
+            <?php include_once 'sidebar.php'; ?>
             <main class="dashboard-content">
                 <h2>Shipping Addresses for Your Products</h2>
                 <table>
@@ -211,5 +187,5 @@ if (!$resultShippingAddresses) {
 </html>
 
 <?php
-mysqli_close($conn); // Close the database connection
+mysqli_close($conn);
 ?>

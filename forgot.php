@@ -8,13 +8,10 @@ $success = '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
 
-    // Check if the email exists in the database
     $query = "SELECT * FROM users WHERE email='$email'";
     $result = mysqli_query($conn, $query);
 
     if (mysqli_num_rows($result) > 0) {
-        // Here you would typically generate a password reset token and send an email
-        // For demonstration, we'll just show a success message
         $success = 'A password reset link has been sent to your email address.';
     } else {
         $error = 'No account found with that email address.';

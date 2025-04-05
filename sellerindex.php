@@ -48,117 +48,117 @@ $totalAuctions = mysqli_fetch_assoc($resultTotalAuctions)['total_auctions'] ?? 0
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="css/sellerstyle.css">
     <style>
-        body {
-            overflow: hidden;
-        }
+    body {
+        overflow: hidden;
+    }
 
-        body::-webkit-scrollbar {
-            display: none;
-        }
+    body::-webkit-scrollbar {
+        display: none;
+    }
 
-        .seller-container,
-        .main-content {
-            width: 100%;
-        }
+    .seller-container,
+    .main-content {
+        width: 100%;
+    }
 
-        .seller-header {
-            background-color: rgb(0, 0, 0);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    .seller-header {
+        background-color: rgb(0, 0, 0);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-        .seller-header h1 {
-            font-size: 20px;
-            color: rgb(255, 255, 255);
-        }
+    .seller-header h1 {
+        font-size: 20px;
+        color: rgb(255, 255, 255);
+    }
 
-        .notification-button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: rgb(255, 255, 255);
-            margin-right: 16px;
-        }
+    .notification-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: rgb(255, 255, 255);
+        margin-right: 16px;
+    }
 
-        .main-content {
-            display: flex;
-            flex: 1;
-            flex-wrap: wrap;
-            overflow: hidden;
-        }
+    .main-content {
+        display: flex;
+        flex: 1;
+        flex-wrap: wrap;
+        overflow: hidden;
+    }
 
+    .overview-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    .card {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.2s;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .card-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .icon {
+        font-size: 30px;
+        margin-right: 10px;
+    }
+
+    .card-title {
+        font-size: 16px;
+        font-weight: 500;
+        margin: 0;
+    }
+
+    .card-value {
+        font-size: 24px;
+        font-weight: bold;
+        margin: 5px 0 0;
+    }
+
+    .withdraw-button {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 10px 15px;
+        background-color: #28a745;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: background-color 0.3s, transform 0. 2s;
+    }
+
+    .withdraw-button:hover {
+        background-color: #218838;
+        transform: scale(1.05);
+    }
+
+    .withdraw-button:active {
+        transform: scale(0.95);
+    }
+
+    @media (max-width: 768px) {
         .overview-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
+            margin-bottom: 75px;
         }
-
-        .card {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.2s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .icon {
-            font-size: 30px;
-            margin-right: 10px;
-        }
-
-        .card-title {
-            font-size: 16px;
-            font-weight: 500;
-            margin: 0;
-        }
-
-        .card-value {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 5px 0 0;
-        }
-
-        .withdraw-button {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 10px 15px;
-            background-color: #28a745;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: background-color 0.3s, transform 0. 2s;
-        }
-
-        .withdraw-button:hover {
-            background-color: #218838;
-            transform: scale(1.05);
-        }
-
-        .withdraw-button:active {
-            transform: scale(0.95);
-        }
-
-        @media (max-width: 768px) {
-            .overview-cards {
-                margin-bottom: 75px;
-            }
-        }
+    }
     </style>
 </head>
 

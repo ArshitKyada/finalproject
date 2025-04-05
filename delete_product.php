@@ -12,6 +12,6 @@ if (isset($_GET['id'])) {
     }
 }
 
-header("Location: sellerauctions.php"); // Redirect back to the dashboard
+header("Location: sellerauctions.php"); 
 exit();
 ?>

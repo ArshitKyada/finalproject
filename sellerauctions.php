@@ -150,7 +150,6 @@ if (!$result) {
         margin-top: 10px;
         width: 60px;
         background-color: gold;
-        /* Gold color for Edit button */
         color: white;
         padding: 10px;
         border: none;
@@ -161,14 +160,12 @@ if (!$result) {
 
     .product-card .edit-button:hover {
         background-color: rgb(192, 164, 5);
-        /* Lighter gold on hover */
     }
 
     .product-card .delete-button {
         margin-top: 10px;
         width: 60px;
         background-color: red;
-        /* Red color for Delete button */
         color: white;
         padding: 10px;
         border: none;
@@ -179,7 +176,6 @@ if (!$result) {
 
     .product-card .delete-button:hover {
         background-color: #dc143c;
-        /* Darker red on hover */
     }
 
     .status-label {

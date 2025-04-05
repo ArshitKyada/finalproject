@@ -1,41 +1,36 @@
-<?php
+<?php 
 session_start();
-include_once('connect.php'); // Include your database connection file
+include_once('connect.php');
 
-$error = ''; // Initialize an error variable
+$error = ''; 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Check if username and password are both 'admin'
     if ($username === 'admin' && $password === 'admin') {
         header("Location: admin/index.php");
         exit();
     }
 
-    // Fetch user from the database
     $query = "SELECT * FROM users WHERE username='$username'";
     $result = mysqli_query($conn, $query);
 
     if (mysqli_num_rows($result) > 0) {
         $user = mysqli_fetch_assoc($result);
         
-        // Verify password (consider using password_hash and password_verify for production)
         if ($user['password'] == $password) {
-            // Set session variables for the logged-in user
-            $_SESSION['user_id'] = $user['id']; // Set user ID
-            $_SESSION['username'] = $user['username']; // Set username
-            $_SESSION['account_type'] = $user['account_type']; // Set account type
-            $_SESSION['user_email'] = $user['email']; // Set user email
+            $_SESSION['user_id'] = $user['id']; 
+            $_SESSION['username'] = $user['username']; 
+            $_SESSION['account_type'] = $user['account_type']; 
+            $_SESSION['user_email'] = $user['email']; 
 
-            // Redirect based on account type
             if ($user['account_type'] == 'buyer') {
                 header("Location: index.php");
             } else {
-                header("Location: sellerindex.php"); // Redirect to seller dashboard
+                header("Location: sellerindex.php"); 
             }
-            exit(); // Ensure no further code is executed after redirection
+            exit(); 
         } else {
             $error = 'Invalid password.';
         }
@@ -154,7 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <h2>Account Login</h2>
         <p>Please enter your login details!</p>
         <?php if ($error): ?>
-        <p class="error"><?php echo $error; ?></p>
+            <p style="color: red; text-align: center; margin-bottom: 15px;"><?php echo $error; ?></p>
         <?php endif; ?>
 
         <form method="POST" action="">

@@ -57,14 +57,11 @@
             display: flex;
             gap: 12px;
             flex-wrap: wrap;
-            /* Allow items to wrap */
         }
 
         .sidebar nav a {
             font-size: 16px;
-            /* Increase font size */
             padding: 12px;
-            /* Increase padding */
             display: flex;
             flex-direction: column;
             align-items: center;

@@ -5,6 +5,7 @@ include_once 'header.php';
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,19 +14,17 @@ include_once 'header.php';
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <style>
-    /* Hide scrollbar */
     body::-webkit-scrollbar {
         display: none;
     }
 
-    /* Apply background image only to the content section */
     .container {
-        background-image: url('images/back.png'); /* Ensure the path is correct */
-        background-size: cover; /* Cover the entire section */
-        background-position: center; /* Center the image */
-        background-repeat: no-repeat; /* No repeating */
-        padding: 50px; /* Add padding for better spacing */
-        border-radius: 10px; /* Rounded corners for a nice effect */
+        background-image: url('images/back.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        padding: 50px;
+        border-radius: 10px;
     }
 
     .categories .category a {
@@ -41,7 +40,7 @@ include_once 'header.php';
     .categories .category a:hover img {
         transform: scale(1.1);
     }
-</style>
+    </style>
 
 </head>
 
@@ -53,7 +52,8 @@ include_once 'header.php';
             <br>
             <div class="buttons">
                 <a href="auctions.php" class="button view-auctions">View Auctions</a>
-                <a href="https://youtu.be/t_SEW8Y8BfM?si=Sfw0lMnif2o9wE4c" target="_blank" class="button watch-video" width="100%">Watch Video</a>
+                <a href="https://youtu.be/t_SEW8Y8BfM?si=Sfw0lMnif2o9wE4c" target="_blank" class="button watch-video"
+                    width="100%">Watch Video</a>
             </div>
         </div>
         <div class="illustration">
@@ -61,8 +61,6 @@ include_once 'header.php';
         </div>
     </div>
 
-
-    <!-- New Trusted Section -->
     <div class="trusted-section">
         <div class="trusted-container">
             <h2 class="trusted-title">Trusted By 500+ Businesses</h2>

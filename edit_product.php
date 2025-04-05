@@ -1,16 +1,16 @@
-<?php
+<?php 
+
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once 'connect.php'; // Database connection
-include_once 'header.php'; // Header
+require_once 'connect.php';
+include_once 'header.php';
 
 if (!isset($_SESSION['user_id'])) {
     die("Error: User not logged in!");
 }
 
-// Fetch the product details to pre-fill the form
 $product_id = $_GET['id'];
 $sql = "SELECT * FROM products WHERE id='$product_id'";
 $result = $conn->query($sql);
@@ -26,37 +26,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $productCondition = mysqli_real_escape_string($conn, $_POST['productCondition']);
     $seller_id = $_SESSION['user_id'];
 
-    // Validate start and end time
     if (strtotime($startTime) >= strtotime($endTime)) {
         die("Error: Start time must be before end time.");
     }
 
-    // Update product in the database
     $sql = "UPDATE products SET product_name='$productName', category='$category', start_time='$startTime', end_time='$endTime', starting_bid='$startingBid', description='$productDescription', product_condition='$productCondition' WHERE id='$product_id'";
 
     if (mysqli_query($conn, $sql)) {
-        // Handle image uploads
-        if (!empty($_FILES['coverImageMain']['name'])) { // Check if the main image is uploaded
+        if (!empty($_FILES['coverImageMain']['name'])) {
             if ($_FILES['coverImageMain']['error'] == UPLOAD_ERR_OK) {
                 $fileName = basename($_FILES['coverImageMain']['name']);
                 $imagePath = 'uploads/' . $fileName;
                 move_uploaded_file($_FILES['coverImageMain']['tmp_name'], $imagePath);
         
-                // Update main image path in database
                 $sqlImageMain = "UPDATE product_images SET image_url='$imagePath' WHERE product_id='$product_id' LIMIT 1";
                 mysqli_query($conn, $sqlImageMain);
             }
         }
 
-        // Handle multiple image uploads
-        if (!empty($_FILES['coverImage']['name'][0])) { // Check if files are uploaded
+        if (!empty($_FILES['coverImage']['name'][0])) {
             foreach ($_FILES['coverImage']['tmp_name'] as $key => $tmpName) {
                 if ($_FILES['coverImage']['error'][$key] == UPLOAD_ERR_OK) {
                     $fileName = basename($_FILES['coverImage']['name'][$key]);
                     $imagePath = 'uploads/' . $fileName;
                     move_uploaded_file($tmpName, $imagePath);
 
-                    // Insert image path into database
                     $sqlImage = "INSERT INTO product_images (product_id, image_url) VALUES ('$product_id', '$imagePath')";
                     mysqli_query($conn, $sqlImage);
                 }
@@ -84,53 +78,43 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <style>
     .button {
         background-color: #2563eb;
-        /* Blue background */
         color: white;
-        /* White text */
         padding: 10px 20px;
-        /* Padding */
         border: none;
-        /* No border */
         border-radius: 5px;
-        /* Rounded corners */
         cursor: pointer;
-        /* Pointer cursor on hover */
         font-size: 16px;
-        /* Font size */
         transition: background-color 0.3s;
-        /* Smooth transition */
     }
 
     .button:hover {
         background-color: #1d4ed8;
-        /* Darker blue on hover */
     }
 
     .button:active {
         background-color: #1e40af;
-        /* Even darker blue on click */
     }
 
     .product-description {
         width: 600px;
-        /* Full width */
         height: 150px;
-        /* Set height */
         padding: 10px;
-        /* Padding for inner spacing */
         border: 1px solid #ccc;
-        /* Light gray border */
         border-radius: 5px;
-        /* Rounded corners */
         font-family: 'Roboto', sans-serif;
-        /* Font style */
         font-size: 14px;
-        /* Font size */
         color: #333;
-        /* Dark gray text color */
         resize: vertical;
-        /* Allow vertical resizing */
         margin-top: 5px;
+    }
+
+    .input {
+        width: 600px;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1rem;
     }
 
     @media (max-width: 768px) {
@@ -145,19 +129,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <body>
     <div class="seller-container">
-        <!-- Header -->
         <header class="seller-header">
             <h1>Edit Product</h1>
-            <div class="header-right">
+            <div class=" header-right">
                 <button class="notification-button"><i class="fas fa-bell"></i></button>
             </div>
         </header>
 
-        <!-- Main Content -->
         <div class="main-content">
-            <!-- Sidebar -->
             <?php include_once 'sidebar.php'; ?>
-            <!-- Dashboard Content -->
             <main class="dashboard-content">
                 <div class="form-container">
                     <h1>Edit Product Details</h1>
@@ -218,7 +198,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <div>
                             <label for="coverImageMain" class="label">Main Image <span
                                     style="color: red;">*</span></label><br><br>
-                            <div class="upload-area" id=" uploadAreaMain"
+                            <div class="upload-area" id="uploadAreaMain"
                                 onclick="document.getElementById('coverImageMain').click()">
                                 <span class="upload-icon" id="iconMain">+</span>
                                 <input type="file" id="coverImageMain" name="coverImageMain" accept="image/*"
@@ -229,20 +209,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <label class="label">Add More Images (Max 4)</label><br>
                         <div class="upload-container">
                             <?php
-                            // Fetch existing images for the product
                             $sqlImages = "SELECT * FROM product_images WHERE product_id='$product_id'";
                             $resultImages = $conn->query($sqlImages);
                             $imageCount = 0;
                             while ($imageRow = $resultImages->fetch_assoc() && $imageCount < 4) {
                                 echo '<div>
                                         <div class="upload-area" onclick="document.getElementById(\'coverImage' . $imageCount . '\').click()">
-                                            <span class="upload-icon" id="icon' . $imageCount . '">+</span>
+                                            <span class="upload-icon" id="icon ' . $imageCount . '">+</span>
                                             <input type="file" id="coverImage' . $imageCount . '" name="coverImage[]" accept="image/*" class="hidden" onchange="updateIcon(\'icon' . $imageCount . '\')">
                                         </div>
                                       </div><br>';
                                 $imageCount++;
                             }
-                            // Add additional upload fields if less than 4 images are present
                             for ($i = $imageCount; $i < 4; $i++) {
                                 echo '<div>
                                         <div class="upload-area" onclick="document.getElementById(\'coverImage' . $i . '\').click()">
@@ -266,8 +244,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script>
     function updateIcon(iconId) {
         const iconElement = document.getElementById(iconId);
-        iconElement.innerHTML = '<i class="fas fa-check"></i>'; // Change to checkmark icon
-        iconElement.classList.add('uploaded'); // Optional: Add a class for styling
+        iconElement.innerHTML = '<i class="fas fa-check"></i>';
+        iconElement.classList.add('uploaded');
     }
     </script>
 </body>
@@ -275,6 +253,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </html>
 
 <?php
-// Close the connection
 $conn->close();
 ?>

@@ -150,8 +150,6 @@ th {
 }
 
 
-/* Responsive Design */
-
 @media (max-width: 768px) {
     .main-content {
         flex-direction: column;

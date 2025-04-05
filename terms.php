@@ -4,14 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        /* Basic Reset */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* Body and Font Settings */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -19,7 +17,6 @@
             line-height: 1.6;
         }
 
-        /* Container for the page */
         .container {
             max-width: 1000px;
             margin: 0 auto;
@@ -29,7 +26,6 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        /* Header */
         header {
             text-align: center;
             margin-bottom: 40px;
@@ -40,7 +36,6 @@
             color: #007BFF;
         }
 
-        /* Main Content */
         main {
             font-size: 1rem;
             line-height: 1.8;
@@ -62,13 +57,11 @@
             margin-left: 20px;
         }
 
-        /* Footer or last section */
         footer {
             text-align: center;
             margin-top: 40px;
         }
 
-        /* Responsive Design for Smaller Screens */
         @media (max-width: 768px) {
             .container {
                 padding: 15px;

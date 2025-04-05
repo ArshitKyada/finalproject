@@ -154,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <p>Sign up for free</p>
 
         <?php if ($error): ?>
-        <p class="error"><?php echo $error; ?></p>
+            <p style="color: red; text-align: center; margin-bottom: 15px;"><?php echo $error; ?></p>
         <?php endif; ?>
 
         <form method="POST" action="">
