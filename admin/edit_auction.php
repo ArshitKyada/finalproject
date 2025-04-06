@@ -6,11 +6,8 @@ if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
     // Fetch the auction details
-    $sql = "SELECT * FROM products WHERE id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $sql = "SELECT * FROM products WHERE id = $id";
+    $result = $conn->query($sql);
 
     if ($result->num_rows == 1) {
         $row = $result->fetch_assoc();
@@ -30,18 +27,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $endTime = $_POST['end_time'];
 
     // Update the auction details
-    $updateSql = "UPDATE products SET product_name = ?, starting_bid = ?, end_time = ? WHERE id = ?";
-    $updateStmt = $conn->prepare($updateSql);
-    $updateStmt->bind_param("sdsi", $productName, $startingBid, $endTime, $id);
+    $updateSql = "UPDATE products SET product_name = '$productName', starting_bid = $startingBid, end_time = '$endTime' WHERE id = $id";
 
-    if ($updateStmt->execute()) {
+    if ($conn->query($updateSql) === TRUE) {
         header("Location: manageauction.php"); // Redirect to manage auctions page
         exit();
     } else {
-        echo "Error updating auction.";
+        echo "Error updating auction: " . $conn->error;
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -53,59 +49,83 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f4f7fa;
+            background-color: #e9ecef;
             margin: 0;
             padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
 
-        main {
-            flex-grow: 1;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .form-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 500px;
+            transition: transform 0.3s;
         }
 
         h2 {
             font-size: 28px;
             font-weight: 700;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             color: #333;
+            text-align: center;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .form-group label {
             display: block;
             margin-bottom: 5px;
+            font-weight: 500;
+            color: #555;
         }
 
         .form-group input {
-            width: 300px;
-            padding: 10px;
-            border: 1px solid #ddd;
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ced4da;
             border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #007bff;
+            outline: none;
         }
 
         .button {
-            background-color: #4299e1;
+            background-color: #007bff;
             color: white;
-            padding: 10px 15px;
+            padding: 12px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            width: 100%;
         }
 
         .button:hover {
-            background-color: #3182ce;
+            background-color: #0056b3;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 10px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <main>
+    <div class="form-container">
         <h2>Edit Auction</h2>
         <form method="POST">
             <div class="form-group">
@@ -122,6 +142,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <button type="submit" class="button">Update Auction</button>
         </form>
-    </main>
+    </div>
 </body>
 </html>
